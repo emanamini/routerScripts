@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# Create a persistent directory for temporary scripts
+SHUTDOWN_DIR="/root/shutdown_scripts"
+mkdir -p "$SHUTDOWN_DIR"
+
+# Function to validate day of the week (0-6)
+validate_day() {
+    local day=$1
+    if [[ ! $day =~ ^[0-6]$ ]]; then
+        echo "Error: Day must be a number between 0 (Saturday) and 6 (Friday)."
+        exit 1
+    fi
+}
+
+# Function to validate time format (HHMM, 0000-2359)
+validate_time() {
+    local time=$1
+    if [[ ! $time =~ ^[0-2][0-9][0-5][0-9]$ ]]; then
+        echo "Error: Time must be in HHMM format (e.g., 1430 for 2:30 PM)."
+        exit 1
+    fi
+    local hour=${time:0:2}
+    local minute=${time:2:2}
+    # Remove leading zeros from hour for numerical comparison
+    hour=$((10#$hour))
+    if [[ $hour -gt 23 ]]; then
+        echo "Error: Hour must be between 00 and 23."
+        exit 1
+    fi
+}
+
+# Prompt for day of the week
+echo "Enter day of the week (0=Saturday, 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday):"
+read day
+validate_day "$day"
+
+# Prompt for time
+echo "Enter time in HHMM format (e.g., 1430 for 2:30 PM):"
+read time
+validate_time "$time"
+
+# Extract hour and minute from time
+hour=${time:0:2}
+minute=${time:2:2}
+
+# Map user day (0=Sat, 1=Sun, ..., 6=Fri) to cron day (0=Sun, 1=Mon, ..., 6=Sat)
+cron_day=$(( (day + 6) % 7 ))
+
+# Create a unique temporary script name based on timestamp
+temp_script="$SHUTDOWN_DIR/shutdown_$(date +%s)_$$.sh"
+
+# Create the temporary script with cleanup before shutdown
+cat << EOF > "$temp_script"
+#!/bin/bash
+# Remove this exact cron job from crontab
+sudo crontab -l | grep -vFx "$minute $hour * * $cron_day $temp_script" | sudo crontab -
+# Delete this temporary script
+rm -- "\$0"
+# Execute the shutdown command
+/bin/systemctl poweroff
+EOF
+
+# Make the temporary script executable
+chmod +x "$temp_script"
+
+# Create cron job entry to run the temporary script
+cron_entry="$minute $hour * * $cron_day $temp_script"
+
+# Check if the same shutdown time/day already exists in crontab
+if sudo crontab -l 2>/dev/null | grep -F "$minute $hour * * $cron_day" > /dev/null; then
+    echo "Error: A shutdown job for this time and day already exists."
+    rm "$temp_script" # Clean up the temporary script
+    exit 1
+fi
+
+# Append to root crontab
+(sudo crontab -l 2>/dev/null; echo "$cron_entry") | sudo crontab -
+
+# Confirm the cron job was added
+echo "One-time cron job added successfully:"
+echo "$cron_entry"

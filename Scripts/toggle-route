@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Ensure script is run as root (or via sudo)
+if [[ $EUID -ne 0 ]]; then
+   echo "Error: This script must be run as root." 
+   exit 1
+fi
+
+TABLE_NAME="irtr"
+TARGET_IP=""
+TARGET_OCTET=""
+
+# Parse command line arguments cleanly
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --ip) TARGET_IP="$2"; shift ;;
+        --octet) TARGET_OCTET="$2"; shift ;;
+        *) echo "Unknown parameter: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+# Get LAN Interface IP dynamically (explicitly targeting the 'lan' interface)
+lanIP=$(ip -4 -o addr show dev lan 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n 1)
+
+# Ultimate fallback just in case 'lan' interface is temporarily down during boot
+if [[ -z "$lanIP" ]]; then
+    lanIP=$(ip -4 -o addr show | grep -oP '(10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+|192\.168\.\d+\.\d+)' | head -n 1)
+fi
+
+firstThreeOctets=$(echo "$lanIP" | cut -d '.' -f 1-3)
+
+# Resolve target IP if an octet was provided (Strictly restricted between 100 and 254)
+if [[ -n "$TARGET_OCTET" ]]; then
+    if ! [[ "$TARGET_OCTET" =~ ^[0-9]+$ ]] || (( TARGET_OCTET < 100 )) || (( TARGET_OCTET > 254 )); then
+        echo "Error: Octet '$TARGET_OCTET' is not valid (must be between 100 and 254)."
+        exit 1
+    fi
+    TARGET_IP="${firstThreeOctets}.${TARGET_OCTET}"
+fi
+
+if [[ -z "$TARGET_IP" ]]; then
+    echo "Error: No target IP or octet specified."
+    exit 1
+fi
+
+# Ensure the routing table/route exists
+wanGateway=$(ip route show dev wan 2>/dev/null | grep -oP 'default via \K\S+' | head -n 1)
+countRoute=$(ip route show table all | grep -c "$TABLE_NAME")
+
+if [ "$countRoute" -eq 0 ] && [[ -n "$wanGateway" ]]; then
+    ip route add default via "$wanGateway" dev wan table "$TABLE_NAME"
+    systemctl restart ip-rules.service
+fi
+
+# Core Toggle Logic (Hardened against Ghost Rules & Race Conditions)
+ruleCount=$(ip rule show all | grep -w -c "from $TARGET_IP lookup $TABLE_NAME")
+
+if [ "$ruleCount" -ge 1 ]; then
+    # Vacuum Loop: Delete rules until none are left
+    while ip rule show all | grep -w -q "from $TARGET_IP lookup $TABLE_NAME"; do
+        ip rule del from "$TARGET_IP" table "$TABLE_NAME" 2>/dev/null
+    done
+    ip route flush cache
+    echo "REMOVED: $TARGET_IP (VPN Active)"
+    exit 0
+else
+    ip rule add from "$TARGET_IP" table "$TABLE_NAME"
+    ip route flush cache
+    echo "ADDED: $TARGET_IP (Direct ISP Bypass)"
+    exit 0
+fi
