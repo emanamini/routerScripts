@@ -37,7 +37,7 @@ print(f"System initialized. Dynamic LAN Prefix locked to: {LAN_PREFIX}.X")
 # --- RATE LIMITING & LOGGING ---
 last_toggle_times = {}
 TOGGLE_COOLDOWN_SECONDS = 3.0
-LOG_FILE = "/opt/iman-portal/devices.log" # For MAC registration
+LOG_FILE = "/opt/arch-portal/devices.log" # For MAC registration
 
 def get_vpn_state(octet):
     try:
