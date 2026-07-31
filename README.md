@@ -2076,6 +2076,8 @@ enable_tivo=no
 tivo_discovery=bonjour
 strict_dlna=no
 notify_interval=900
+root_container=B
+enable_subtitles=yes
 serial=12345678  
 model_number=1
 ```
@@ -2086,7 +2088,7 @@ sudo systemctl restart minidlna.service
 اگر به هر دلیلی دیتابیس `minidlna` بدقلق‌بازی در آورد یا فایلی را به درستی ایندکس نکرد، می‌توانید با دستورات زیر آن را مجبور کنید که کل دیتابیس را از نو بسازد:
 ```
 sudo systemctl stop minidlna
-sudo minidlnad -R
+sudo rm -f /var/cache/minidlna/files.db
 sudo systemctl start minidlna
 ```
 اما چطور پوشهٔ مربوط به سرور را با فیلم و سریال و موسیقی پُر کنیم؟ دلیل ساختن کاربر `share` دقیقا همین بود. با استفاده از این کاربر و توسط یک برنامه‌ای که از `sftp` پشتیبانی می‌کند به روتر دسترسی پیدا می‌کنیم.
