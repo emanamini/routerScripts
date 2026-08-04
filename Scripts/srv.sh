@@ -65,6 +65,7 @@ services=(
     "delayed-startup.service"
     "arch-portal.service"
     "caddy"
+    "wan-watcher.service"
 )
 if [ "$1" = "reload" ]; then
     if sudo systemctl daemon-reload; then

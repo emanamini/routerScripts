@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Specify the absolute path for the temporary file
-TEMP_FILE="/home/net/Scripts/temp_ip_list.txt"
+TEMP_FILE="/opt/router/Scripts/temp_ip_list.txt"
 
 # ANSI color codes
 RED='\033[0;31m'
@@ -42,7 +42,7 @@ extract_ip_addresses() {
                 echo "Skipping $ip as it does not have a valid format (four blocks)."
             fi
         done
-    done < /home/net/Scripts/irdomains.txt
+    done < /opt/router/Scripts/irdomains.txt
 
     # Remove duplicate IP addresses and lines that don't contain IP addresses
     awk '!seen[$0]++ && /([0-9]+\.){3}[0-9]+/' "$TEMP_FILE" > "$TEMP_FILE.tmp" && mv "$TEMP_FILE.tmp" "$TEMP_FILE"
@@ -82,7 +82,7 @@ add_routing_rules() {
 # Function to add IP rules based on CIDR IP ranges from a file
 add_irlist() {
     # Path to the file containing CIDR IP ranges
-    IP_LIST_FILE="/home/net/Scripts/iriplist.txt"
+    IP_LIST_FILE="/opt/router/Scripts/iriplist.txt"
 
     # Check if the IP list file exists
     if [ ! -f "$IP_LIST_FILE" ]; then
