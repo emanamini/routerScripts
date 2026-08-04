@@ -13,7 +13,7 @@ LOG_FILE="$STATE_DIR/backup.log"
 KEEP_BACKUPS=50
 CONFIG_PATH="/root/.config/rclone/rclone.conf"
 # Recommendation: Change this to an rclone crypt remote once configured
-MEGA_DEST="RouterBackup:Router_Backup"
+MEGA_DEST="RouterBackup:RouterBackup"
 LOCK_FILE="/run/lock/router-backup.lock"
 # Array of individual critical configuration files
 FILES=(
