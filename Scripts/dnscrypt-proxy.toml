@@ -1,0 +1,81 @@
+# ==============================================================================
+# dnscrypt-proxy configuration
+# Using Cloudflare (1.1.1.1) + Google DNS
+# ==============================================================================
+
+# Servers to use (from public-resolvers list)
+server_names = ['cloudflare', 'cloudflare-ipv6', 'google', 'google-ipv6']
+
+# ==============================================================================
+# Listening
+# ==============================================================================
+listen_addresses = ['127.0.0.1:5353', '[::1]:5353']
+
+# ==============================================================================
+# Protocol Requirements
+# ==============================================================================
+ipv4_servers = true
+ipv6_servers = true
+
+doh_servers = true
+dnscrypt_servers = true
+
+# Cloudflare and Google both support DNSSEC
+require_dnssec = true
+
+# Both log to some degree (Cloudflare has a strong privacy policy, Google less so)
+# Set to false so they are allowed
+require_nolog = false
+require_nofilter = false
+
+# ==============================================================================
+# Load Balancing
+# ==============================================================================
+lb_strategy = 'p2'          # Pick 2 fastest servers
+lb_estimator = true
+
+# ==============================================================================
+# Bootstrap / Fallback (plain DNS only used for initial resolution)
+# ==============================================================================
+bootstrap_resolvers = ['1.1.1.1:53', '8.8.8.8:53', '1.0.0.1:53', '8.8.4.4:53']
+fallback_resolvers = ['1.1.1.1:53', '8.8.8.8:53']
+
+# ==============================================================================
+# Timeouts
+# ==============================================================================
+netprobe_timeout = 60
+netprobe_address = '1.1.1.1:53'
+timeout = 2500
+keepalive = 30
+
+# ==============================================================================
+# Operational
+# ==============================================================================
+ignore_system_dns = true
+max_clients = 250
+
+# ==============================================================================
+# Cache
+# ==============================================================================
+cache = true
+cache_size = 10000
+
+cache_min_ttl = 60
+cache_max_ttl = 3600
+cache_neg_min_ttl = 60
+cache_neg_max_ttl = 600
+
+# ==============================================================================
+# Sources (required to fetch Cloudflare + Google stamps)
+# ==============================================================================
+[sources]
+
+[sources.public-resolvers]
+urls = [
+  'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
+  'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md'
+]
+minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+cache_file = 'public-resolvers.md'
+refresh_delay = 72
+prefix = ''
