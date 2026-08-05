@@ -2,31 +2,31 @@
 
 sleep 40
 
-/opt/router/Scripts/srv.sh r 1
+sudo systemctl restart systemd-networkd.service
 sleep 5
 
-/opt/router/Scripts/srv.sh l 2
+sudo systemctl start dnsmasq.service
 sleep 5
 
-/opt/router/Scripts/srv.sh r 4
+sudo systemctl restart ip-rules.service
 sleep 5
 
-/opt/router/Scripts/srv.sh r 8
+sudo systemctl start dnscrypt-proxy.service
 sleep 5
 
-/opt/router/Scripts/srv.sh l 7
+sudo systemctl start vpn-manager.service
 sleep 5
 
-/opt/router/Scripts/srv.sh r 9
+sudo systemctl start minidlna.service
 sleep 5
 
-/opt/router/Scripts/srv.sh r 10
+sudo systemctl restart tc.service
 sleep 5
 
-/opt/router/Scripts/srv.sh l 13
+sudo systemctl start arch-portal.service
 sleep 15
 
-/opt/router/Scripts/srv.sh l 14
+sudo systemctl start caddy.service
 sleep 5
 
-/opt/router/Scripts/srv.sh l 15
+sudo systemctl start wan-watcher.service

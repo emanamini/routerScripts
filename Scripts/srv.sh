@@ -64,7 +64,7 @@ services=(
     "cronie.service"
     "delayed-startup.service"
     "arch-portal.service"
-    "caddy"
+    "caddy.service"
     "wan-watcher.service"
 )
 if [ "$1" = "reload" ]; then
