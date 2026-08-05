@@ -1,137 +1,233 @@
-به هر گوشی موبایل که نگاه کنید، انبوهی از اپ‌های فیلترشکن را می‌بینید که هر ماه تعدادی از آن‌ها به عنوان جاسوس‌افزار گزارش می‌شوند. ریسکِ آلوده شدن و به خطر افتادن اطلاعات گوشی که امروزه دروازه ارتباط ما با دنیای بیرون، از بانک و بازار گرفته تا سرگرمی و بازی، است بسیار بزرگ‌تر از آن است که بتوان نادیده‌اش گرفت. اگر دستگاه‌های متصل به اینترنت در محلی که زندگی یا کار می‌کنید بیشتر از تعداد انگشتان یک دست است، تمام دردسرهای این نوشته که از اتفاق با زبانی بسیار ساده توضیح داده شده، ارزشش را دارد. 
+# 📖 Documentation
 
-تعداد محدود مشتریِ یک کانفیگ‌فروش، راه‌اندازی ساده سرویس، کلاینت‌های رسمی و اوپن‌سورس، نیاز به سرمایه اندک برای اجرا، خطرات وی‌پی‌ان برای مشتری را روی کاغذ، نسبت به یک اپ، پایین می‌آورد. جدا کردن سیستم، و اجرای وی‌پی‌ان روی یک کامپیوتر جدا با تنظیمات امن فایروال، باز هم دستگاه‌ها و اطلاعات شما را امن‌تر از این خواهد کرد. ‌دیگر نیازی به نصب فیلترشکن روی گوشی ندارید. نه منابع گوشی بی‌خود هدر می‌رود نه امنیتتان به فنا.
-یک کانفیگ نامحدود، در ساختمانِ ما، بیشتر از چهل دستگاه را تغذیه می‌کند. از هر نظر نگاه کنید، ساخت این روتر ارزشش را دارد.
+**🌐 Languages:** 🇬🇧 [English](README.md) • 🇮🇷 [فارسی](README-FA.md)
 
-سال‌ها پیش در نوشته‌ای توضیح دادم که چطور می‌توانید یک کامپیوتر قدیمی را تبدیل به یک روتر قدرتمند و پیشرفته کنید. امروز همان ساختار را چند مرحله جلو می‌بریم. محدودیت‌های شبکه از یک طرف و بسته بودنِ سرویس‌های خارجی از طرف دیگر امان همه را بُریده. بیش از این با تشریح این بدبختی وقت‌تان را نمی‌گیرم و یک‌راست به اصل موضوع می‌پردازم.
+---
+If you look at any mobile phone today, you'll find a swarm of VPN apps, several of which are reported as spyware every month. The risk of infection and compromising your phone's data—which serves as our bridge to the outside world for everything from banking and shopping to entertainment and gaming—is far too great to ignore. If you have more devices connected to the internet than fingers on one hand where you live or work, the effort behind this guide (explained in very straightforward language) is well worth it.
 
-در انتها با ساخت یک اپ ساده برای اندروید و iOS به کاربران این امکان را می‌دهیم که ارتباط خود را از طریق وی‌پی‌ان روی روتر هدایت کنند یا برای استفاده از سرویس‌های داخلی ارتباط مستقیم برقرار کنند. هرچند ما با استفاده از `ip rule` کل رنج-آی‌پی‌های ایران را مستقیم به `ISP` متصل می‌کنیم. به هر حال این امکان در دست کاربر و شما به عنوان مدیرشبکه است.
+A config seller's small customer base, straightforward service setup, official and open-source clients, and minimal required capital significantly lower a customer's VPN risks on paper compared to an untrusted app. However, isolating the system and running the VPN on a dedicated computer with secure firewall settings protects your devices and data even further. You will no longer need to install VPN apps on your phone. Phone resources won't be wasted, and your security won't be compromised.
 
-هرچند کارهای بزرگی قرار است انجام دهیم ولی همین‌که با کامپیوتر و کیبورد آشنا باشید کافیست تا با هم چیزهای زیادی یاد بگیریم. پس نترسید چرا که مطمئنا از پسش برمی‌آیید.
+In our building, a single unlimited configuration powers more than forty devices. Look at it from any angle, and building this router is worth it.
 
-# سخت‌افزار مورد نیاز
-- برای این کار شما به یک کامپیوتر قدیمی یا یک مینی‌کامیپوتر با حداقل دو پورت شبکه نیاز دارید. بهتر است که پورت‌های شبکه از نوع گیگا‌بیتی باشد. کار کامپیوترها معمولا با یک کارت توسعه راه می‌افتد اما در خصوص مینی‌کامپیوتر مراقب باشید حتما دو پورت داشته باشد. اگر از مبدل `USB` به پورت گیگابیتی اترنت استفاده می‌کنید، مطمئن شوید که پشتیبانی `Native` هستهٔ لینوکس را دارد. حتی می‌توانید از لپ‌تاپ و شبکهٔ وای‌فای استفاده کنید، اما در این آموزش خبری از نحوهٔ کانفیگ کردن وای‌فای به عنوان اکسس‌پوینت نیست. برای شبکه‌های بسیار کوچکی که با وای‌فایِ لپ‌تاپ می‌تواند جایگزین اکسس‌پوینت باشد، بهتر است به پروژه‌های دیگر نگاهی بیندازید. 
-- اکسس‌پویینت. کار اکسس‌پویینتْ پخشِ اینترنتی‌ست که از طریق کامپیوترِ بالا دریافت می‌کند. اکسس‌پوینت معمولا گزینهٔ مقرون‌به‌صرفه‌تری نسبت به روتر است، اما اگر یک دستگاه همه‌کاره می‌خواهید شاید روتر انتخاب بهتری باشد. البته در این ستینگ، ما روتر را هم در حالت اکسس‌پوینت قرار می‌دهیم. حتی یک مودم قدیمی هم می‌تواند نقش اکسس‌پوینت را بازی کند. کافی‌ست موتور `DHCP` آن را از داخل کنسول غیرفعال کنید و آی‌پی دستگاه را به زیرمجموعه‌ای از شبکه‌ای که می‌سازیم تغییر دهید.
-- کارت گرافیک، اصلا نیاز ندارید. سرور من `headless` است. به این معنی که فقط از طریق یک دستگاه دیگر با آن ارتباط می‌گیرم. نه ورودی، نه خروجی (به غیر از کابل شبکه)، تنها ارتباط از طریق `ssh`. فقط برای تنظیمات بایوس و پسورد اولیه روت بایستی یک کارت گرافیک و کیبورد و مانیتور از سیستم اصلی‌تان برای چند دقیقه قرض بگیرید. مزیتِ نبودِ کارت گرافیک، از بودنش بیشتر است: مصرفِ انرژی به مراتب کمتر. 
-  اگر بخواهیم از این روتر برای پخش فیلم و سریال استفاده کنیم چی؟ تلویزیون‌های امروزه و گوشی‌های موبایل تقریبا همه از `DLNA` پشتیبانی می‌کنند. یعنی حتی برای پخش فیلم‌ها و آهنگ‌های روی سرور هم نیازی به کارت گرافیک ندارید، تنها کافیست به شبکه روتر متصل باشید تا به تمام مولتی‌مدیاهای موجود در سرور دسترسی داشته باشید. یعنی حتی تلویزیون یا گوشی طبقه چهار هم می‌توند فیلم‌های روی سرور در طبقه یک را با بهترین کیفیت ببیند.
-همین و بس
-# سیستم عامل 
-به سبک و سیاق گذشته به سراغ آرچ‌لینوکس می‌رویم. آرچ‌لینوکس را از سر علاقه انتخاب نکردم، بلکه آرچ تمام آن چیزی‌ست که نیاز داریم:
-- نصب آن از راه دور بسیار ساده است.
-- پایدار است. کامپیوتر قبلی من تقریبا تمام عمرش را با یک نصب آرچ گذراند. تنها یک نصب آرچ نزدیک یک دهه روی سیستم قبلی من دوام آورد.
-- سبک است. تنها حاوی بسته‌هایی‌ست که شما نیاز دارید. حتی بسته‌های ابتدایی مثل `nano` یا `sudo` هم خودتان نصب می‌کنید.
-- سریع است و روی سیستم‌های بسیار ضعیف هم به‌خوبی جواب می‌دهد.
->این پروژه یک اسکریپتِ نصب آسان هم در خودش دارد به این صورت که بعد از نصب سیستم‌عاملِ پایه، با استفاده از آن به راحتی و در عرض چند دقیقه کوتاه کل پیکربندی سیستم را با آن انجام دهید.
-# نقشهٔ راه
-- مهیا کردن سخت‌افزار.
-- دانلود آرچ و نوشتنش روی فلش مموری .
-- نصب آرچ.
-- نصب ابزار لازم مثل `nftables` و `dnsmasq` و `ssh` برای شروع به کار اولیه.
-- نصب ابزارهای رفع محدودیت بر پایه خط فرمان مثل `OpenVPN` و `WireGuard`.
-- تقسیم بسیارِ بهینهٔ ترافیک بر اساس موقعیت جغرافیایی.
-- نصب و تنظیم ابزرهای رفع محدودیت‌های `DNS` مثل `Dnscrypt Proxy`.
-- تنظیم `tc` برای مدیریت ترافیک بین کاربران.
-- ساخت چند اسکریپت برای اتوماسیون کارهایی مثل بک‌آپ.
-- ساخت یک اپ کوچک `PWA` برای خاموش و روشن کردن `VPN` توسط کاربران.
->برای اپ و `DoH` اختصاصی، بهتر است یک دامنه ثبت کنید. اگه در سایت ایرانیک عضو هستید، یک دامنه ارزان `ir.` اگر هم عضو نیستید یک دامنه یک دلاری از سایت‌هایی که قابلیت تسویه با رمزارز دارند. البته این مرحله اجباری نیست ولی برای اجرای بی‌نقص و بدون خطای اپ روی موبایل مهم است.
-- ساخت یک دیاگ برای عیب‌یابی، زمانی که سیستم هیچ واکنشی نشان نمی‌دهد.
->ارزان‌ترین فلش‌مموریِ کم‌حجمی که می‌توانید تهیه کنید را برای این کار کنار بگذارید. دیوایس جالبی خواهد شد.
+Years ago, I wrote a guide explaining how you can turn an old computer into a powerful, advanced router. Today, we are taking that same setup several steps further. Network restrictions on one side and blocked external services on the other have left everyone exhausted. I won't waste any more of your time dwelling on these difficulties—let's jump straight to the core topic.
 
-ایده: می‌‌توانید این روتر را روی یک فلش‌مموری نصب کنید. در این صورت نیازی به هارد‌دیسک نخواهد داشت و عیب‌یابی بی‌اندازه راحت می‌شود. کافیست فلش را به پشت سیستم اصلی وصل کنید و سیستم را برای عیب‌یابی راه‌اندازی کنید. مشکل در عمر فلش است. فلش برای نوشتن‌های مکرر ساخته نشده. راه‌حل آن کمی پیچیده و زمان‌بر است، اما به طور کلی می‌توانید اکثر دایرکتوری‌ها را به صورت فقط-خواندنی سوار کنید، و دایرکتوری‌هایی که سیستم‌عامل زیاد روی آن عملیات نوشتن را انجام می‌دهد بر بستر رم بارگذاری کنید (حداقل ۴ گیگ رم نیاز خواهید داشت). توضیحات چگونگی آن را به نوشتهٔ دیگری موکول می‌کنم.
-# شروع ساخت روتر
-## بایوس
-یک کارت گرافیک قرض بگیرید و کامپیوتر قدیمی را بالا بیاورید. وارد تنظیمات بایوس شوید. کامپیوتر شما، به صورت پیش‌فرض در حین `POST` یا راه‌اندازی اولیه، اگر با خطایی، مثل نبود کیبورد، مواجه شود، روندِ راه‌ندازی را متوقف می‌کند و از کاربر می‌خواهد که مشکل را برطرف کند. کامپیوتری که نه گرافیک دارد، و کیبورد هم نخواهد داشت، حتما در حین `POST` خطا می‌دهد. بایستی در تنظیمات بایوس دنبال گزینه‌ای شبیه به `Halt on Errors` بگیرید و آن را روی حالت `None` یا `Disable` قرار دهید. از این به بعد سیستم دیگر به هیچ خطایی واکنش نشان نمی‌دهد و روند راه‌اندازی را پیش می‌برد.
-به عیادت `Health` بروید و مطمئن شوید که `CPU` و بقیه متعلقات خنک کار می‌کنند.
-به قسمت `Boot Sequences` بروید و مطمئن شوید که اولویتِ اول `USB Storage` و اولویت دوم هارد‌دیسک شماست.
-اگر تنظیمات امنیتی بایوس روی حالت `UEFI` قرار داد، آن را به `Legacy` تغییر دهید.
-به قسمت Power Management بروید و گزینه‌ای شبیه به Restore AC Power Loss را پیدا کنید. قاعدتا ۳ گزینهٔ قابل انتخاب دارد. Power On را انتخاب کنید. به این صورت چه کامپیوتر را قبل از رفتن برق خاموش کنید، چه ناگهان برق قطع شود و کامپیوتر خاموش شود، با وصل شدن برق، کامپیوتر به‌صورت خودکار روشن و سیستم‌عامل راه‌اندازی می‌شود. این حالت برای کامپیوتر-روتر ما بهترین وضعیت است. 
-کار با بایوس تقریبا تمام شده، `F10` را بزنید، تایید کنید و خارج شوید.
-## اکسس پوینت (AP)
-اگر یک مودم قدیمی ADSL دارید، الان به کارتان خواهد آمد. روشنش کنید و با گوشی یا کامپیوتر به آن وصل شوید. آدرس آی‌پی کنسول را بزنید و وارد تنظیمات مودم شوید. به دنبال چیزی شبیه به `DHCP engine` در تنظیمات `LAN` بگردید. آن را غیرفعال کنید. احتمالا در همان صفحه باید جایی برای تغییر/دریافت آی‌پی خود مودم مشاهده کنید. اگر روی حالت خودکار قرار دارد، غیرفعالش کنید و روی رنج `172.22.0.1/24` به آن یک آی‌پی بدهید. مثلا: `172.22.0.120`. البته مودم از روتر ما آی‌پی خواهد گرفت ولی برای اطمینان از دسترسی در آینده می‌توانیم دقیقا همین آدرس را پینگ کنیم و ببینیم که در دسترس هست یا نه. با همین آدرس هم می‌توانیم وارد کنسول مودم شویم. اگر لازم است بخش تنظیمات امنیتی، رمز وایرلس را تغییر دهید. بعد از اطمینان از تنظیمات، از طریق منو آن را ذخیره کنید و اگر اجازه داد، ری‌استارتش کنید. از این به بعد دسترسی ما تا زمانی‌که به روتر متصلش کنیم قطع می‌شود. برای اتصال به روتر هم کافیست یکی از پورت‌های شبکه‌اش را به روتر وصل کنید. هر مشکلی پیش آمد با استفاده از دکمه `Reset` مودم را به تنظیمات اولیه برگردانید و روند را تکرار کنید.
-اگر از روتر استفاده می‌کنید، به بخش `Administration` و سپس `Operation Mode` یا چیزی شبیه به آن بروید. سپس به دنبال گزینه `AP` یا `Access Point(AP) mode` بگردید. آن را فعال کنید. روی `wlan` پسورد قابلی بگذارید و تمام. از این به بعد روتر صرفا به یک نقطه دسترسی تبدیل می‌شود و وظیفه بقیه کارها گردن روترِ اصلی یعنی همان آرچ‌لینوکسِ ماست.
-زمانی‌که پورت شبکه‌‌ای از روتر یا مودم را به آرچ متصل می‌کنید، بقیه پورت‌ها می‌توانند اینترنت را پخش کنند در نتیجه مودم یا اکسس‌پوینت شما می‌تواند نقش یک سوئیچ را هم بازی کند هرچند خرید یک سوئیچ غیرمدیریتی گیگابیتی اگر قرار است روتر ما چند `AP` مختلف را تغذیه کند، حرکت هوشمندانه‌ای‌ست. ولی خب می‌توانید به مرور زمان سیستم را توسعه دهید.
-## دانلود آرچ
-از [لینک](https://mirror.mobinhost.com/archlinux/iso/2026.07.01/archlinux-x86_64.iso) زیر، آخرین نسخه `x86_64` آرچ لینوکس را دریافت کنید (میرور مناسب دانلود از ایران):
-```
+At the end, by building a simple app for Android and iOS, we will give users the ability to route their connection through the VPN on the router or establish a direct connection to use domestic services. That said, we use `ip rule` to connect the entire Iranian IP range directly to the ISP. In any case, this capability remains in your hands as the network administrator and in the hands of the users.
+
+Although we are set to do big things, simply being familiar with a computer and keyboard is enough for us to learn a lot together. So don't be afraid—you can definitely handle it.
+
+## Required Hardware
+
+For this setup, you need an old computer or a mini-PC with at least two network ports. It is best if the network ports are Gigabit. Desktop computers can usually be upgraded using an expansion card, but if using a mini-PC, ensure it has two built-in ports. If you are using a USB-to-Gigabit Ethernet adapter, make sure it has native Linux kernel support. You can even use a laptop and its Wi-Fi interface, but this tutorial does not cover configuring Wi-Fi as an access point. For very small networks where a laptop's Wi-Fi could replace an access point, it is better to look at other projects.
+
+**Access Point:** An access point's job is to distribute the internet connection received from the computer above. An access point is usually a more cost-effective choice than a router, but if you want an all-in-one device, a router might be a better option. Of course, in this configuration, we set the router to access point mode as well. Even an old modem can act as an access point. Simply disable its DHCP engine from its web console and change the device's IP address to a subnet of the network we are building.
+
+**Graphics Card:** You don't need one at all. My server is headless, meaning I only communicate with it through another device. No inputs, no outputs (other than the network cable)—the sole communication is via SSH. You only need to borrow a graphics card, keyboard, and monitor from your primary system for a few minutes for BIOS settings and setting the initial root password. The advantages of not having a graphics card outweigh having one: far lower power consumption.
+
+What if we want to use this router to stream movies and series? Modern TVs and mobile phones almost all support DLNA. This means you don't need a graphics card even to play movies and music stored on the server—simply connect to the router's network to access all media on the server. That means a TV or phone on the fourth floor can stream movies stored on the server on the first floor in high quality.
+
+That's all there is to it.
+
+## Operating System
+
+In keeping with our previous approach, we will use Arch Linux. I didn't choose Arch Linux out of mere preference; Arch is simply everything we need:
+
+* It is straightforward to install remotely.
+* It is stable. My previous computer spent almost its entire lifespan on a single Arch installation. A single Arch installation lasted nearly a decade on my old system.
+* It is lightweight. It contains only the packages you need. You even install basic packages like `nano` or `sudo` yourself.
+* It is fast and runs smoothly even on very low-spec systems.
+
+This project also includes an easy installation script so that after installing the base OS, you can easily configure the entire system with it in just a few short minutes.
+
+## Roadmap
+
+1. Prepare the hardware.
+2. Download Arch Linux and write it to a USB flash drive.
+3. Install Arch.
+4. Install essential tools such as `nftables`, `dnsmasq`, and `ssh` for basic operation.
+5. Install CLI-based circumvention tools such as OpenVPN and WireGuard.
+6. Optimally split traffic based on geographic location.
+7. Install and configure DNS circumvention tools such as Dnscrypt Proxy.
+8. Configure `tc` for traffic management among users.
+9. Create scripts to automate tasks like backups.
+10. Build a small PWA app for users to toggle the VPN on and off.
+    * *Note:* For the app and dedicated DoH, it is best to register a domain. If you have an Iranican account, register a cheap `.ir` domain. If not, get a $1 domain from websites that support cryptocurrency payments. While this step is optional, it is important for running the app smoothly and without errors on mobile devices.
+11. Build a diagnostic tool for troubleshooting when the system is unresponsive.
+    * *Note:* Set aside the cheapest low-capacity USB flash drive you can find for this purpose. It will turn into an interesting device.
+
+**Idea:** You can install this router onto a USB flash drive. That way, it won't require a hard drive, and troubleshooting becomes exceptionally easy. Simply plug the flash drive into the back of your primary system and boot it for diagnostics. The downside lies in the flash drive's lifespan, as flash drives are not built for frequent writes. The solution is somewhat complex and time-consuming, but generally, you can mount most directories as read-only and load high-write system directories into RAM (you will need at least 4 GB of RAM). I will leave the explanation of how to set that up for another post.
+
+If you look at any mobile phone today, you'll find an abundance of VPN apps, with several reported as spyware every month. The risk of infection and compromising your phone's data—which serves as our gateway to the outside world for everything from banking and markets to entertainment and gaming—is far too great to ignore. If you have more internet-connected devices at your home or workplace than fingers on one hand, the effort required for this guide (which is explained in very straightforward language) is well worth it.
+
+A config seller's limited customer base, straightforward service setup, official and open-source clients, and minimal required capital significantly lower the theoretical risks of a VPN for a customer compared to a random app. However, isolating the system and running the VPN on a dedicated computer with secure firewall settings will make your devices and data even more secure. You will no longer need to install a VPN app on your phone. Your phone's resources won't be wasted needlessly, and your security won't be ruined.
+
+In our building, a single unlimited configuration feeds more than forty devices. Look at it from any angle, and building this router is worth it.
+
+Years ago, I wrote a guide explaining how to turn an old computer into a powerful, advanced router. Today, we are taking that same setup several steps further. Network restrictions on one side and blocked external services on the other have left everyone exhausted. I won't waste any more of your time explaining this misery—let's jump straight to the point.
+
+At the end, by building a simple app for Android and iOS, we will give users the ability to route their connection through the VPN on the router or establish a direct connection to use domestic services. That said, we use `ip rule` to route the entire Iranian IP range directly to the ISP. In any case, this capability remains in the hands of the user and you as the network administrator.
+
+Although we are going to do big things, simply being familiar with a computer and keyboard is enough for us to learn a lot together. So don't be afraid—you can definitely handle it.
+
+## Required Hardware
+
+For this task, you need an old computer or a mini-PC with at least two network ports. It is best if the network ports are Gigabit. Desktop computers can usually make do with an expansion card, but if using a mini-PC, ensure it definitely has two ports. If you are using a USB-to-Gigabit Ethernet adapter, make sure it has native Linux kernel support. You can even use a laptop and a Wi-Fi network, but this tutorial does not cover configuring Wi-Fi as an access point. For very small networks where a laptop's Wi-Fi could act as an access point, it is better to look at other projects.
+
+**Access Point:** The access point's job is to broadcast the internet received from the computer above. An access point is usually a more cost-effective choice than a router, but if you want an all-in-one device, a router might be a better option. Of course, in this setup, we will also put the router in access point mode. Even an old modem can play the role of an access point. Simply disable its DHCP engine from within the console and change the device's IP address to a subnet of the network we are building.
+
+**Graphics Card:** You don't need one at all. My server is headless. This means I only communicate with it through another device. No input, no output (other than the network cable)—the only connection is via SSH. You only need to borrow a graphics card, keyboard, and monitor from your main system for a few minutes for BIOS settings and the initial root password. The advantage of lacking a graphics card outweighs having one: significantly lower power consumption.
+
+What if we want to use this router to stream movies and series? Modern TVs and mobile phones almost all support DLNA. This means you don't even need a graphics card to play movies and songs stored on the server—simply being connected to the router's network is enough to access all the multimedia on the server. This means even a TV or phone on the fourth floor can watch movies on the server on the first floor in the highest quality.
+
+That's all.
+
+## Operating System
+
+Following our past style, we are going to use Arch Linux. I didn't choose Arch Linux out of mere interest; rather, Arch is exactly everything we need:
+
+*   Installing it remotely is very simple.
+*   It is stable. My previous computer spent almost its entire life with a single Arch installation. One Arch installation lasted nearly a decade on my old system.
+*   It is lightweight. It only contains the packages you need. You even install basic packages like `nano` or `sudo` yourself.
+*   It is fast and runs very well even on very weak systems.
+
+This project also includes an easy-install script so that after installing the base operating system, you can easily use it to handle the entire system configuration in just a few short minutes.
+
+## Roadmap
+
+1.  Prepare the hardware.
+2.  Download Arch Linux and write it to a USB flash drive.
+3.  Install Arch.
+4.  Install necessary tools like `nftables`, `dnsmasq`, and `ssh` for initial operation.
+5.  Install CLI-based circumvention tools like OpenVPN and WireGuard.
+6.  Highly optimized traffic splitting based on geographic location.
+7.  Install and configure DNS circumvention tools like Dnscrypt Proxy.
+8.  Configure `tc` to manage traffic among users.
+9.  Create several scripts to automate tasks like backups.
+10. Build a small PWA app for users to toggle the VPN on and off.
+    *Note: For the app and dedicated DoH, it is best to register a domain. If you are an NIC.ir member, get a cheap `.ir` domain. If not, get a one-dollar domain from sites that allow cryptocurrency payments. This step is not mandatory, but it is important for the app to run flawlessly and without errors on mobile.*
+11. Build a diagnostic tool for troubleshooting when the system becomes unresponsive.
+    *Note: Set aside the cheapest, lowest-capacity USB flash drive you can find for this. It will become an interesting device.*
+
+*Idea:* You can install this router on a USB flash drive. In this case, it won't need a hard drive, and troubleshooting becomes incredibly easy. Simply plug the flash drive into the back of your main system and boot the system for troubleshooting. The problem lies in the flash drive's lifespan. Flash drives are not built for frequent writes. The solution is slightly complex and time-consuming, but generally, you can mount most directories as read-only and load directories that the OS writes to frequently into RAM (you will need at least 4 GB of RAM). I will postpone explaining how to do this to another post.
+
+# Building the Router
+
+## BIOS
+Borrow a graphics card and boot up the old computer. Enter the BIOS settings. By default, during `POST` or initial boot, if your computer encounters an error—like a missing keyboard—it will halt the boot process and prompt the user to fix the issue. A computer running without a graphics card or keyboard will definitely throw an error during `POST`. Look for an option similar to `Halt on Errors` in the BIOS settings and change it to `None` or `Disable`. From this point on, the system will ignore errors and continue the boot sequence.
+
+Visit the `Health` section and ensure that the `CPU` and other components are running cool.
+
+Navigate to `Boot Sequences` and make sure your first priority is `USB Storage`, with your hard disk set as the second priority.
+
+If the BIOS security settings are set to `UEFI`, change it to `Legacy`.
+
+Go to the Power Management section and find an option similar to Restore AC Power Loss. It usually offers 3 selectable options. Select Power On. This ensures that whether you intentionally shut down the computer before a power outage, or power is suddenly lost, the computer will automatically power on and boot the operating system once power is restored. This is the optimal configuration for our router-computer. 
+
+The BIOS configuration is mostly complete; press `F10`, confirm your changes, and exit.
+
+## Access Point (AP)
+If you have an old ADSL modem, it will come in handy now. Power it on and connect to it using a phone or computer. Enter the console IP address in your browser to access the modem settings. Look for an option like `DHCP engine` in the `LAN` settings and disable it. 
+
+You should also find an option on the same page to change/assign the modem's own IP address. If it is set to automatic, disable that and assign it a static IP within the `172.22.0.1/24` range—for example, `172.22.0.120`. While the modem will ultimately receive an IP from our router, assigning this specific address ensures we can ping it later to verify accessibility. We can also use this address to log back into the modem's console. If necessary, go to the security settings section and change the wireless password. 
+
+Once you are sure of the settings, save them through the menu and restart the modem if prompted. At this point, you will lose your connection to the modem until you connect it to the router. To establish that connection, simply plug one of its network ports into the router. If you encounter any issues, use the physical `Reset` button to revert the modem to its factory settings and repeat the process.
+
+If you are using a standard wireless router, navigate to the `Administration` section and then to `Operation Mode` (or similar). Look for the `AP` or `Access Point(AP) mode` option and enable it. Set a strong password for the `wlan` and you are done. From now on, this router functions purely as an access point, leaving all the routing heavy lifting to our main Arch Linux machine.
+
+When you connect a network port from the router or modem to Arch, the remaining ports can distribute the internet connection. Consequently, your modem or access point can also act as a switch—though purchasing an unmanaged gigabit switch is a smart move if our router needs to feed multiple different `AP`s. However, you can always expand the system over time.
+
+## Downloading Arch
+Download the latest `x86_64` version of Arch Linux from the link below (a suitable mirror for downloading from Iran):
+```text
 https://mirror.mobinhost.com/archlinux/iso/2026.07.01/archlinux-x86_64.iso
 ```
-دانلود از فست‌لی:
-```
+Download from Fastly:
+```text
 https://fastly.mirror.pkgbuild.com/iso/2026.07.01/archlinux-x86_64.iso
 ```
 
->نکته: اگر سیستم شما `x86_64`نیست، احتمالا خودتان بهتر می‌دانید چه نسخه‌ای باید دانلود کنید، در غیر این صورت همین نسخه مناسب شماست.
-## آماده‌سازی نصب
-با استفاده از نرم‌افزاری مثل [Rufus](https://github.com/pbatard/rufus/releases/download/v4.15/rufus-4.15.exe) فایل `iso` آرچ را به‌صورت `bootable` روی فلش‌مموری خود بنویسید. بهتر است `Target System` را روی `BIOS` قرار دهید. اگر از لینوکس استفاده می‌کنید، بهترین تجربهٔ من نرم‌افزار [Popsicle](https://github.com/pop-os/popsicle) بوده که می‌توانید از طریق مخزن توزیع خودتان نصبش کنید.
-حتما با استفاده از سیم شبکه، کامپیوتر را به اینترنت متصل کنید.
-فلش مموری را به سیستم متصل کنید. اگر هنوز کارت گرافیک به سیستم متصل است، روند بالا آمدن را چک کنید. حدودا یک دقیقه طول می‌کشد تا وارد فضای زندهٔ آرچ شوید. اگر یک مانیتور بیشتر ندارید، نگران نباشید، آرچ ما از این به بعد کاری با مانیتور نخواهد داشت. فقط قبل از اینکه کاملا کورش کنید دستور زیر را بزنید و از خروجی یک عکس بگیرید:
-```
+> Note: If your system is not `x86_64`, you likely already know which version to download; otherwise, this exact version is right for you.
+
+## Preparing for Installation
+Using a tool like [Rufus](https://github.com/pbatard/rufus/releases/download/v4.15/rufus-4.15.exe), write the Arch `iso` file to your USB flash drive as a `bootable` disk. It is best to set the `Target System` to `BIOS`. If you are currently using Linux, my best experience has been with the [Popsicle](https://github.com/pop-os/popsicle) utility, which you can install via your distribution's repository.
+
+Make sure to connect the computer to the internet using an Ethernet cable.
+
+Insert the flash drive into the system. If the graphics card is still installed, monitor the boot process. It takes about a minute to boot into the Arch live environment. If you only have one monitor, don't worry—our Arch system will not need a monitor from now on. Just before you completely run it headless, execute the following command and take a picture of the output:
+```bash
 ip addr show
 ```
-> نکته: هنگام تایپ دستورات، به فاصله‌ها دقت ویژه‌ای داشته باشید؛ زیرا در خط فرمان لینوکس فاصله‌ها بخشی از دستور محسوب می‌شوند. همچنین، بیشتر دستورات استاندارد با حروف کوچک نوشته می‌شوند و خط فرمان سیستم‌عامل‌های شبه‌یونیکس مانند لینوکس به بزرگی و کوچکی حروف  حساس است. بنابراین `ls` با `LS` و `README.txt` با `readme.txt` یکسان نیستند.
+> Note: Pay special attention to spaces when typing commands, as spaces are processed as part of the command in the Linux terminal. Additionally, most standard commands are written in lowercase, and the command line of Unix-like operating systems (like Linux) is case-sensitive. Therefore, `ls` is not the same as `LS`, and `README.txt` differs from `readme.txt`.
 
-حالا که مطمئن شدیم آرچ به خوبی بالا می‌آید، خطایی نمی‌گیریم، فعلا کارمان با این سیستم تمام است. با دستور زیر خاموشش کنید.
-```
+Now that we have verified Arch boots successfully without any errors, our initial work with this machine is done. Power it off using the following command:
+```bash
 poweroff
 ```
 
-کارت توسعهٔ شبکهٔ من از نوع `PCIe x4` بود. کامپیوتر من هم یک `PCIe x16` بیشتر نداشت. یا کارت گرافیک یا کارت شبکه. گرافیک را خارج کردم و کارت شبکه را نصب کردم.
-حالا با استفاده از گوشی یا کامپیوتر شخصی وارد کنسول مودم خودتان شوید. به قسمت `LAN` بروید. باید دنبال گزینه‌ای شبیه به `DHCP Static IP Configuration` بگردید. عکسی که از `ip addr show` گرفتید را خوب نگاه کنید. یک آدرس شش بخشی شبیه به `6c:c1:00:25:da:a5` باید ببینید. این آدرس فیزیکی کارت شبکهٔ شماست. با این آدرس کار خواهیم داشت. در همان قسمت مودم، بایستی چیزی شبیه به اضافه کردن `Add` یا `New` ببینید. آدرس مک را اضافه کنید و یک `IP` ثابت روی همان رنج ساب‌نت مودم به آن بدهید. مثلا ساب‌نت مودم من `192.168.100.1/24` است. من آی‌پی `192.168.100.100` را به این مک‌آدرس اختصاص دادم. آن `24‍` به این معنی‌ست که در این ساب‌نتْ بخش آخر می‌تواند مقداری بین `1` تا `254` را داشته باشد و ۲۴ بیتِ اولیهٔ آدرسْ ثابت است. ما هم از همین مقدار استفاده می‌کنیم چرا که برای شبکه‌ای که ما می‌سازیم ۸ بیت یا ۲۵۵ آدرس آی‌پی از سرمان هم زیاد است.
-کامپیوتر را دو مرتبه روشن کنید. حدود ۱ دقیقه منتظر شوید تا وارد فضای زندهٔ آرچ شود. در حالت زنده، `sshd` فعال است و می‌توانیم با گوشی یا کامپیوتر دیگری به کامپیوتر وصل شویم. اما پیش از آن باید برای کاربر `root` پسورد ست کنیم. روی کیبورد سیستم، اگر خروجی تصویر ندارید، که ما فرض می‌گیریم ندارید، دستور زیر را به دقت تایپ کنید و `Enter` بزنید:
-```
+My network expansion card was a `PCIe x4` interface, but my motherboard only had a single `PCIe x16` slot. It was either the graphics card or the network card. I removed the GPU and installed the network card.
+
+Now, use your phone or personal computer to access your modem's console. Navigate to the `LAN` section and look for an option like `DHCP Static IP Configuration`. Check the picture you took of the `ip addr show` output. You should see a six-part address formatted like `6c:c1:00:25:da:a5`. This is the physical MAC address of your network interface. We will need this address. In the modem's settings, look for an `Add` or `New` button. Enter the MAC address and assign a static `IP` to it within your modem's subnet range. For instance, my modem's subnet is `192.168.100.1/24`, so I assigned the IP `192.168.100.100` to this MAC address. The `24` indicates that in this subnet, the last octet can hold a value between `1` and `254`, while the first 24 bits of the address remain static. We use this exact value because an 8-bit block (or 255 IP addresses) is more than enough for the network we are building.
+
+Power the computer back on. Wait about 1 minute for it to boot into the Arch live environment. In the live environment, `sshd` is running by default, allowing us to connect remotely using a phone or another computer. However, we must first set a password for the `root` user. On the system's keyboard—assuming you have no video output—carefully type the following command and press `Enter`:
+```bash
 passwd
 ```
-الان خط فرمان آرچ از شما یک پسورد می‌خواهد. عبارت ساده‌ای بدون عدد و با حروف کوچک تایپ کنید. چرایی بدون عدد بودنش بماند برای کامنت‌ها.
-مثلا یک پسورد ساده مثل
-```
+The Arch command line will now prompt you for a password. Type a simple word using only lowercase letters and no numbers. (The reason for avoiding numbers is a topic for the comments). 
+For example, a simple password like:
+```text
 hello
 ```
-بعد از زدن `Enter`، از شما می‌خواهد که پسورد را دوباره تایپ کنید. با دقت `hello` را دومرتبه تایپ کنید، `Enter` بزنید و تمام.
+After hitting `Enter`, it will ask you to retype the password. Carefully type `hello` a second time, press `Enter`, and you are set.
 
-وارد خط فرمان سیستم عامل خودتان شوید و دستور زیر را تایپ کنید:
->برای اندروید یا iOS می‌توانید Termius را نصب کنید. برای ویندوز هم از Powershell استفاده کنید.
+Open the command line on your personal operating system and run the following command:
+> For Android or iOS, you can install Termius. For Windows, use PowerShell.
 
-```
+```bash
 ssh root@IP-ADDRESS
 ```
-به جای `IP-Address` همان آی‌پی ثابتی که در کنسول مودم ست کردید را وارد کنید. لازم است که کامپیوتر آرچ و جایی که این دستور را تایپ می‌کنید، به یک شبکه متصل باشند (و قاعدتا این شبکه، همان شبکه‌ای است که مودم اصلی شما ایجاد کرده). به زبان ساده همه به همان مودم اصلی شما وصل باشند.
-از شما یک تایید می‌خواهد. عبارت `y` یا `yes` را تایپ کنید. حالا از شما پسورد می‌خواهد. `hello` را بزنید. اگر همه چیز را درست انجام داده باشید، الان وارد فضای آرچ‌لینوکس شده‌اید. اتصال راه دور کار ما را بی‌اندازه راحت‌تر می‌کند چرا که تقریبا همه چیز را کپی/پیست خواهیم کرد.
->یادتان باشد که کپی و پیست معمولا با `Ctrl+Shift+C` و `Ctrl+Shift+V` انجام می‌شود. در `Termius` گزینهٔ `Paste` را برای راحتی به نوار بالاییِ کیبورد اضافه کنید.
-## شروع نصب
-از اینجا به بعد، دستورات را کپی و در همان ترمینالی که باز کرده‌اید و وارد آرچِ زنده شده‌اید، بچسبانید. لازم نیست که چیزی را دستی تایپ کنید. فقط لازم است مقادیر را، مثل اسم پارتیشن‌ها، در صورتی که با دستورات من متفاوت است تغییر دهید. مثلا اگر `sda2` روی سیستم شما `sdb2` است صرفا حرف `a` را به `b` تغییر دهید.
-دستور زیر را برای هم‌گام‌سازی ساعت بزنید:
+Replace `IP-Address` with the static IP you configured in the modem's console. Both the Arch machine and the device running this command must be connected to the same network (logically, this is the network broadcasted by your main modem). Simply put, ensure both devices are connected to your main modem.
+
+You will be prompted for confirmation. Type `y` or `yes`. It will then ask for the password. Type `hello`. If you have followed all the steps correctly, you are now logged into the Arch Linux environment. Remote access makes our setup infinitely easier since we will be copying and pasting almost everything going forward.
+> Remember that copy and paste is usually executed with `Ctrl+Shift+C` and `Ctrl+Shift+V`. In `Termius`, add the `Paste` button to the top keyboard bar for convenience.
+
+## Starting the Installation
+From this point forward, copy the commands and paste them into the terminal you opened while logged into the Arch live environment. You do not need to type anything manually. You only need to change values, such as partition names, if they differ from the ones in my commands. For example, if `sda2` is `sdb2` on your system, simply change the letter `a` to `b`.
+
+Run the following command to synchronize the system clock:
 ```
 timedatectl set-ntp true
 ```
-نوبت پیدا کردن هارددیسک است
+Now, identify the hard disk:
 ```
 lsblk
 ```
-توصیه می‌کنم یک هارد جدا برای این کار انتخاب کنید. نوعش فرقی نمی‌کند و با توجه به سبک بودن سیستم این هارد حتی می‌تواند یک فلش‌مموری باشد. فضایی که این سیستم اشغال خواهد کرد کمتر از ۵ گیگ خواهد بود. خروجی دستور بالا چیزی شبیه به این خواهد بود:
+I recommend dedicating a separate disk for this task. The type of drive does not matter, and given how lightweight the system is, this drive could even be a USB flash drive. The total space this system will occupy is less than 5 GB. The output of the command above will look something like this:
 ```
 lsblk  
-NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS  
-sda      8:0    0 461.6G  0 disk    
-├─sda1   8:1    0     2M  0 part    
-└─sda2   8:2    0 461.6G  0 part /
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS  
+sda      8:0    0 461.6G  0 disk    
+├─sda1   8:1    0     2M  0 part    
+└─sda2   8:2    0 461.6G  0 part /
 ```
-البته شما احتمالا فلش‌مموری و دیسک مجازی که نصابِ آرچ اضافه کرده را هم خواهید دید. از `SIZE` به راحتی متوجه خواهید شد که قرار است با کدام‌یک کار کنید. متغیر آن را یادداشت کنید: برای من `sda`
-حالا به سراغ پارتیشن‌بندی آن می‌رویم:
+You will also likely see the installation flash drive and the loop device created by the Arch installer. You can easily identify which drive to use based on the `SIZE`. Note its device variable: for me, it is `sda`.
+
+Next, proceed to partition it:
 ```
 cfdisk /dev/sda
 ```
-اگر از شما خواست که نوع جدول پارتیشن را مشخص کنید، گزینه `gpt` را انتخاب کنید.
-اگر پارتیشنی روی دیسک وجود دارد، با فرض اینکه **به اطلاعات این دیسک نیاز نداریم** همه را با استفاده از کلیدهای بالا و پایین کیبورد انتخاب کنید و با استفاده از کلیدهای چپ و راست `Delete` کنید.
-حالا همهٔ فضای دیسک به `Free` تغییر نام داده. با گزینه `Create` یک پارتیشن به اندازه ۲ مگابایت بسازید.
-با کلیدهای بالا و پایین انتخابش کنید و با کلیدهای چپ و راست روی گزینه `Type` بروید. نوع آن را `BIOS boot` بگذارید.
-حالا ما ماندیم و بقیهٔ فضای خالیِ دیسک. یک پارتیشن با مقدار پیش‌فرض (که کل فضای باقیمانده است) بسازید و `Type` آن را `Linux filesystem` انتخاب کنید.
-حالا `Write` را انتخاب کنید. از شما تایید می‌خواهد. `yes` را تایپ و تایید کنید. روی گزینه `Quit` بزنید و از `cfdisk` خارج شوید.
-حالا می‌توانید یک بار دیگر با `lsblk` ساختار پارتیشن‌ها را مرور کنید. پارتیشن بزرگ‌تر شما که قرار است سیستم‌عامل روی آن نصب شود، زیر آن پارتیشن ۲ مگابایتی قرار خواهد داشت. اسمش را یادداشت کنید. برای من همانطور که در تصویر بالا می‌بینید `sda2` است.
-با دستور زیر فرمتش کنید:
+If it prompts you to select a partition table type, choose `gpt`.
+If there are existing partitions on the disk, assuming **you do not need the data on this disk**, select all of them using the up and down arrow keys and `Delete` them using the left and right keys.
+Now, all the disk space will be labeled as `Free`. Use the `Create` option to create a 2 MB partition.
+Select it using the up and down keys, and navigate to the `Type` option using the left and right keys. Change its type to `BIOS boot`.
+Now, we are left with the rest of the free space. Create a partition with the default size (which is the entire remaining space) and set its `Type` to `Linux filesystem`.
+Finally, select `Write`. It will ask for confirmation. Type `yes` and confirm. Select `Quit` to exit `cfdisk`.
+
+You can review the partition structure once more with `lsblk`. Your larger partition, where the operating system will be installed, should be listed under the 2 MB partition. Note its name. For me, as seen in the example above, it is `sda2`.
+
+Format it using the following command:
 ```
 mkfs.btrfs -f /dev/sda2
 ```
-ما برای اینکه در آینده به اسنپ‌شات‌ها که مهم‌ترین ویژگی `BTRFS` است دسترسی داشته باشیم، لازم است تعدادی ساب‌والیوم (ساب‌ولوم) درست کنید. دستورات زیر را وارد کنید:
+To ensure we can utilize snapshots in the future—which is the most important feature of `BTRFS`—you need to create several subvolumes. Enter the following commands:
 ```
 mount /dev/sda2 /mnt
 btrfs subvolume create /mnt/@
@@ -139,60 +235,63 @@ btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@srv
 umount /mnt
 ```
-نوبت سوار کردنِ تمام این ساب‌ولوم‌هاست:
+Now, mount all of these subvolumes:
 ```
 mount -o noatime,compress=zstd,subvol=@ /dev/sda2 /mnt
 mkdir -p /mnt/{home,srv}
 mount -o noatime,compress=zstd,subvol=@home /dev/sda2 /mnt/home
 mount -o noatime,compress=zstd,subvol=@srv /dev/sda2 /mnt/srv
 ```
-در تغییر نام دیوایس از `sda` به نام متغیر پارتیشن خودتان دقت کنید.
-نوبت به نصب نرم‌افزارهای سیستمی رسید. دستور زیر حاوی تمام بسته‌هایی‌ست که برای نصب و بعد از آن به آن‌ها نیاز داریم:
+Pay attention to changing the device name from `sda` to your specific partition variable.
+
+It is time to install the system software. The following command contains all the packages we will need during and after the installation:
 ```
 pacstrap -K /mnt base linux-lts linux-lts-headers linux-firmware bind btrfs-progs btop caddy cronie dnscrypt-proxy nftables dnsmasq fish grub inetutils minidlna nano net-tools openssh openvpn perl python-cryptography python-flask rclone stress-ng sudo tcpdump vnstat which wireguard-tools iproute2 dosfstools
 ```
-این‌ها تمام بسته‌هایی هستند که برای ساخت و راه‌اندازی این روتر به آن‌ها نیاز خواهیم داشت و در ادامهٔ آموزش نیز بر همین مجموعه تکیه می‌کنیم. اگر این فهرست را با بسته‌هایی که به‌صورت پیش‌فرض در توزیع‌هایی مانند اوبونتو نصب می‌شوند مقایسه کنید، به‌خوبی متوجه یکی از مهم‌ترین مزیت‌های آرچ خواهید شد: نصب تنها آنچه واقعاً به آن نیاز دارید و پرهیز از نصب ده‌ها بستهٔ اضافی و بدون استفاده.
+These are all the packages required to build and run this router, and we will rely on this specific set for the rest of the tutorial. If you compare this list to the default packages installed on distributions like Ubuntu, you will immediately notice one of Arch's greatest advantages: installing only what you truly need and avoiding dozens of unnecessary bloatware packages.
 
-اکنون نوبت ساخت `fstab` است. این فایل، سیستم‌عامل را از محل دیسک و پارتیشن‌ها و ساب‌ولوم‌ها و نقاط اتصالشان مطلع می‌کند:
+Next, generate the `fstab` file. This file informs the operating system about the location of disks, partitions, subvolumes, and their mount points:
 ```
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
-با دستور زیر می‌توانید محتویات آن را بعد از ساخته شدن بررسی کنید:
+You can inspect its contents after generation using the following command:
 ```
 cat /mnt/etc/fstab
 ```
 
-حالا نوبت به `chroot` زدن به سیستمی‌ست که تازه نصبش کردید:
+Now, `chroot` into your newly installed system:
 ```
 arch-chroot /mnt
 ```
-و دو سرویس حیاتی زیر را همین اول کار فعال می‌کنیم:
+Enable these two critical services right away:
 ```
 systemctl enable sshd
 systemctl enable systemd-timesyncd
 ```
-چرا این سرویس `sshd` را باید فعال کنیم؟ برخلاف دیسک زندهٔ آرچ، این سرویس در سیستمی که نصب کردید غیرفعال است. نه‌تنها بایستی فعالش کنید که باید تغییراتی در تنظیماتش اجرا کنید که بعد از بوت شدن سیستم، بتوانید از طریق `ssh` با سیستم ارتباط برقرار کنید:
-فایل زیر رو با استفاده از نانو باز کنید:
+Why must we enable the `sshd` service? Unlike the Arch live disk, this service is disabled by default on a fresh installation. Not only must you enable it, but you also need to modify its configuration so that you can connect via `ssh` after the system boots.
+Open the following file using nano:
 ```
 nano /etc/ssh/sshd_config
 ```
-تقریبا تمام فایل کامنت شده است. به این معنی که ابتدای هر خط شما علامت `#` را می‌بینید. این علامت در ابتدای خط به برنامه می‌گوید که این خط صرفا یک کامنت یا نظر است و برای تو نوشته نشده است؛ آن را نادیده بگیر.
-به انتهای فایل بروید و این دو خط را اضافه کنید (البته می‌توانید خط اول را نادیده بگیرید و صرفا با کاربری که می‌سازیم وارد شوید، اما اگر به هر دلیلی نیاز پیدا کنید که با روت `ssh` بزنید، وجود خط اول هم ضرروی‌ست):
+Almost the entire file is commented out. This means you will see a `#` symbol at the beginning of each line. This symbol tells the program that the line is merely a comment or note and should be ignored.
+Scroll to the end of the file and append these two lines (you can optionally omit the first line and log in exclusively with the user we will create, but if you ever need to `ssh` as root, the first line is necessary):
 ```
 PermitRootLogin yes
 PasswordAuthentication yes
 ```
-به این قسمت دقت کنید: برای ذخیره اطلاعات و خروج از نانو بایستی به ترتیب این کارها را انجام دهید: ابتدا `Ctrl+X` را بزنید. حالا نانو از شما می‌پرسد که بافر (اطلاعاتی که تغییر کرده) را ذخیره کند یا نه. روی کیبورد `y` را بزنید و سپس `Enter` کنید. به همین راحتی.
+Pay close attention here: to save the data and exit nano, you must follow these exact steps: First, press `Ctrl+X`. Nano will then ask if you want to save the modified buffer. Press `y` on your keyboard and then hit `Enter`. It is that simple.
 
-با دستور زیر یک پسورد به کاربر `root` اختصاص دهید:
+Assign a password to the `root` user using the following command:
 ```
 passwd
 ```
-دو روش برای پیکربندی شبکه وجود دارد. استفاده از اسکریپت آماده‌ای که ساخته‌ام یا روش دستی.
-### اسکریپت تشخیص شبکه
-اگر روش خودکار را می‌پسندید، این اسکریپت باب میل شما خواهد بود اما توصیه می‌کنم روش پیکربندی دستی شبکه را حتما مطالعه کنید تا درک بهتری از ساز و کار سیستم پیدا کنید. 
 
-یکی از دو دستور زیر را در ترمینال وارد کنید. هر دو دستور در اصل به یک اسکریپت ختم می‌شود اما لینکِ یکی از آن‌ها با `bit.ly` کوتاه شده است تا دستور برای تایپ دستی کوتاه‌تر شود:
+There are two methods to configure the network: using a pre-made script I created, or doing it manually.
+
+### Network Detection Script
+If you prefer an automated approach, this script will be to your liking. However, I strongly recommend reading through the manual network configuration method to gain a better understanding of how the system operates.
+
+Run one of the two commands below in the terminal. Both commands point to the same script, but one link is shortened via `bit.ly` to make manual typing easier:
 ```
 curl -fsSL https://bit.ly/network-detection | sudo bash
 ```
@@ -200,37 +299,37 @@ curl -fsSL https://bit.ly/network-detection | sudo bash
 ```
 curl -fsSL https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/network-detection.sh | sudo bash
 ```
-اسکپریت به طور خودکار شبکهٔ شما را تشخیص می‌دهد و تلاش می‌کند پورتی که اکنون به اینترنت وصل شده را با `wan` نام‌گذاری کند و پورت دوم را که قرار است به اکسس‌پوینت وصل شود به `lan` اختصاص دهد. اگر پورت‌ها را درست تشخیص داده، کافیست فقط `Enter` را بزنید، در غیر این‌صورت نام کامل رابط که معمولا با `ens` شروع می‌شود را دستی برای `wan` که به اینترنت وصل است و `lan` برای رابطی که به اکسس‌پوینت وصل است وارد کنید. خواندن بخش [[#پیکربندی دستی شبکه]] به شما دید کامل‌تری از آن‌چه اینجا انجام می‌دهیم می‌دهد.
+The script will automatically detect your network and attempt to assign the name `wan` to the port currently connected to the internet, while assigning `lan` to the second port designated for the access point. If it detects the ports correctly, simply press `Enter`. Otherwise, manually input the full interface name (which usually starts with `ens`) for the `wan` interface connected to the internet, and the `lan` interface connected to the access point. Reading the [[#Manual Network Configuration]] section will give you a more comprehensive view of what we are doing here.
 
-### پیکربندی دستی شبکه
-برای یک روتر، مهم است که اسم رابط‌های شبکه، پایدار و قابل تشخیص باشد. به این معنی که هربار با راه‌اندازی سیستم، به `udev` برای اختصاص یک نام به رابط شبکه تکیه نکنیم. اکنون ما دو رابط شبکه روی سیستم داریم، یکی رابط خود مادربورد و دیگری کارت شبکه‌ای که اضافه کردیم. نام آدرس فیزیکی آن‌ها را از طریق دستور زیر به دست آورید:
+### Manual Network Configuration
+For a router, it is crucial that network interface names remain persistent and easily identifiable. This means we cannot rely on `udev` dynamically assigning a name to the network interface every time the system boots. We currently have two network interfaces on the system: the motherboard's built-in interface and the expansion network card we added. Retrieve their physical MAC addresses using the following command:
 ```
 ip addr show
 ```
-حالا یک فایل در این مسیر بسازید:
+Now, create a file at this path:
 ```
 nano /etc/udev/rules.d/10-network-names.rules
 ```
-مسیر بایستی از قبل موجود باشد اما اگر در نانو اخطار قرمز رنگی می‌بینید، به این خاطر است که دایرکتوری مورد نظر وجود نداشته. با `Ctrl+X` از نانو خارج شوید. با دستور زیر دایرکتوری را ایجاد کنید:
+The path should already exist, but if you see a red warning in nano, it means the target directory is missing. Exit nano with `Ctrl+X`. Create the directory using this command:
 ```
 mkdir -p /etc/udev/rules.d/
 ```
-و دو مرتبه دستور پیشین را برای ایجاد فایل بالا بزنید. حالا به محتویات آن مقادیر زیر را اضافه کنید:
->برای چسباندن عبارتی که کپی کرده‌اید از `Ctrl+Shift+V` استفاده کنید. به این سه دکمه بارها و بارها احتیاج پیدا می‌کنیم. آن را فراموش نکنید. در `Termius` گزینه `Paste` معمولا در نوار بالایی قرار دارد که سرراست‌تر است.
+Then, run the previous command again to create the file. Add the following values to its contents:
+> Use `Ctrl+Shift+V` to paste the text you copied. You will need these three keys constantly, so do not forget them. In `Termius`, the `Paste` option is usually located in the top bar, which is more straightforward.
 
 ```
 SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="XX:XX:XX:XX:XX:XX", NAME="lan"  
 SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="XX:XX:XX:XX:XX:XX", NAME="wan"
 ```
-به جای `XX`ها بایستی آدرس مک دو رابط شبکه را وارد کنید. اگر توجه کنید هر کدام یک اسم دارند: یکی `wan` و دیگری `lan`. آدرس مکِ رابطی که به مودم‌تان متصل است و اینترنت آرچ را تغذیه می‌کند را در خط `wan` بنویسید. 
-آدرس رابطی که قرار است به اکسس‌پویینت متصل کنید را در خط `lan` بنویسید.
-تمام اسکریپت‌های فراوانی که در اختیارتان قرار می‌دهم را بر اساس این دو نام نوشته‌ام، پس دقت کنید که آن‌ها را جابجا یا غلط ننویسید در غیر این‌صورت غیر از سردرد، چیزی نصیبتان نمی‌شود. ابتدا `Ctrl+X` را بزنید. روی کیبورد `y` را بزنید و سپس برای ذخیره `Enter` کنید.
+Replace the `XX` placeholders with the MAC addresses of your two network interfaces. Notice that each is assigned a specific name: one is `wan` and the other is `lan`. Enter the MAC address of the interface connected to your modem (which supplies internet to Arch) on the `wan` line.
+Enter the MAC address of the interface connecting to the access point on the `lan` line.
+All the numerous scripts I will provide are written based on these two specific names, so be extremely careful not to swap or misspell them; otherwise, you will get nothing but headaches. Press `Ctrl+X`, type `y`, and hit `Enter` to save.
 
-و فایل‌های مربوط به رابط‌های شبکه را بسازید. ابتدا دایرکتوری را اگر وجود ندارد می‌سازیم:
+Next, create the network interface configuration files. First, create the directory if it does not already exist:
 ```
 mkdir -p /etc/systemd/network/
 ```
-حالا نوبت فایل‌هاست. می‌توانید آن‌ها را به راحتی با نانو بسازید، یا اینکه با تک دستور زیر آن را به راحتی ایجاد کنید. برای رابط `wan`:
+Now for the files. You can easily create them using nano, or use the single commands below to generate them instantly. For the `wan` interface:
 ```
 cat <<EOF > /etc/systemd/network/wan.network
 [Match]
@@ -240,7 +339,7 @@ Name=wan
 DHCP=yes
 EOF
 ```
-و برای رابط `lan`:
+And for the `lan` interface:
 ```
 cat <<EOF > /etc/systemd/network/lan.network
 [Match]
@@ -251,7 +350,7 @@ Address=172.22.0.1/24
 Address=10.10.10.10/32
 EOF
 ```
-برای مشاهدهٔ محتویاتشان می‌توانید از `cat` استفاده کنید. برای من، خروجی کت برای دو فایل به این شکل است:
+You can use `cat` to view their contents. For me, the output of `cat` for both files looks like this:
 ```
 cat /etc/systemd/network/lan.network  
 [Match]  
@@ -270,183 +369,189 @@ Name=wan
 [Network]  
 DHCP=yes
 ```
-قرار است شبکه را روی ساب‌نت `172.22.0.1/24` بالا بیاوریم.
-تنها تنظیم فایل `resolv.conf` باقی مانده است. این فایل را به صورت دستی تنظیم می‌کنیم هرچند می‌توانیم  `systemd-resolved` را فعال کنیم، اما در این سیستم ما با پورت `53` کار داریم. فایل را با نانو باز می‌کنید:
+We are going to bring up the network on the `172.22.0.1/24` subnet.
+
+The only thing left is configuring the `resolv.conf` file. We will configure this file manually; although we could enable `systemd-resolved`, our system specifically relies on port `53`. Open the file with nano:
 ```
 nano /etc/resolv.conf
 ```
-و آن را با اطلاعات زیر ویرایش می‌کنیم:
+And edit it with the following information:
 ```
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
-و مطمئن شوید `systemd-resolved` غیرفعال است.
+Ensure that `systemd-resolved` is disabled:
 ```
 systemctl disable systemd-resolved
 ```
 
-شبکه را فعال کنید که بعد از نصب آرچ بیرون ساختمان سیستمِ بدونِ در نمانیم:
+Enable the network daemon so we don't end up locked out of the system after installing Arch:
 ```
 systemctl enable systemd-networkd
 ```
-تنظیم دستیِ شبکه تمام شد. برای بار بعد می‌توانید از اسکریپت استفاده کنید تا تمام این کارها را در عرض چند ثانیه انجام دهد.
+The manual network configuration is complete. Next time, you can use the script to automate all of these steps in seconds.
 
-چه از [[#اسکریپت تشخیص شبکه]] استفاده کردید چه با [[#پیکربندی دستی شبکه]] را تنظیم کردید برای اینکه مطمئن شوید که اطلاعات ذخیره شده است دستور زیر را برای مشاهده محتویات فایل  `10-network-names.rules` صادر کنید:
+Whether you used the [[#Network Detection Script]] or configured it via [[#Manual Network Configuration]], ensure your changes are saved by running the following command to view the contents of the `10-network-names.rules` file:
 ```
 cat /etc/udev/rules.d/10-network-names.rules
 ```
-### بوت‌لودر
-نوبت نصب بوت‌لودر گراب است. با دقت به نام دیسک، برای من `sda`، دستورات زیر را وارد کنید:
+
+### Bootloader
+It is time to install the GRUB bootloader. Paying close attention to your disk name—for me, it is `sda`—enter the following commands:
 ```
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
-خروجی باید عبارت `No Error Reported` را نشان دهد.
-حالا یک اسم به سیستم اختصاص دهید:
+The output should display the message `No Error Reported`.
+
+Now, assign a hostname to the system:
 ```
 echo "router" > /etc/hostname
 ```
-و تنظیمات `locale` را با دستور زیر باز کنید:
+Open the `locale` configuration using the following command:
 ```
 nano /etc/locale.gen
 ```
-به دنبال خط زیر بگیرید:
+Look for the following line:
 ```
 en_US.UTF-8 UTF-8
 ```
-اما چطور بین این همه خط پیدایش کنیم؟ در محیط نانو کلید `F6` را بزنید. الان مقداری از عبارت بالا را تایپ کنید و `Enter` بزنید. نانو شما را به خط مورد نظر می‌برد. علامت `#` جلوی آن را بردارید (آن‌کامنتش کنید)، سپس 
-با `Ctrl+X` و تایید ذخیره‌ش کنید. حالا دستور زیر را اجرا کنید:
+But how do you find it among all those lines? In the nano environment, press `F6`. Type a portion of the phrase above and hit `Enter`. Nano will take you directly to the target line. Remove the `#` symbol in front of it (uncomment it), then save and exit with `Ctrl+X` and confirm. Now run the following command:
 ```
 locale-gen
 ```
-قبل از اتمام کار، بهتر است یک کاربر ایجاد کنید چرا که کار کردن با کاربر `root` با توجه به دسترسی‌های بی‌نهایت آن اصلا توصیه نمی‌شود. دستور زیر را برای ساخت کاربر صادر می‌کنیم:
-> هرچند اسکریپت‌های قابلیت تشخیص کاربر و پیکربندی سیستم با توجه به کاربر موجود را دارند، اما برای احتیاط بهتر است نام این کاربر را مثل من `net` بگذارید.
+
+Before finishing up, it is best to create a standard user, as operating as the `root` user is highly discouraged due to its unlimited privileges. Run the following command to create a user:
+> Although the scripts have the capability to detect the user and configure the system based on the existing user, it is safer to name this user `net`, exactly as I have done.
 
 ```
 useradd -m -G wheel,systemd-journal -s /bin/bash net
 ```
-یک پسورد به کاربر `net` اختصاص دهید:
+Assign a password to the `net` user:
 ```
 passwd net
 ```
-از آن‌جایی که از این کاربر برای مدیریت کل سیستم استفاده می‌کنیم، لازم است دسترسی‌های لازم را برای آن باز کنید. فایل زیر را باز کنید، اما قبل از هر تغییری به یاد داشته باشید که این فایل بی‌اندازه حساس است. هرچقدر تا به حال در زدن دستورات دقت می‌کردید، ده برابرش را برای ویرایش این فایل در نظر بگیرید. با دستور زیر فایل را در نانو باز کنید:
+Since we will use this user to manage the entire system, we must grant it the necessary permissions. Open the following file, but before making any changes, remember that this file is extremely sensitive. Whatever level of care you took while typing previous commands, multiply it by ten when editing this file. Open it in nano using the following command:
 ```
 EDITOR=nano visudo
 ```
-به دنبال خطِ زیر در قسمت‌های انتهایی فایل بگردید:
+Look for the following line near the bottom of the file:
 ```
 # %wheel ALL=(ALL:ALL) ALL
 ```
-و علامت `#` ابتدای آن را حذف کنید تا از حالت کامنت خارج شود:
+Remove the `#` symbol at the beginning to uncomment it:
 ```
 %wheel ALL=(ALL:ALL) ALL
 ```
-با `Ctrl + X` و زدن `Y` تغییرات را ذخیره کنید و خارج شوید. این خط به سیستم می‌گوید کاربرانی که عضو گروه `wheel` هستند، اجازهٔ اجرای دستورات سطح بالای سیستمی را با `sudo` دارند. اگر به دستور `useradd` دقت کنید، می‌بینید که ما کاربر `net` را به این گروه از پیش اضافه کرده‌ایم.
-با دستور زیر وارد فضای کاربری `net` شوید:
+Save the changes and exit by pressing `Ctrl + X` and typing `Y`. This line tells the system that users belonging to the `wheel` group are permitted to execute high-level system commands via `sudo`. If you look back at the `useradd` command, you will see that we already added the `net` user to this group.
+
+Switch to the `net` user environment using the following command:
 ```
 su - net
 ```
-با دستور زیر مطمئن شوید که اجازهٔ اجرای دستورات سیستمی را دارید:
+Verify that you have permission to execute system commands by running:
 ```
 sudo echo "Sudo access is working!"
 ```
-اولین بار که `sudo` را اجرا می‌کنید، سیستم یک پیام برای شما صادر می‌کند مبنی بر اینکه اختیارات زیاد، مسئولیت زیاد هم می‌طلبد، از `sudo` مسئولانه استفاده کنید.
-از محیط کاربر `net` خارج شوید:
+The first time you run `sudo`, the system will display a message warning you that with great power comes great responsibility, urging you to use `sudo` responsibly.
+Exit the `net` user environment:
 ```
 exit
 ```
-برای دسترسی اپی که قرار است درست کنیم، کاربر `net` نیاز به دسترسی به یک سری دستور از طریق `sudo` و بدون نیاز به وارد کردن پسورد دارد. فایل زیر را بسازید:
+To ensure the app we are going to build functions correctly, the `net` user requires passwordless `sudo` privileges for a specific set of commands. Create the following file:
 ```
 nano /etc/sudoers.d/99-router-scripts
 ```
-محتویات زیر را به آن اضافه کنید:
+Add the following content to it:
 ```
 net ALL=(ALL) NOPASSWD: /opt/router/Scripts/toggle-route, /opt/router/Scripts/srv.sh, /usr/local/bin/srv, /usr/bin/reboot, /usr/bin/systemctl, /usr/bin/ip, /usr/bin/wg-quick, /usr/bin/openvpn
 ```
-فایل را ذخیره کنید و خارج شوید. نوبت بستنِ `chroot` است.
+Save the file and exit. It is time to close the `chroot` environment:
 ```
 exit
 ```
-نقاط اتصال را پیاده می‌کنیم (سوار شده بودند الان پیاده‌شان می‌کنیم):
+Unmount all mount points (we mounted them earlier, now we detach them):
 ```
 umount -R /mnt
 ```
-و سیستم را خاموش می‌کنیم:
+And power off the system:
 ```
 poweroff
 ```
-حالا فلش‌مموریِ نصب را خارج کنید. **یک کابل شبکه بردارید و رابط شبکه را به اکسس‌پوینت متصل کنید.** چیدمان به این صورت است: مودم اصلی به کارت شبکهٔ مادربورد با نام `wan` متصل شده و اکسس‌پوینت به کارت شبکهٔ اضافی که نامش را `lan` گذاشتیم وصل است. اکسس‌پوینت را روشن کنید و سپس به دنبال آن سیستم را.
-اگر همه‌چیز به خوبی پیش رفته باشد بعد از حدود ۱ دقیقه وارد محیط شده‌اید، و رابط `wan` بایستی آی‌پی‌ای که در کنسول مودم به آن اختصاص داده بودید را گرفته باشد. با دستور زیر از طریق `Powershell` وارد شوید. اگر با گوشی و از طریق `Termius` متصل شده بودید، کاربر را به `net` تغییر دهید و با همان کانکشن قبلی وارد خواهید شد:
+Now, remove the installation flash drive. **Take a network cable and connect the network interface to the access point.** The physical layout is as follows: the main modem is connected to the motherboard's network card named `wan`, and the access point is connected to the additional network card we named `lan`. Power on the access point, followed by the system.
+
+If everything went smoothly, you should be able to log in after about 1 minute, and the `wan` interface should have acquired the IP address you assigned to it in your modem's console. Log in via `Powershell` using the command below. If you are connecting from your phone via `Termius`, simply change the user to `net` and connect using the same connection profile as before:
 ```
 ssh net@IP-Address
 ```
-از این به بعد فرض می‌کنیم که آی‌پی آدرس `wan`:
+From here on, we will assume the `wan` IP address is:
 ```
 192.168.100.100
 ```
-است. شما مقدار بالا را با آی‌پی خودتون عوض کنید. دستور بالا برای آی‌پی من این است:
+Replace the value above with your actual IP address. For my IP, the command looks like this:
 ```
 ssh net@192.168.100.100
 ```
-نصب تمام شد. به سراغ خود سیستم برویم. 
-## اولین تجربه از محیط روتر
-اکنون در محیطِ سیستم‌عاملِ نصب‌شده هستید. با توجه به تنظیماتی که در حین نصب برای شبکه انجام دادیم بایستی خروجی متناسب برای هر رابط را با زدن دستور `ip addr show` ببینید. 
+The installation is complete. Let's move on to configuring the system itself.
+
+## First Experience in the Router Environment
+You are now inside the installed operating system environment. Given the network configurations applied during installation, you should see the appropriate output for each network interface by running the `ip addr show` command.
 ```
 ip addr show  
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000  
-   link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00  
-   inet 127.0.0.1/8 scope host lo  
-      valid_lft forever preferred_lft forever  
-   inet6 ::1/128 scope host noprefixroute    
-      valid_lft forever preferred_lft forever  
+   link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00  
+   inet 127.0.0.1/8 scope host lo  
+      valid_lft forever preferred_lft forever  
+   inet6 ::1/128 scope host noprefixroute   
+      valid_lft forever preferred_lft forever  
 2: lan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc htb state UP group default qlen 1000  
-   link/ether a2:c6:2a:6e:b6:52 brd ff:ff:ff:ff:ff:ff  
-   altname enp1s0f0  
-   altname enx00152a6eb848  
-   inet 172.22.0.1/24 brd 172.22.0.255 scope global lan  
-      valid_lft forever preferred_lft forever  
-   inet6 fe80::215:2aff:fe6e:b848/64 scope link proto kernel_ll    
-      valid_lft forever preferred_lft forever  
+   link/ether a2:c6:2a:6e:b6:52 brd ff:ff:ff:ff:ff:ff  
+   altname enp1s0f0  
+   altname enx00152a6eb848  
+   inet 172.22.0.1/24 brd 172.22.0.255 scope global lan  
+      valid_lft forever preferred_lft forever  
+   inet6 fe80::215:2aff:fe6e:b848/64 scope link proto kernel_ll   
+      valid_lft forever preferred_lft forever  
 3: wan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq state UP group default qlen 1000  
-   link/ether a2:c6:2a:6e:b6:51 brd ff:ff:ff:ff:ff:ff  
-   altname enp1s0f1  
-   altname enx00152a6eb849  
-   inet 192.168.100.201/24 metric 1024 brd 192.168.100.255 scope global dynamic wan  
-      valid_lft 10954sec preferred_lft 10954sec  
-   inet6 fe80::215:2aff:fe6e:b849/64 scope link proto kernel_ll    
-      valid_lft forever preferred_lft forever
+   link/ether a2:c6:2a:6e:b6:51 brd ff:ff:ff:ff:ff:ff  
+   altname enp1s0f1  
+   altname enx00152a6eb849  
+   inet 192.168.100.201/24 metric 1024 brd 192.168.100.255 scope global dynamic wan  
+      valid_lft 10954sec preferred_lft 10954sec  
+   inet6 fe80::215:2aff:fe6e:b849/64 scope link proto kernel_ll   
+      valid_lft forever preferred_lft forever
 ```
-البته از آن‌جایی که به سیستم `ssh` زده‌اید، قاعدتا همه‌چیز خوب پیش رفته است.
-برای اطمینان از اتصال، به اینترنت از گوگل پینگ بگیرید:
+Of course, since you have connected to the system via `ssh`, everything has presumably gone well.
+To verify your internet connection, ping Google:
 ```
 ping -c 2 google.com
 ```
-# نصب خودکار روتر
-اگر به پایین این داکیومنت اسکرول کنید، می‌بینید که کارهای بی‌نهایت زیادی باید انجام دهیم. این روند چند هفته‌ای که البته با وجود این سند کمتر از یک روز برای شما طول خواهد کشید، یکی از بهترین و آموزنده‌ترین دوره‌های زندگی‌ام بود. با کمک جمنای، مجموعه‌ ماژول‌هایی را آماده کرده‌ام که تقریبا تمام این کارها را در کمتر از یک دقیقه برای شما انجام می دهد. کارهایی که اسکریپت برای شما انجام نمی‌دهد عبارتند از: [[#ساخت stamp شخصی]]، تنظیم [[#دیاگ]]، اضافه کردن کانفیگ [[#وی‌پی‌ان]]، [[#بک‌آپ‌گیری از فایل‌های حساس]] و [[#بهینه‌سازی‌های اضافی]]. البته برای دیاگ فقط کافیست که `UUID` فلش خودتان را در آوردید و در فایل `99-router-diag.rules` قرار دهید. بقیه تنظیمات توسط اسکریپت انجام شده است. 
+# Automated Router Installation
+If you scroll to the bottom of this document, you will see that we have a massive amount of work to do. This multi-week process—which will take you less than a day with this document—was one of the best and most educational courses of my life. With Gemini's help, I have prepared a set of modules that perform almost all these tasks for you in under a minute. The tasks the script does not do for you are: [[#Creating a Custom Stamp]], setting up [[#Diag]], adding the [[#VPN]] config, [[#Backing Up Sensitive Files]], and [[#Additional Optimizations]]. However, for Diag, you only need to extract your USB flash drive's `UUID` and place it in the `99-router-diag.rules` file. The rest of the configurations are handled by the script. 
 
-برای تنظیمات دامنهٔ اپ هم بایستی قسمت [[#آماده‌سازی کَدی]] را با دقت مطالعه کنید. هرچند اسکریپت تمام کارهای لازم برای نصب و پیکربندی کَدی را انجام می‌دهد، اما بایستی کلید `API` را از کلاودفلر گرفته و برای دامنه دو رکورد `A` در قسمت `DNS` کلاودفلر تنظیم کرده باشید. بدون مطالعهٔ این قسمت و داشتن کلید `API` نمی‌توانید ماژول نصب خودکار کدی را پیش ببرید.
+For the app's domain settings, you must carefully read the [[#Preparing Caddy]] section. Although the script handles all the necessary tasks to install and configure Caddy, you must obtain your `API` key from Cloudflare and configure two `A` records for your domain in Cloudflare's `DNS` section. Without reading this section and having the `API` key, you cannot proceed with the automated Caddy installation module.
 
-دستور زیر را در ترمینال وارد کنید و به چند سوال ساده‌ای که از شما می‌پرسد با دقت جواب دهید. معمولا با زدن `Enter` کار راه می‌افتد:
+Run the following command in the terminal and carefully answer the few simple questions it asks. Usually, pressing `Enter` works fine:
 ```
 mkdir -p router-installer && curl -sL https://github.com/emanamini/routerScripts/releases/download/Router/install.tar.gz | tar -xzf - -C router-installer && (cd router-installer && chmod +x install.sh modules/*.sh && sudo -E ./install.sh) ; rm -rf router-installer
 ```
-# نصب دستی روتر
-قبل از هر چیز زمان محلی را به تهران تغییر دهید تا در حین اشکال‌زدایی زمان گیج‌تان نکند:
+# Manual Router Installation
+First and foremost, change the local time to Tehran so the timestamps do not confuse you during debugging:
 ```
 sudo ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
 timedatectl
 ```
-## تنظیم فایروال
-به سراغ فایروال می‌رویم. با نانو یک فایل جدید باز کنید:
+## Configuring the Firewall
+Let's move on to the firewall. Open a new file with nano:
 ```
 sudo nano /etc/nftables.conf
 ```
-این فایل بایستی خالی باشد اما اگر چیزی داخل آن بود، با دستور زیر منتقلش `move` کنید و دو مرتبه فایل جدید را باز کنید:
+This file should be empty, but if it contains anything, move it using the following command and open a new file again:
 ```
 sudo mv /etc/nftables.conf /etc/nftables.conf.bck
 sudo nano /etc/nftables.conf
 ```
-حالا عین محتویات زیر را کپی کنید، با `Ctrl+Shift+V` داخل نانو بچسبانید:
+Now copy the exact contents below and paste them into nano using `Ctrl+Shift+V`:
 ```
 #!/usr/sbin/nft -f  
   
@@ -457,73 +562,73 @@ define WAN = "wan"
   
 table inet filter {  
   
-   chain input {  
-       type filter hook input priority filter; policy drop;  
+   chain input {  
+       type filter hook input priority filter; policy drop;  
   
-       # Accept loopback  
-       iifname "lo" accept  
+       # Accept loopback  
+       iifname "lo" accept  
   
-       # Drop invalid packets  
-       ct state invalid drop  
+       # Drop invalid packets  
+       ct state invalid drop  
   
-       # Accept established/related connections  
-       ct state established,related accept  
+       # Accept established/related connections  
+       ct state established,related accept  
   
-       # Allow everything from the trusted LAN  
-       iifname $LAN accept  
+       # Allow everything from the trusted LAN  
+       iifname $LAN accept  
   
-       # SSH from the WAN subnet only  
-       iifname $WAN ip saddr 192.168.100.0/24 tcp dport 22 ct state new accept  
+       # SSH from the WAN subnet only  
+       iifname $WAN ip saddr 192.168.100.0/24 tcp dport 22 ct state new accept  
   
-       # Ping  
-       ip protocol icmp accept  
-       ip6 nexthdr icmpv6 accept  
-   }  
+       # Ping  
+       ip protocol icmp accept  
+       ip6 nexthdr icmpv6 accept  
+   }  
   
-   chain forward {  
-       type filter hook forward priority filter; policy drop;  
+   chain forward {  
+       type filter hook forward priority filter; policy drop;  
   
-       # Drop invalid packets  
-       ct state invalid drop  
+       # Drop invalid packets  
+       ct state invalid drop  
   
-       # Allow established/related traffic  
-       ct state established,related accept  
+       # Allow established/related traffic  
+       ct state established,related accept  
   
-       # ADDED LINE: Block specific IP range from accessing direct ISP WAN connection  
-       ip saddr 172.22.0.1-172.22.0.100 oifname $WAN drop  
+       # ADDED LINE: Block specific IP range from accessing direct ISP WAN connection  
+       ip saddr 172.22.0.1-172.22.0.100 oifname $WAN drop  
   
-       # LAN -> Internet  
-       iifname $LAN oifname $WAN accept  
+       # LAN -> Internet  
+       iifname $LAN oifname $WAN accept  
   
-       # LAN -> VPN  
-       iifname $LAN oifname { "tun0", "tun1" } accept  
-   }  
+       # LAN -> VPN  
+       iifname $LAN oifname { "tun0", "tun1" } accept  
+   }  
   
-   chain output {  
-       type filter hook output priority filter; policy accept;  
-   }  
+   chain output {  
+       type filter hook output priority filter; policy accept;  
+   }  
 }  
   
 table ip nat {  
   
-   chain postrouting {  
-       type nat hook postrouting priority srcnat;  
+   chain postrouting {  
+       type nat hook postrouting priority srcnat;  
   
-       oifname $WAN masquerade  
-       oifname { "tun0", "tun1" } masquerade  
-   }  
+       oifname $WAN masquerade  
+       oifname { "tun0", "tun1" } masquerade  
+   }  
 }
 ```
-با `Crtl + X` و `Y` ذخیره و خارج شوید. با دستور `cat` و مسیر فایل می‌توانید محتویات آن را ببینید. این دستور را در ذهن داشته باشید. به عنوان مثال برای فایل بالا:
+Save and exit with `Crtl + X` and `Y`. You can view its contents using the `cat` command and the file path. Keep this command in mind. For example, for the file above:
 ```
 cat /etc/nftables.conf
 ```
-فایل بالا به خوبی کامنت شده و توضیحات هر خط بالای سر آن است. برای توضیح بیشتر می‌توانید کل آن را به هوش مصنوعی مثل [گراک](https://grok.com) بدهید و بخواهید خط به خط توضیح دهد.
-حالا بایستی آی‌پی فورواردینگ را فعال کنید. فایل من کمی مفصل‌تر است تا کانکشن‌های متصل به روتر را بهینه‌تر کند. شما هم فایل زیر را دقیقا مطابق فایل من بسازید:
+The file above is well-commented, with explanations above each line. For further explanation, you can feed the entire file to an AI like [Grok](https://grok.com) and ask it to explain it line by line.
+Now you need to enable IP forwarding. My file is slightly more comprehensive to better optimize the connections to the router. Create the following file exactly as mine:
 ```
 sudo nano /etc/sysctl.d/router.conf
 ```
-و محتویات زیر را به آن اضافه کنید:
+And add the following contents to it:
 ```
 # Arch Router Kernel Optimizations  
 # ==============================================================================  
@@ -542,94 +647,94 @@ net.ipv4.conf.all.rp_filter = 1
 # 4. Performance: Increase maximum packet backlog queue  
 net.core.netdev_max_backlog = 10000
 ```
-ذخیره کنید و خارج شوید. با دستور زیر می‌توانید محتویات آن را بدون `reboot` فعال کنید اما نیازی به آن نیست و با `reboot` بعدی، خود سیستم آن‌ها را بارگزاری می‌کند.
+Save and exit. You can apply its contents without a `reboot` using the command below, but it is not necessary as the system will load them automatically on the next `reboot`.
 ```
 sudo sysctl --system
 ```
-سرویس فایروال را با دستور زیر فعال می‌کنیم:
+Enable the firewall service with the following command:
 ```
 sudo systemctl enable --now nftables.service
 ```
-پارامتر `enable --now` هم سرویس را برای راه‌اندازی در بوت بعدی فعال می‌کند و هم آن را `Start` می‌زند و معادل دو دستور پایین است:
+The `enable --now` parameter both enables the service to start on the next boot and starts it immediately, acting equivalent to the two commands below:
 ```
 sudo systemctl enable nftables.service
 sudo systemctl start nftables.service
 ```
-با دستور زیر وضعیت آن را بررسی کنید:
+Check its status with the following command:
 ```
 sudo systemctl status nftables
 ```
-از آن جایی که این سرویس لازم نیست دائم در حال اجرا باشد و تنها یک بار اجرا می‌شود و قوانین فایروال را وضع می‌کند، بایستی انتهای پیام‌های دستور بالا چیزی شبیه به این پیام‌ها را ببینید:
+Since this service does not need to run continuously and only executes once to establish the firewall rules, you should see messages similar to these at the end of the command output:
 ```
 Jul 25 10:05:40 router systemd[1]: Starting Netfilter Tables...  
 Jul 25 10:05:40 router systemd[1]: nftables.service: Deactivated successfully.  
 Jul 25 10:05:40 router systemd[1]: Finished Netfilter Tables.
 ```
-## کمی دربارهٔ `systemd`
-این اولین استفادهٔ ما از `systemd` در این نصب است (منهای فعال کردن `sshd`). این ابزار به شما امکانِ مدیریت سرویس‌های مختلف را می‌دهد. دستورات مرتبط با آن همه بایستی با `sudo` اجرا شود. لازم نیست الان چیزی را حفظ کنید، چرا که آن‌قدر با این دستورات سر و کله خواهیم زد که بخواهید و نخواهید آن‌ها را از بر می‌شوید.
-دستور زیر سرویس `BLAHBLAH` را برای اجرا در حین راه‌اندازی فعال می‌کند:
+## A Brief Overview of `systemd`
+This is our first time using `systemd` in this installation (excluding enabling `sshd`). This tool allows you to manage various services. Commands related to it must all be executed with `sudo`. You do not need to memorize anything right now, as we will deal with these commands so frequently that you will learn them by heart regardless.
+The following command enables the `BLAHBLAH` service to start during boot:
 ```
 systemctl enable BLAHBLAH.service
 ```
-این دستور آن را اجرا می‌کند:
+This command starts it:
 ```
 systemctl start BLAHBLAH.service
 ```
-این دستور راه‌اندازی آن در حین بوت را غیرفعال می‌کند:
+This command disables it from starting during boot:
 ```
 systemctl disable BLAHBLAH.service
 ```
-این دستور آن را متوقف می‌کند:
+This command stops it:
 ```
 systemctl stop BLAHBLAH.service
 ```
-و این دستور سرویس را ری‌استارت می‌کند:
+And this command restarts the service:
 ```
 systemctl restart BLAHBLAH.service
 ```
-این دستور هم وضعیت سرویس را نشان می‌دهد:
+This command shows the service status:
 ```
 systemctl status BLAHBLAH.service
 ```
-این دستور هم سرویس‌های در حال اجرا را نشان می‌دهد:
+This command displays currently running services:
 ```
 systemctl list-units --type=service --state=running
 ```
-و این دستور سرویس‌های `fail` شده را لیست می‌کند:
+And this command lists `failed` services:
 ```
 systemctl --failed
 ```
-این دستور حیاتی هم اگر سرویس‌ها را ویرایش کرده باشید به دردتان می‌خورد. حتما بعد از آپدیت سرویس‌ها که در ادامه با آن‌ها کار داریم، این دستور را صادر کنید:
+This critical command is also useful if you have modified services. Be sure to run this command after updating services, which we will do later:
 ```
 systemctl daemon-reload
 ```
-دو دستور حیاتی دیگر هم:
+Two other essential commands:
 ```
 systemctl reboot
 systemctl poweroff
 systemctl suspend
 systemctl hibernate
 ```
-البته ۴ دستور بود اما دو دستور پایینی عملا به کار ما نمی‌آید و صرفا برای ارجاع آن‌ها را اضافه کردم. سعی کنید خاموش یا ری‌بوت کردن سیستم رو فقط از طریق همین دستورات انجام دهید.
-یک دستور بسیار حیاتی هم برای عیب‌یابی زنده دستور زیر است:
+Actually, that was 4 commands, but the bottom two are practically useless for our purposes and I only included them for reference. Try to shut down or reboot the system exclusively using these commands.
+A crucial command for live troubleshooting is:
 ```
 journalctl -u BLAHBLAH.service -f
 ```
-و بررسی پیام‌های حیاتی سیستم:
+And to check critical system messages:
 ```
 journalctl -xe
 ```
-هرچند تمام نشده اما همین‌ها برای ما کافیست.
-## پیکربندی `dnsmasq`
-یک بک‌آپ از فایل کانفیگِ نصب شده به همراه بسته  می‌گیریم:
+While not exhaustive, these are sufficient for our needs.
+## Configuring `dnsmasq`
+Take a backup of the configuration file installed alongside the package:
 ```
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.bck
 ```
-فایل جدید را با نانو بسازید و باز کنید:
+Create and open a new file with nano:
 ```
 sudo nano /etc/dnsmasq.conf
 ```
-محتویات زیر را دقیقا در آن بچسبانید و ذخیره کنید:
+Paste the exact contents below into it and save:
 ```
 cat /etc/dnsmasq.conf  
 # ==============================================================================  
@@ -691,47 +796,47 @@ dhcp-option=option:dns-server,172.22.0.1
 dhcp-host=BC:F1:A5:68:C4:03,172.22.0.101,SonyTV1-L  
 dhcp-host=BC:F1:A5:68:14:58,172.22.0.102,SonyTV1-W
 ```
-سرویس را می‌توانید فعال کنید اما تجربهٔ من از فعال کردن `dnsmasq` متفاوت بوده است. با وجود تعیین گزینه‌هایی برای منتظر ماندن باز هم در مسابقهٔ راه‌اندازی به خطاهایی برخورد می‌کند و سیستم را از طریق `lan` از دسترس خارج می‌کند. به همین خاطر آن را با یک اسکریپت دیگر به اسم `delayed-startup` در ادامه راه‌اندازی می‌کنیم. فعلا تا همینجا کافی‌ست.
+You can enable the service, but my experience with enabling `dnsmasq` has been inconsistent. Despite configuring options to wait, it still encounters errors during the startup race, rendering the system inaccessible via the `lan`. Therefore, we will start it later using another script named `delayed-startup`. This is sufficient for now.
 
-توضیح مختصری در خصوص این فایل بدهم. در این فایل ما به `dnsmasq` می‌گوییم که به رابط `lan` گوش کند. به دیوایس‌هایی که متصل می‌شوند بگوید که از `dnscrypt proxy`  با آدرس `172.22.0.1` روی پورت `53` استفاده کنند. البته `dnscrypt proxy` از پورت `5353` استفاده می‌کند و این `dnsmasq` است که به عنوان پل رابط بین ما و او عمل می‌کند `server=127.0.0.1#5353`.
-در این تنظیمات، `dnsmasq` رنج آی‌پی بین `172.22.0.10` تا `172.22.0.90` را به صورت رندوم به دستگاه‌های متصلی اختصاص می‌دهد که برای سیستم ناشناخته‌اند. در قسمت انتهایی شما می‌توانید مشخص کنید که هر دستگاه چه آی‌پی خاصی خارج از این رنج بگیرد. این کار برای بحث ساخت اپ `PWA` ضروریست چرا که ما در اپ فقط به کسانی اعتماد می‌کنیم که `MAC Address` آن‌ها در سیستم ثبت شده. توصیه می‌کنم رنج `172.22.0.101` به بعد تا `172.22.0.200` را برای آن‌ها کنار بگذارید. من برای اکسس‌پوینت‌ها هم آدرس‌های `172.22.0.201` تا `172.22.0.210` بسته به تعداد آن‌ها کنار گذاشته‌ام. در ساختمان ما ۵ اکسس‌پوینت وجود دارد که آی‌پی‌های مختص به خودشان را دارند.
->توجه کنید تقریبا تمام گوشی‌های جدید یک آدرس مک رندوم را برای اتصال به شبکه استفاده می‌کنند. لازم است در حین اتصال دستگاه‌ها این قابلیت را غیرفعال کنید و به سیستم بگویید که روی شبکهٔ امنی قرار دارید و از آدرس مک خود تلفن استفاده کند.
+Let me provide a brief explanation of this file. In this file, we instruct `dnsmasq` to listen on the `lan` interface. It tells connecting devices to use `dnscrypt proxy` at the address `172.22.0.1` on port `53`. However, `dnscrypt proxy` uses port `5353`, and it is `dnsmasq` that acts as the bridge between us and it via `server=127.0.0.1#5353`.
+In this configuration, `dnsmasq` randomly assigns IPs in the range of `172.22.0.10` to `172.22.0.90` to connected devices unknown to the system. In the bottom section, you can define a specific IP outside this range for individual devices. This is essential for building the `PWA` app, as the app only trusts users whose `MAC Address` is registered in the system. I recommend reserving the range from `172.22.0.101` up to `172.22.0.200` for them. I have also reserved addresses `172.22.0.201` to `172.22.0.210` for the access points, depending on their count. In our building, there are 5 access points, each with its own dedicated IP.
+> Note: Almost all modern phones use a randomized MAC address to connect to a network. You must disable this feature when connecting devices and instruct the system to use the phone's actual MAC address, indicating it is on a trusted network.
 
-### چرا آی‌پی ثابت؟ 
-دلیل این کار به امنیت شبکه برمی‌گردد. ما در ادامه چند اسکریپت با سطح دسترسی سیستمی خواهیم نوشت که کاربران متصل به شبکهٔ شما از یکی از آن‌ها برای بای‌پس کردن `VPN` استفاده خواهند کرد. در این اسکریپت افراد ناشناس از دسترسی به دو دلیل منع شده‌اند:
-۱) دسترسی مستقیم به شبکهٔ داخلی نداشته باشند. به این صورت اگر به هر دلیلی پسورد اکسس‌پوینت شما هک شود، کاربر متصل تنها ارتباطش از طریق `VPN` خواهد بود و با استفاده از یک `VPN` امن خیال‌تان راحت خواهد بود که اگر به قصد خرابکاری از شبکهٔ شما استفاده کند، عواقب قضایی در انتظار شما نخواهد بود. البته این روش ضدگلوله نیست اما نفوذ به آن تقریبا ممکن نیست چرا که هکر بایستی آدرس مک یکی از دستگاه‌های امن را که شما در `dnsmasq` مشخص کرده‌اید داشته باشد سپس از طریق `Mac Spoofing` به شبکه شما با آدرس تقلبی وارد شود. تازه در این مرحله باید حدس بزند چطور `VPN` را خاموش کند که احتمالا نمی‌تواند.
-۲) کانکش `wan` که از `ISP` تغذیه می‌کند برای کلیهٔ IPهای رنج زیر ۱۰۰ از طریق `nftables` مسدود شده است. با آی‌پی ثابت شما به کاربران امکان استفاده از شبکهٔ داخلی برای اتصال به بانک و شبکهٔ گستردهٔ سایت‌ها و سرویس‌های داخل کشور را مهیا می‌کنید.
-**پس فراموش نکنید که آی‌پی‌های رنج ۱۰۰ به بالا می‌توانند وی‌پی‌ان را بای‌پس کنند و از نت داخلی استفاده کنند، اما زیر این رنج نمی‌توانند.**
+### Why Static IPs? 
+The reason for this comes down to network security. Later, we will write a few scripts with system-level privileges that users connected to your network will use to bypass the `VPN`. Unknown users are restricted from this script for two reasons:
+1) To prevent direct access to the internal network. This way, if your access point password is hacked for any reason, the connected user's only communication will be through the `VPN`. By utilizing a secure `VPN`, you can rest easy knowing that if they use your network maliciously, you will not face legal consequences. While not bulletproof, penetrating this setup is nearly impossible because the hacker would need the MAC address of one of the trusted devices specified in `dnsmasq` and then use MAC Spoofing to enter your network with a forged address. Even then, they would have to figure out how to disable the `VPN`, which they likely cannot do.
+2) The `wan` connection supplied by the `ISP` is blocked via `nftables` for all IPs in the sub-100 range. With a static IP, you grant users the ability to use the internal network to connect to banks and the broad network of domestic sites and services.
+**So do not forget that IPs in the 100+ range can bypass the VPN and use the domestic internet, but those below this range cannot.**
 
-کار ما با `dnsmasq` تقریبا تمام است. فقط زمانی که کاربران‌تان گله کردند که چرا بانکشان روی نت شما باز نمی‌شود به آن‌ها یادآوری کنید که باید آدرس مک را در اختیارتان قرار دهند تا دسترسی‌شان باز شود. خوبی این روش این است که دیگر مهم نیست چند اکسس‌پوینت داشته باشید، کاربر در هر جای شبکهٔ شما باشد `IP` اختصاصی خودش را خواهد گرفت.
+Our work with `dnsmasq` is almost complete. Just remind your users when they complain about their bank not loading on your network that they must provide their MAC address to regain access. The beauty of this method is that it no longer matters how many access points you have; users will receive their dedicated `IP` regardless of where they are on your network.
 
-## تنظیم `DNSCrypt Proxy`
-این آخرین بخش پازل ستون فقرات سیستم است. بستهٔ آن را از پیش نصب کرده‌ایم. حالا لازم است که آن را روی پورت `5353` فعال کنیم. 
-می‌توانید از تنظیمات عمومی استفاده کنید، یا می‌توانید برای خودتان `DNS` سرور شخصی و رایگان بسازید.
-### تنظیمات عمومی
-با این دستورات فایل زیر را دانلود و منتقل کنید:
+## Configuring `DNSCrypt Proxy`
+This is the final piece of the system's backbone puzzle. We installed its package previously. Now we need to enable it on port `5353`. 
+You can use general configurations, or you can build your own personal, free `DNS` server.
+### General Configuration
+Download and move the following file using these commands:
 ```
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/dnscrypt-proxy.toml --output dnscrypt-proxy.toml
 sudo mv /etc/dnscrypt-proxy/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml.bck
 sudo mv dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 ```
-سرویس را راه‌اندازی و سپس با `status` آخرین وضعیت آن را مشاهده کنید.
+Start the service and then check its latest status using `status`.
 ```
 sudo systemctl start dnscrypt-proxy.service
 sudo systemctl status dnscrypt-proxy.service
 ```
-بایستی شبیه به این در خط آخر وضعیت ببینید:
+You should see something like this in the last line of the status output:
 ```
 Server with the lowest initial latency: google (rtt: 144ms), live servers: 2
 ```
-### تنظیمات اختصاصی
-کار کمی پیچیده می‌شود، اما ارزشش را دارد. فایل تنظیماتش منتقل کنید و سپس فایل جدید را با نانو باز کنید:
+### Custom Configuration
+This is a bit more complex, but it is worth it. Move the configuration file and then open a new file with nano:
 
 ```
 sudo mv /etc/dnscrypt-proxy/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml.bck
 sudo nano /etc/dnscrypt-proxy/dnscrypt-proxy.toml  
 ```
-محتویات زیر را در آن قرار دهید:
+Place the following contents into it:
 ```
 # Custom DoH server  
 server_names = ['cf1']  
@@ -808,69 +913,69 @@ cache_neg_max_ttl = 600
 [static.'cf1']  
 stamp = 'sdns://XXX'
 ```
-تنها بخشی که بایستی ویرایش کنید آخرین خط آن است. در یک شبکهٔ محدود مثل شبکه‌های ما سرویس‌دهندهٔ اینترنت، درخواست‌های `DNS` را به شدت دستکاری می‌کند. گاهی تامین‌کنندگان سرویس‌های `DNS` مثل کلاودفلر هم در شرایط اضطراری فیلتر می‌شوند و عملا دسترسی به هیچ `Resolver` درستی نخواهیم داشت. به همین خاطر بعد از سال‌ها سر و کله زدن با گزینه‌های مختلف به این نتیجه رسیدم که بهتر از `Resolver` خودم را داشته باشم. اینجا به شما یاد می‌دهم که چطور `Resolver` خودتان را بسازید.
-### ساخت stamp شخصی
-اما برای شمایی که حوصلهء ماجراجویی را دارید. امیدوارم که وب‌سایتی که ثبت کرده بودید حاضر باشد. به سایت [کلاودفلر](https://dash.cloudflare.com) بروید و وارد شوید.
-از پنل سمت چپ به قسمت `Domains` و سپس `Overview` بروید. بالا سمت راست روی `Add domain` کلیک کنید.
-گزینه `Connect a domain` را بزنید. نام دامنه‌ای که ثبت کرده بودید را به صورت کامل وارد کنید. مثل `example.com`
-روی `Continue` بزنید. اگر دامنه هنوز ثبت نشده باشد ممکن است کلاودفلر به شما اخطاری دهد. مهم نیست، به مرحلهٔ بعد بروید. در اینجا پلن `Free` را انتخاب کنید.
-از شما می‌خواهد که رکوردی را وارد کنید. با این بخش هم کاری نداریم، روی `Continue to activation` در پایین صفحه بزنید. دکمه `Confirm` در دیالوگ باز شده را بزنید. در قسمت زیر، دو `nameserver` به اکانت شما اختصاص پیدا می‌کند.
+The only section you need to edit is the last line. In a restricted network like ours, the ISP heavily manipulates `DNS` requests. Sometimes even `DNS` providers like Cloudflare are filtered during emergencies, effectively leaving us without any working `Resolver`. Because of this, after years of wrestling with different options, I concluded it is better to have my own `Resolver`. Here, I will teach you how to build your own `Resolver`.
+### Creating a Custom Stamp
+But for those of you eager for an adventure, I hope the website you registered is ready. Go to the [Cloudflare](https://dash.cloudflare.com) website and log in.
+From the left panel, navigate to `Domains` and then `Overview`. Click `Add domain` on the top right.
+Select the `Connect a domain` option. Enter the domain name you registered in full, such as `example.com`.
+Click `Continue`. If the domain has not been registered yet, Cloudflare might show a warning. It does not matter; proceed to the next step. Select the `Free` plan here.
+It will ask you to enter a record. We do not need this section either; click `Continue to activation` at the bottom of the page. Click the `Confirm` button in the dialog that opens. In the section below, two `nameservers` are assigned to your account.
 ```
 Replace your current nameservers with Cloudflare nameservers
 ```
-کپی کنید و به سایتی که دامنه را در آن ثبت کردید برگردید. گزینه تغییر کارگزار یا چیزی شبیه `Change Nameservers` را پیدا کنید و مقادیر پیش‌فرض‌شان را پاک کنید و به جای `NS1` و `NS2` مقادیری که کلاودفلر به شما داده را وارد و ذخیره کنید.
-حالا به کلاودفلر برگردید و در انتهای صفحه روی دکمه `I updated my nameservers` بزنید. معمولا چند دقیقه تا چند ساعت طول می‌کشد تا دامنه شما با موفقیت به کلاودفلر متصل شود.
+Copy them, then return to the site where you registered the domain. Find the option to change nameservers, or something like `Change Nameservers`, clear their default values, and enter and save the values Cloudflare provided instead of `NS1` and `NS2`.
+Now return to Cloudflare and click the `I updated my nameservers` button at the bottom of the page. It usually takes a few minutes to a few hours for your domain to successfully connect to Cloudflare.
 
-حالا نوبت ساخت اپ ورکر است. به [داشبورد اصلی کلادوفلر](https://dash.cloudflare.com) برگردید و از پنل کناری به قسمت زیر بروید:
+Now it is time to build the Worker app. Return to the [Cloudflare Main Dashboard](https://dash.cloudflare.com) and navigate to the following section from the side panel:
 ```
 Compute >  Workers & Pages
 ```
-روی گزینهٔ آبی بالای صفحه با نام `Create application` کلیک کنید. گزینهٔ `!Start with Hello World` را انتخاب کنید و در صفحه بعدی روی `Deploy` کلیک کنید. چند لحظه صبر کنید تا اپ جدید ساخته شود سپس روی دکمه بالا سمت راست با اسم `Edit code` بزنید.
-حالا محتویات فایل `worker.js` را می‌بینید. کل محتویات آن را پاک کنید. [فایل](https://raw.githubusercontent.com/TheGreatAzizi/Secure-DNS-over-HTTPS-Cloudflare-Worker/refs/heads/main/Worker.js) زیر را باز کنید.
+Click the blue `Create application` button at the top of the page. Select the `Start with Hello World!` option, and on the next page, click `Deploy`. Wait a moment for the new app to be created, then click the `Edit code` button on the top right.
+You will now see the contents of the `worker.js` file. Delete all of its contents. Open the following [file](https://raw.githubusercontent.com/TheGreatAzizi/Secure-DNS-over-HTTPS-Cloudflare-Worker/refs/heads/main/Worker.js).
 ```
 https://raw.githubusercontent.com/TheGreatAzizi/Secure-DNS-over-HTTPS-Cloudflare-Worker/refs/heads/main/Worker.js
 ```
-کل محتویات آن را با دقت کپی کنید و به جای محتویات قبلی `worker.js` بگذارید. حالا در خطوط اول به دنبال این خط بگردید:
+Carefully copy all of its contents and replace the previous contents of `worker.js`. Now, look for this line in the first few lines:
 ```
 DNS_PATH: '/dns-query',
 ```
-به جای `dns-query` چیزی شبیه به پسورد قرار دهید تا دیگران نتوانند به سرور شما دسترسی پیدا کرده و از آن سوءاستفاده کنند. من از حروف کوچک و اعداد استفاده می‌کنم. به عنوان مثال آن را به این شکل تغییر دادم:
+Replace `dns-query` with something like a password so others cannot access and abuse your server. I use lowercase letters and numbers. For example, I changed it to this:
 ```
 DNS_PATH: '/3eazvtvz5yay0',
 ```
-حالا روی دکمه `Deploy` در سمت راست-بالا کلیک کنید. صبر کنید تا با پیغام سبز رنگ فعال شدن اپ را تایید کند.
-در قسمت بالا-چپ اسمِ معمولا سه بخشیِ ورکر با یک فلش رو به عقب قرار دارد. روی آن کلیک کنید تا به صفحهٔ اصلی آن بروید.
-در نوار بالای این بخش روی `Domains` کلیک کنید. سپس گزینه آبی‌رنگ `Add domain` را بزنید. نام دامنه‌ای که اضافه کردید بایستی در بین لیست باشد. آن را انتخاب کنید و یک اسم برای ساب‌دامنه مثل `doh` انتخاب کنید. گزینه `Add` را برای اضافه شدن فشار دهید.
-باز به صفحهٔ اصلی ورکر بازگشتیم. روی گزینه `Visit` کلیک کنید. اگر دامنه فعال شده باشد، به شما آدرس `DoH` مخصوص خودتان با دامنه شخصی را می‌دهد. وجود دامنه شخصی امکان فیلتر شدن آن را کم می‌کند چرا که `worker.dev` در شرایط بحرانی جزء اولین دامنه‌هایی‌ست که فیلتر می‌شود و عملا `DoH` ما را از کار می‌اندازد. با این همه اگر از دامین شخصی استفاده نمی‌کنید، همین الان هم یک `DoH` زیر سرویس `workers.dev` دارید که در بخش بعد قابل استفاده است. اگر باز نشد، ده دقیقه صبر کنید و مجدد تلاش کنید.
->اکثر مرورگرهای محبوب مثل فایرفاکس از `DoH` برای کور کردن چشم `ISP` پشتیبانی می‌کنند. می‌توانید از `DNS Server` که ساختید در تمام این اپ‌ها استفاده کنید. کافیست آدرس کاملی که وسط صفحه ورکر (زمانی که روی Visit زدید) می‌بینید را در آن‌ها وارد کنید.
+Now click the `Deploy` button on the top right. Wait until it confirms the app is active with a green message.
+On the top left, you will usually find the three-part name of the worker with a back arrow. Click it to return to its main page.
+Click on `Domains` in the top bar of this section. Then, click the blue `Add domain` option. The domain name you added should be in the list. Select it and choose a subdomain name like `doh`. Press the `Add` option to add it.
+We are back on the main Worker page. Click the `Visit` option. If the domain is active, it will give you your own `DoH` address with a custom domain. Having a custom domain reduces the likelihood of it being filtered, as `worker.dev` is often among the first domains filtered during a crisis, effectively disabling our `DoH`. However, if you are not using a custom domain, you still currently have a `DoH` under the `workers.dev` service that is usable in the next section. If it does not open, wait ten minutes and try again.
+> Most popular browsers like Firefox support `DoH` to blind the `ISP`. You can use the `DNS Server` you built in all of these apps. Simply enter the full address you see in the middle of the Worker page (when you clicked Visit) into them.
 
-حالا به وب‌سایت [DNS Stamp Calculator](https://dnscrypt.info/stamps/) بروید.
-پروتکل را از منوی کشویی روی `DoH` قرار دهید. در باکس `Hostname` آدرس دامنه به همراه زیردامنه را وارد کنید (آدرس ورکر کلاودفلر هم در صورت نداشتن دامنه قابل قبول است):
+Now, go to the [DNS Stamp Calculator](https://dnscrypt.info/stamps/) website.
+Set the protocol to `DoH` from the dropdown menu. In the `Hostname` box, enter the domain address along with the subdomain (the Cloudflare worker address is also acceptable if you don't have a domain):
 ```
 doh.example.com
 ```
-در قسمت `Path` هم مسیر `DoH` ورکر را وارد کنید که پیش‌تر برای امنیت تغییرش دادیم. در مثال ما این مسیر به شکل زیر است:
+In the `Path` section, enter the Worker's `DoH` path that we changed earlier for security. In our example, the path looks like this:
 ```
 /3eazvtvz5yay0
 ```
-از گزینه‌های کناری `DNSSEC` و `No logs` را روشن و گزینه `No filter` را خاموش کنید. در فیلد `IP` استفاده از `IP` تمیز کلاودفلر هم توصیه می‌شود. این کار، تشخیص سرور شما را به مراتب سخت‌تر می‌کند.
+Turn on the `DNSSEC` and `No logs` toggles from the side options, and turn off the `No filter` option. In the `IP` field, using a clean Cloudflare `IP` is also recommended. This makes detecting your server significantly harder.
 
-الان `Stamp` شما آماده است. آن را کپی کنید و در خط 
+Your `Stamp` is now ready. Copy it and place it in the line:
 ```
 stamp = 'sdns://XXX'
 ```
-به این صورت قرار دهید:
+Like this:
 ```
 stamp = 'sdns://AgMAAAAAAAAAAAAACi9kbnMtcXVlcnk'
 ```
-سرویس را راه‌اندازی و سپس با `status` آخرین وضعیت آن را مشاهده کنید.
+Start the service and then view its latest status with `status`.
 ```
 sudo systemctl start dnscrypt-proxy.service
 sudo systemctl status dnscrypt-proxy.service
 ```
-کار ما در اینجا تمام است. شما روی پلن رایگان کلاودفلر روزانه نزدیک به ۱۰۰هزار درخواست می‌توانید ارسال کنید که برای بیش از ۵۰ نفر هم کافیست. تجربه من روزانه کمتر از ۱۰هزار درخواست برای یک ساختمان ۴ طبقهٔ پر از آدمیزاد اینترنت‌دوست بوده است.
-سرویس `dnscrypt` هم به سبک `dnsmasq` از طریق `delayed-startup` اجرا می‌کنیم. می‌خواهیم تا جایی که امکان دارد سیستم راه‌اندازی تمیز و ساده بماند.
-حالا که همه‌چیز کار می‌کند، می‌توانید یک قدم دیگر برای بالا بردن سطح حریم خصوصی‌تان بردارید (توصیه می‌کنم اما اجباری نیست). برای از کار انداختن صفحهٔ ساب‌دامین به بخش ویرایش کد ورکر، که `worker.js` را چسباندید بروید. این خطوط را جستجو کنید:
+Our work here is done. On Cloudflare's free plan, you can send nearly 100,000 requests daily, which is sufficient for over 50 people. In my experience, daily requests for a 4-story building full of internet-loving humans have been less than 10,000.
+We also run the `dnscrypt` service via `delayed-startup` in the style of `dnsmasq`. We want to keep the system startup as clean and simple as possible.
+Now that everything is working, you can take one more step to elevate your privacy level (recommended but not mandatory). To disable the subdomain page, go to the Worker's code edit section where you pasted `worker.js`. Search for these lines:
 ```
 if (url.pathname === '/' || url.pathname === '/index.html') {
       return renderUI(url.host);
@@ -878,7 +983,7 @@ if (url.pathname === '/' || url.pathname === '/index.html') {
 
     return textResponse('Not found', 404);
 ```
-و با این خطوط جایگزینشان کنید (با `//` کامنتشان کردیم):
+And replace them with these lines (we commented them out with `//`):
 ```
     // if (url.pathname === '/' || url.pathname === '/index.html') {
     //   return renderUI(url.host);
@@ -886,8 +991,8 @@ if (url.pathname === '/' || url.pathname === '/index.html') {
 
     return textResponse('Not found', 404);
 ```
-### ساخت stamp شخصی بسیار خصوصی
-یک نمونهٔ مینیمال از ورکر به جای نمونهٔ نسبتا پیشرفتهٔ بالا هم کار شما را راه می‌اندازد، میزان درخواست‌ها را بهینه‌تر می‌کند و در کل می‌تواند گزینهٔ دوم خوبی برای Fail over محسوب شود. یک ورکر جدید به سبک ورکر قبلی بسازید و روی ویرایش کد بزنید. به جای کدی که بالاتر از گیت‌هاب گرفتید، این کد را در ورکر وارد کنید:
+### Creating a Highly Private Custom Stamp
+A minimal Worker template can also serve your needs instead of the relatively advanced one above; it optimizes the request volume and generally acts as a good failover alternative. Create a new Worker in the same style as the previous one and click edit code. Instead of the code you grabbed from GitHub earlier, enter this code into the Worker:
 ```
 // 1. Define your secret path
 const SECRET_PATH = "/dtutr8w001zzoth0g"; 
@@ -960,17 +1065,17 @@ export default {
   }
 }
 ```
-به جای `dtutr01zzoth0g` مثل من یک عبارت رندوم در خط دوم کد وارد کنید. این عبارت همان `Path` برای سرور شماست. 
-در وب‌سایت [DNS Stamp Calculator](https://dnscrypt.info/stamps/) بایستی در قسمت `Path` همین عبارت را به این صورت وارد کنید (مثلا برای من):
+Like me, insert a random string in the second line of the code instead of `dtutr01zzoth0g`. This string acts as the `Path` for your server. 
+On the [DNS Stamp Calculator](https://dnscrypt.info/stamps/) website, you must enter this exact string into the `Path` section like this (for example, for me):
 ```
 /dtutr01zzoth0g
 ```
-در قسمت `Host name` هم باز ساب‌دامین ورکر را وارد کنید و `Stamp` مخصوص به خودتان را بگیرید (در فیلد `IP` استفاده از `IP` تمیز کلاودفلر هم توصیه می‌شود).
-شکل و شمایل اول و آخر فایل زیر
+In the `Host name` section, enter the Worker's subdomain again and grab your unique `Stamp` (using a clean Cloudflare `IP` in the `IP` field is also recommended).
+The beginning and end structure of the file below
 ```
 sudo nano /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 ```
-برای دو ورکر چیزی شبیه به این خواهد بود (به علامت‌های نقل‌قول دقت کنید هرچند گاهی اجباری نیست اما بودنشان بهتر از نبودنشان است):
+for two Workers will look something like this (pay attention to the quotation marks; although sometimes not strictly required, having them is better than not):
 ```
 # Custom DoH server  
 server_names = ['eman1', 'eman2']
@@ -985,37 +1090,36 @@ stamp = 'sdns://AgMAAAAAAAAAAAANd2Vyd2VyZXJld2V3chYvd2VlcnRyeXJ0eXR5cnR5cnR5cnR5
 [static.'eman2']  
 stamp = 'sdns://AgMAAAAAAAAAAAAYd2Vyd3NlaTtob3Nkb2loZXJlcmV3ZXdyFi93ZW'
 ```
-به نظر من هر دو ورکر را بسازید و در فایل بالا قرار دهید. 
-سرویس را راه‌اندازی و سپس با `status` آخرین وضعیت آن را مشاهده کنید.
+In my opinion, build both Workers and place them in the file above. 
+Start the service and then view its latest status with `status`.
 ```
 sudo systemctl start dnscrypt-proxy.service
 sudo systemctl status dnscrypt-proxy.service
 ```
-### زنجیرهٔ `DNS`
-شاید بد نباشد برای اطلاعات عمومی کمی دربارهٔ این زنجیره یاد بگیرید. سیستم‌عامل شما، زمانی که تلاش می‌کنید یک آدرس اینترنتی را باز کنید به یک `DNS Server` متوسل می‌شود. نام وب‌سایت را به این سرور می‌دهد و در ازای آن معمولا یک عبارت چهار بخشی از اعداد بین ۰ تا ۲۵۵ دریافت می‌کند. سرویس‌دهنده‌های اینترنت برای رصد و محدودیت به این قابلیت زیاد پناه می‌برند چرا که معمولا اطلاعات رد و بدل شده روی یک پورتِ قابل حدس مثل پورت `53` قابل پایش هستند. به همین خاطر دستکاریِ آن‌ها برای اعمال محدودیت یک روش بسیار معمول است. 
-کار ابزارهایی مثل `DNSCrypt` مخفی کردن این درخواست به روش‌های مختلف مثل تغییر شکل آن‌ها به عنوان ترافیک معمول `https` روی پورت `443` است. 
-در سیستمِ لینوکسی ما، برنامه‌ها معمولا به` resolv.conf` برای دریافت اطلاعات سرور تکیه می‌کنند و این فایل قابلیت خواندن اطلاعات از پورت دیگری غیر از `53` را ندارد. اینجاست که `dnsmasq` وارد می‌شود. درخواست‌ها را از `resolv.conf` می‌گیرد به `DNSCrypt` می‌دهد، `DNSCrypt` هم درخواست را رمز کرده به سرور شخصی شما می‌فرستند و با دریافت جواب آن را از طریق همین زنجیر تحویلِ اپِ درخواست‌کننده می‌دهد.
-البته از آنجایی که ما با خود روتر وب‌گردی نمی‌کنیم، می‌توانیم `resolv.conf` را ساده‌تر بسازیم و به محتویات آن دست نزنیم چرا که بقیه دیوایس‌ها به خاطر استفاده از موتور `DHCP` نرم‌افزار `dnsmasq` به این زنجیر متصل می‌شوند و درخواست‌هایشان رمز می‌شود. `resolv.conf` ساده‌تر احتمال خطای نرم‌افزارها به خاطر تاخیر در راه‌اندازی `DNSCrypt` را به حداقل می‌رساند. با این حال اگر می‌خواهید که خود روتر هم از `DNSCrypt` استفاده کند، فایل زیر را ویرایش کنید:
+### DNS Chain
+It might not be a bad idea to learn a bit about this chain for general knowledge. When you attempt to open a web address, your operating system relies on a `DNS Server`. It provides the website name to this server and typically receives a four-part string of numbers between 0 and 255 in return. Internet service providers heavily rely on this capability for monitoring and imposing restrictions, as the exchanged data can usually be monitored on a predictable port like port `53`. Because of this, manipulating them to enforce restrictions is a very common method. 
+The job of tools like `DNSCrypt` is to conceal this request using various methods, such as masquerading them as normal `https` traffic on port `443`. 
+In our Linux system, applications typically rely on `resolv.conf` to receive server information, and this file cannot read data from a port other than `53`. This is where `dnsmasq` steps in. It takes the requests from `resolv.conf`, hands them to `DNSCrypt`, which then encrypts the request and sends it to your personal server; upon receiving the response, it delivers it through this same chain to the requesting app.
+Of course, since we do not browse the web directly on the router itself, we can make `resolv.conf` simpler and leave its contents untouched, because other devices connect to this chain and have their requests encrypted thanks to the `dnsmasq` software's DHCP engine. A simpler `resolv.conf` minimizes the chances of software errors caused by delays in starting `DNSCrypt`. Nevertheless, if you want the router itself to use `DNSCrypt`, edit the following file:
 ```
 sudo nano /etc/resolv.conf
 ```
-و محتویات آن را از این:
+And change its contents from this:
 ```
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
-به این:
+To this:
 ```
 nameserver 172.22.0.1
 ```
-تغییر دهید.
-این خطوط در `dnsmasq` وظیفه متصل کردن این زنجیرها را به عهده دارد:
+These lines in `dnsmasq` are responsible for linking these chains together:
 ```
 listen-address=172.22.0.1
 server=127.0.0.1#5353
 dhcp-option=option:dns-server,172.22.0.1
 ```
-معماری آن به این صورت است:
+The architecture looks like this:
 ```
 [ Client Device (Port 53)] < > 
 [ Linux Router: dnsmasq (Port 5353)] < > 
@@ -1023,19 +1127,19 @@ dhcp-option=option:dns-server,172.22.0.1
 [ Cloudflare Worker (Custom Endpoint) ]
 
 ```
-شاید بپرسید اگر `DNSCrypt` اطلاعات را رمز و از پورت دیگری ارسال می‌کند، چه احتیاجی به ساخت سرور شخصی روی ورکر کلاودفلر است؟ درخواست‌های رمز شده، خواه‌ناخواه متادیتای سرور را در ابتدا ارسال می‌کنند و پایش دقیق ترافیک کاربر می‌تواند مسیرِ درخواست را مشخص کند. زمانی‌که `DNSCrypt` به یکی از هزاران سرور شناخته‌شده مثل گوگل درخواست ارسال می‌کند، فایروال می‌تواند آن را تشخیص دهد و بلاک کند. سرور شخصی با دامنهٔ شخصی این مزیت را دارد که به راحتی از سد آن عبور کند؛ مگر اینکه سیستم فیلترینگ از `Whitelisting` استفاده کرده و همه‌چیز را با هم فیلتر کند.
-اکنون سیستم شما به عنوان یک روتر آماده است. قبل از اینکه آن را یک باری ری‌استارت کنید، سرویس `dnsmasq` را فعال می‌کنیم تا مطمئن شویم کلاینت‌ها فعلا آی‌پی از موتور آن می‌گیرند. در ادامه می‌توانید مثل من آن را به اسکریپت استارت‌آپ واگذار کنید.
-ابتدا دستوری زیر را وارد کنید:
+You might wonder, if `DNSCrypt` encrypts the data and sends it over another port, what is the need to build a personal server on Cloudflare Workers? Encrypted requests inevitably send server metadata initially, and strict monitoring of user traffic can pinpoint the request's destination. When `DNSCrypt` sends a request to one of thousands of known servers like Google, the firewall can detect and block it. A custom server with a custom domain has the advantage of easily bypassing this hurdle; unless the filtering system uses `Whitelisting` and blocks everything indiscriminately.
+Your system is now ready as a router. Before you restart it once, we will enable the `dnsmasq` service to ensure clients acquire an IP from its engine for now. Later, you can offload it to the startup script as I did.
+First, run the following command:
 ```
 sudo systemctl edit dnsmasq
 ```
-حالا دقیقا بین این دو خط:
+Now, exactly between these two lines:
 ```
 ### Anything between here and the comment below will become the contents of the drop-in file  
   
 ### Edits below this comment will be discarded
 ```
-اگر چیزی وجود دارد پاک کنید و این خطوط را قرار دهید:
+If there is anything there, delete it and insert these lines:
 ```
 [Unit]
 Wants=network-online.target
@@ -1047,15 +1151,15 @@ RestartSec=5s
 StartLimitIntervalSec=2min
 StartLimitBurst=24
 ```
-حالا سرویس را لود و ری‌استارت کنید و وضعیتش را ببینید. بایستی به خوبی اکتیو شده باشد:
+Now reload the service, restart it, and view its status. It should be properly activated:
 ```
 sudo systemctl daemon-reload
 sudo systemctl restart dnsmasq
 sudo systemctl status dnsmasq
 ```
-اگر همه‌چیز خوب بود، سیستم را ری‌بوت کنید و دستگاه فعلی خودتان را به زیرمجموعه `lan` انتقال دهید. مثلا اگر از کامپیوتر استفاده می‌کنید، آن را از مودم جدا کنید و به اکسس‌پوینتی که به رابط `lan` وصل شده متصل کنید. این اولین اتصال شما به روتر خواهد بود و بعد از وصل شدن، نت خواهید داشت.
-به خاطر تنظیمات زیاد و متفاوتی که داشتیم، بهتر است که اکسس‌پوینت (`AP`) را هم خاموش و روشن کنید.
-اگر وصل نشدید، بهتر از وارد مرحله عیب‌یابی شوید. سیستم شخصی‌تان را مجدد به مودم اصلی وصل کنید، به روتر اس‌اس‌اچ بزنید و تلاش کنید دستگاه سومی را به اکسس‌پوینت متصل کنید. حالا سرویس‌های روی روتر را یکی یکی بررسی‌کنید. مهم‌ترین سرویس‌هایی که بایستی چک کنید:
+If everything looks good, reboot the system and transfer your current device to the `lan` subnet. For example, if you are using a computer, disconnect it from the modem and connect it to the access point attached to the `lan` interface. This will be your first connection to the router, and once connected, you will have internet access.
+Given the extensive and varying configurations we made, it is also recommended to turn the access point (`AP`) off and on.
+If you cannot connect, you better proceed to the troubleshooting phase. Reconnect your personal system to the main modem, ssh into the router, and attempt to connect a third device to the access point. Now check the services on the router one by one. The most critical services you should check:
 ```
 systemctl status systemd-networkd
 systemctl status dnscrypt-proxy.service
@@ -1063,75 +1167,76 @@ systemctl status dnsmasq.service
 
 ```
 
-اشکال در کار هرکدام بود، اول با `sudo systemctl restart SERVICENAME.service` آن را ری‌استارت کنید و دوباره با `status` وضعیتش را ببینید. اگر مشکل هم‌چنان پا برجا بود به بخش آن در این آموزش مراجعه و یکی یکی مراحل را با دقت بررسی کنید.
-اگر توجه کنید ما هیچکدم از این سرویس‌ها را `enable` نکرده‌ایم چرا که این کار را قرار است [[#اسکریپت `startup`]] برای ما انجام دهد. اگر سیستم را به هر دلیلی تا پیش از ساختن اسکریپت `Startup` ریبوت کردید به یاد داشته باشید که این دو سرویس حیاتی را استارت بزنید
+If there is an issue with any of them, first restart it using `sudo systemctl restart SERVICENAME.service` and check its status again with `status`. If the issue persists, refer back to its section in this tutorial and carefully verify the steps one by one.
+Notice that we have not `enabled` any of these services because the [[#startup script]] is meant to handle that for us. If you rebooted the system for any reason before creating the `Startup` script, remember to start these two critical services manually:
 ```
 systemctl start dnsmasq.service
 systemctl start dnscrypt-proxy.service
 ```
-## اسکریپت‌های مدیریتی
-### نحوه ساخت و استفاده
-مدیریت روتر از طریق خط فرمان با دستورات طولانی، کار من یکی نبود؛ به همین خاطر شروع به نوشتن اسکریپت‌های ابتدایی برای مدیریت روتر کردم. از آنجایی که کد زدن شغل من نبود و صرفا هدفم راه‌انداختن کارم بود، اسکریپت‌ها آنقدر زشت بودند که لعنت هر برنامه‌نویسی که آن‌ها را می‌دید نثارم می‌کرد. تا اینکه هوش مصنوعی به دادم رسید. تمام کدها با هوش مصنوعی بازنویسی شده‌اند. هر اسکریپت به خوبی کامنت شده و استفاده از آن راحت است. اسکریپت‌ها در [مخزن](https://github.com/emanamini/routerScripts/) زیر و عموما در پوشه `Scripts` قرار دارند:
-```
+## Management Scripts
+### How to Create and Use Them
+Managing the router via the command line with lengthy commands was not for me; therefore, I began writing basic management scripts. Since programming isn't my profession and my goal was simply to get things working, the initial scripts were so ugly they would have earned me curses from any developer. That is, until AI came to the rescue. All the code has been rewritten with the help of AI. Every script is well-commented and easy to use. The scripts are hosted in the repository below, primarily within the `Scripts` directory:
+```text
 https://github.com/emanamini/routerScripts/
 ```
 
-ما یک پوشهٔ مخصوص برای اسکریپت‌هایمان در `/opt/` می‌سازیم و مالکیتش را به کاربرمان یعنی `net` می‌دهیم و به دایرکتوری خانه لینکش می‌کنیم تا دسترسی‌مان به آن راحت شود:
-```
+We will create a dedicated directory for our scripts in `/opt/`, assign ownership to our user (`net`), and symlink it to the home directory for easy access:
+```bash
 sudo mkdir /opt/router/Scripts/
 sudo chown -R net:net /opt/router/Scripts
 ln -s /opt/router/Scripts/ /home/net/Scripts
 cd /opt/router/Scripts/ 
 ```
-وقتی با دستوری `cd` داخل سیم‌لینک می‌شویم، مسیرمان معمولا حفظ می‌شود، هرچند داخل مسیر مقصد هستیم. برای تغییر کامل مسیر بایستی از آپشن `P` به این صورت استفاده کنیم. در دستورات زیر تفاوت را ببینید:
-```
+When we `cd` into a symlink, our path is usually preserved, even though we are physically in the target directory. To completely change the path, you must use the `-P` option as shown below. Observe the difference in the following commands:
+```bash
 cd Scripts/  
 pwd  
 /home/net/Scripts  
-cd    
+cd   
 cd -P Scripts/  
 pwd  
 /opt/router/Scripts  
 ```
-## اسکریپت مدیریت `systemd`
-تایپ دستورات بلند `systemctl` همیشه برای من عذابی بوده. به خصوص که بعد از تایپ دستور، یک حرف جا افتاده باشد و با موبایل بخواهید آن را اصلاح کنید. این اسکریپت به شما کمک می‌کند سرویس‌های مورد نیاز خودتان را به راحتی فعال/غیرفعال/استارت/استاپ و وضعیت‌شان را پایش کنید. مطمئن باشید که در مسیر `/opt/router/Scripts/` هستید و با دستور زیر اسکریپت را دانلود کنید:
-```
+
+## `systemd` Management Script
+Typing long `systemctl` commands has always been a pain for me, especially when you miss a single character and try to correct it on a mobile phone terminal. This script helps you easily start, stop, enable, disable, and monitor the status of your required services. Ensure you are in the `/opt/router/Scripts/` directory and download the script using the following command:
+```bash
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/srv.sh --output srv.sh
 ```
-لینوکس به صورت پیش‌فرض به فایل‌ها قابلیت اجرایی نمی‌دهد. با دستور زیر به اسکریپت مورد نظرتان قابلیت اجرا شدن بدهید:
-```
+By default, Linux does not grant execution permissions to files. Make the target script executable with the following command:
+```bash
 chmod +x srv.sh
 ```
-اگر حین اجرای دستوری که نیاز به مجوز روت نداشت با خطای `Permission denied` روبرو شدید، به احتمال زیاد مجوز اجرا به فایل نداده‌اید. با `chmod +x` می‌توانید این مجوز را به فایل اضافه کنید.
-اکنون با یکی از سه دستور زیر می‌توانید آن را اجرا کنید(علامت `~` معادل مسیر خانگی کاربر می‌شود که برای ما `/home/net/` است):
-```
+If you encounter a `Permission denied` error while running a command that does not require root privileges, you likely haven't made the file executable. You can grant this permission using `chmod +x`.
+Now you can execute it using one of the three commands below (the `~` symbol represents the user's home directory, which for us is `/home/net/`):
+```bash
 ./srv.sh
 ~/Scripts/srv.sh
 /opt/router/Scripts/srv.sh
 ```
-در دستور اول بایستی ترمینال در مسیر `/opt/router/Scripts/` باشد. برای مشاهدهٔ مسیرِ جاری ترمینال می‌توانید از `pwd` استفاده کنید:
-```
+For the first command, your terminal must be in the `/opt/router/Scripts/` directory. To view your current terminal path, use the `pwd` command:
+```bash
 pwd  
 /opt/router/Scripts
 ```
-بعد از اینکه اسکریپت را ساختید و قابلیت اجرایی‌اش را فعال کردید، برای راحتی یک سیم‌لینک به مسیر باینری‌های کاربران می‌سازیم. فقط به یاد داشته باشید که در حین ساخت از مسیر کامل یا مطلق استفاده کنید.
-```
+After creating the script and making it executable, we will create a symlink in the user binaries path for convenience. Just remember to use the absolute or full path during creation:
+```bash
 sudo ln -s /opt/router/Scripts/srv.sh /usr/local/bin/srv
 ```
-ما در دستور بالا `srv.sh` را به `srv` (برای راحتی احضار) در مسیر باینری‌های کاربران لینک کردیم. الان دیگر مهم نیست که ترمینال کجاست و در چه مسیری قرار دارید، زدن دستور زیر، اسکریپت مورد نظر ما را احضار می‌کند.
-```
-srv    
+In the command above, we linked `srv.sh` to `srv` (for ease of invocation) in the user binaries directory. Now, it no longer matters where your terminal is currently located; running the command below will invoke our script.
+```text
+srv    
 Usage: /usr/local/bin/srv  
-   l | launch | start     
-   r | restart    
-   k | kill | stop    
-   e | enable    
-   d | disable    
-   s | status
+   l | launch | start     
+   r | restart    
+   k | kill | stop    
+   e | enable    
+   d | disable    
+   s | status
 ```
-به همین راحتی. اسکریپت اصلی در مسیر `/opt/router/Scripts/` قرار دارد و برای ویرایش آن کاری به سیم‌لینک نداریم. سیم‌لینک به هر حال اسکریپت اصلی را احضار می‌کند.
-با چند مثال نحوه عملکرد این اسکریپت را مرور می‌کنیم. همانطور که در خروجی دستور `srv` می‌بینید، این اسکریپت به عنوان پارامتر اول می‌تواند مقادیر مختلفی را بگیرد. فرض کنید می‌خواهید یک سرویس را متوقف کنید. همانطور که مشخص است، می‌توانید از `k` یا `kill` یا `stop` به عنوان پارامتر اول استفاده کنید. من برای راحتی همیشه از گزینهٔ تک‌حرفی استفاده می‌کنم:
-```
+It is that simple. The original script remains in `/opt/router/Scripts/`, and we do not edit the symlink. The symlink simply calls the original script.
+Let's review how this script works with a few examples. As seen in the output of the `srv` command, this script accepts various values as its first parameter. Suppose you want to stop a service. You can clearly use `k`, `kill`, or `stop` as the first parameter. For convenience, I always use the single-letter option:
+```text
 srv k
 Select the services to perform actions on:  
 1. systemd-networkd.service  
@@ -1150,9 +1255,9 @@ Select the services to perform actions on:
 14. caddy  
 Enter the numbers of services to perform action on (space or comma-separated):
 ```
-سرویس‌هایی که در اسکریپت مشخص شده، و به راحتی بر اساس نیاز شما قابل ویرایش هستند، لیست می‌شود. می‌توانید با نوشتن عدد جلوی آن، با توجه به پارامتری که به اسکریپت دادید `(k)` متوقفش کنید. همینطور می‌توانید چند سرویس را یک جا مدیریت کنید. کافی‌ست عدد مربوط به هر سرویس را با فاصله از هم یا جداشده با کاما، تایپ کنید:
-```
-srv k    
+The services defined in the script—which are easily customizable to your needs—are listed. You can stop a service by entering its corresponding number, based on the parameter you provided `(k)`. You can also manage multiple services at once. Simply type the number corresponding to each service, separated by spaces or commas:
+```text
+srv k    
 Select the services to perform actions on:  
 1. systemd-networkd.service  
 2. dnsmasq.service  
@@ -1173,20 +1278,23 @@ Enter the numbers of services to perform action on (space or comma-separated): 6
 Service 'openvpn-client@tun0.service' stopped.  
 Service 'wg-quick@tun0.service' stopped.
 ```
-در مثال بالا، ما دو سرویس را متوقف کردیم.
-وقتی شمارهٔ سرویس را از بر شدید، می‌توانید پارامتر دوم به این صورت استفاده کنید:
-```
+In the example above, we stopped two services.
+Once you memorize the service numbers, you can pass them as the second parameter like this:
+```text
 srv k 6,5  
 Service 'openvpn-client@tun0.service' stopped.  
 Service 'wg-quick@tun0.service' stopped.
 ```
-فقط به یاد داشته باشید که برای چند سرویس در این حالت بایستی حتما از کاما استفاده کنید و هیچ فاصله‌ای بین اعداد نباشد.
-برای اضافه کردن یا کاستن از سرویس‌ها کافیست که اسکریپت اصلی `srv.sh` را با نانو باز کنید و به بخش `# List of services` در خط ۵۲ مراجعه کنید. هر سرویس را در علامت نقل‌قول و در خط جدا بنویسید.
-## بای‌پس VPN
-یک مجموعه از اسکریپت‌ها و فایل‌های در هم‌تنیده، وظیفهٔ شناسایی مسیرها و رد کردن ترافیک رنج‌آی‌پی‌های مختلف را بر اساس این جدول‌ها دارند. عملکرد این اسکریپت‌ها که سرویس آن‌ها در اسکریپت `srv` در ردیف `4` قرار دارد به این صورت است که مسیری از طریق جدول معین‌شده‌ای در `route` سیستم باز می‌کنند. با نمرهٔ اولویت بالا این جدول تلاش می‌کند هر بسته‌ای که به/از یکی از رنج‌آی‌پی‌هایی که در فایل دیگری مشخص شده ارسال/دریافت می‌شود را شناسایی کند و قبل از اینکه وی‌پی‌ان آن بسته را در اختیار بگیرد، ردش کند. این مجموعه اسکریپت‌ها قابلیت دور زدن کل ترافیک ایران، یا هر کشور دیگری که بخواهید را دارند. حتی می‌توانید به جای رنج‌آی‌پی کلِ کشور، یه سری دامنه را در فایل دیگری مشخص کنید تا اسکریپت با بررسی آن دامنه‌ها و استخراج آی‌پی‌های آن‌ها، صرفا ترافیک همان وب‌سایت‌ها را به‌طور مستقیم رد کند. همین‌طور می‌تواند کلاینت‌محور باشد و صرفا اینترنت یک دستگاه متصل را مستقیم یا از طریق وی‌پی‌ان رد کند.
-اول از همه به سراغ ساخت سرویس می‌رویم. اسمش را `ip-rules.service` می‌گذاریم. از این به بعد محتویاتِ فایل را در ادامهٔ دستور نانو قرار می‌دهم:
-```
+Just remember that when formatting multiple services this way, you MUST use commas with absolutely no spaces between the numbers.
+To add or remove services, simply open the main `srv.sh` script with nano and navigate to the `# List of services` section on line 52. Write each service inside quotation marks on a separate line.
+
+## VPN Bypass
+A set of interconnected scripts and files is responsible for identifying routes and directing the traffic of various IP ranges based on routing tables. The functionality of these scripts—whose service is listed as item `4` in the `srv` script—is to open a route through a specified table in the system's `route`. With a high priority metric, this table attempts to intercept any packet sent to or received from IP ranges defined in another file, routing it directly before the VPN captures it. This script suite can bypass all traffic for Iran, or any other country you choose. You can even specify specific domains in a file instead of an entire country's IP ranges; the script will resolve their IPs and route only the traffic for those specific websites directly. It can also operate on a per-client basis, routing the entire internet traffic of a connected device directly into the table, exactly as if the VPN were disabled on that device.
+First, let's create the service. We will name it `ip-rules.service`. From here on, I will provide the file contents immediately after the nano command:
+```bash
 sudo nano /etc/systemd/system/ip-rules.service
+```
+```ini
 [Unit]  
 Description=IP Rules  
   
@@ -1199,168 +1307,172 @@ RemainAfterExit=yes
 [Install]  
 WantedBy=multi-user.target
 ```
-همانطور که می‌بینید این سرویس قرار است اسکریپتی با نام `ip-rule.sh` را اجرا کند. اسکریپت را با دستور زیر دریافت کنید:
-```
+As you can see, this service executes a script named `ip-rule.sh`. Download the script with the following commands:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/ip-rule.sh --output ip-rule.sh
 chmod +x ip-rule.sh
 ```
-اگر نام اینترفیس‌ها را همانطور که در آموزش نصب گفتم، درست انتخاب کرده باشید، تمام این اسکریپت‌ها به صورت خودکار برای سیستم شما هم کار خواهد کرد. توضیح کوتاهی در خصوص خطوط اصلی این اسکریپت بدهم:
-```
+If you correctly named the network interfaces as instructed in the installation guide, all of these scripts will work automatically for your system as well. Let me briefly explain the core lines of this script:
+```bash
 TABLE_NAME="irtr"
 PRIORITY=7998
 lanIP=$(ip -4 -o addr show dev lan 2>/dev/null | awk '{print $4}' | cut -d/ -f1 | head -n 1)
 firstThreeOctets=$(echo "$lanIP" | cut -d '.' -f 1-3)
 wanGateway=$(ip route show dev wan | grep -oP 'default via \K\S+' | head -n 1)
 ```
-این خطوط شامل جدولی است که قرار است ترافیک مستقیم از آن رد شود. اولویت به عمد روی این عدد قرار گرفته چرا که با `Wireguard‍` به قوانین ما با توجه به ایجاد قانونی با اولویت بیشتر، احترام نمی‌گذاشت. البته ممکن است در نسخه‌های جدیدتر این مشکل رفع شده باشد. خط سوم و پنجم آی‌پی `lan‍` و `wan` را استخراج می‌کند. این کار به جای `hardcode` کردن به ما این امکان را می‌دهد که بدون ایجاد اختلال در سیستم از ساب‌نت‌های دیگر استفاده کنیم. 
-این خط مسیر لازم (`irtr`) برای ترافیک مستقیم را می‌سازد یا اگر وجود دارد بازسازی می‌کند:
-```
+These lines involve the table through which direct traffic will be routed. The priority is intentionally set to this number because `Wireguard` was ignoring our rules by creating a rule with a higher priority. (This issue might be resolved in newer versions). The third and fifth lines dynamically extract the `lan` and `wan` IPs. Extracting them instead of hardcoding allows us to seamlessly utilize different subnets without breaking the system. 
+This line creates (or rebuilds, if it already exists) the necessary route (`irtr`) for direct traffic:
+```bash
 ip route replace default via "$wanGateway" dev wan table "$TABLE_NAME"
 ```
-که خب بایستی جدول آن را بسازیم. فایل زیر را اگر وجود ندارد، بسازید. حتی اگر دایرکتوری وجود ندارد لازم است که دستور `mkdir` هم اجرا کنید:
-```
+Naturally, we must create its routing table. Create the following file if it does not exist. Even if the directory doesn't exist, you must run the `mkdir` command:
+```bash
 sudo mkdir -p /etc/iproute2/
 sudo nano /etc/iproute2/rt_tables
 ```
-انتهای فایل اگر از قبل وجود داشت، صرفا این مقدار را اضافه کنید:
+If the file already exists, simply append this value to the bottom:
+```text
+100     irtr
 ```
-100     irtr
-```
-اگر اصلا فایلی نبود، برای احتیاط مقدار پیش‌فرض را اضافه کنید. همین متن من را کپی کنید و در آن قرار دهید:
-```
+If the file didn't exist at all, add the default values for safety. Copy and paste my text directly into it:
+```text
 # reserved values  
-255     local  
-254     main  
-253     default  
-0       unspec  
+255     local  
+254     main  
+253     default  
+0       unspec  
  
 # local  
 # custom tables  
-100     irtr
+100     irtr
 ```
-حالا جدول ساخته شده و دستوری که پیش‌تر توضیح دادم به خوبی کار خواهد کرد. به این خط خوب دقت کنید:
-```
+The table is now created, and the command I explained earlier will work perfectly. Pay close attention to this line:
+```bash
 for i in 241 242 243 244 245; do
 ```
-ما دو روش برای رد کردنِ مستقیم ترافیک از جدول `irtr` و دور زدنِ وی‌پی‌ان داریم. یکی با اضافه کردن آی‌پیِ مقصد یکی با اضافه کردن آی‌پی کلاینت. با یک مثال واضح‌تر توضیح می‌دهم. فرض کنید که مقصد شما یک سایت داخلی به اسم `example.com` است. شما می‌توانید آی‌پی این سایت را با فرمان `dig` به دست بیاورید. سپس یک مسیر مستقیم به این آی‌پی از طریق جدول `irtr` بسازید. از این به بعد تمام دستگاه‌های متصل به سیستم شما دسترسیِ مستقیم و بدونِ وی‌پی‌ان به این وب‌سایت خواهند داشت. از طرف دیگر می‌توانید کلِ ترافیکِ یک کلاینتِ متصل به آرچ را به طور تمام و کمال به صورت مستقیم به جدول `irtr` وصل کنید؛ درست مثل وقتی که وی‌پی‌ان روی آن دستگاه خاموش شده است. دلیل اختصاص آی‌پی ثابت به هر دستگاه همین است. فرض کنید که موبایل من با اسم `Eman-Phone` در فایل `dnsmasq` به آی‌پی `172.22.0.116` پیوند خورده است. از این به بعد برای خاموش کردن وی‌پی‌ان آن می‌توانم یک مسیر مستقیم برای این آی‌پی بسازم. درست است که وی‌پی‌ان روی روتر ما فعال است، اما ترافیکی که این دستگاه از این به بعد می‌گیرد، وی‌پی‌ان نخواهد داشت.
-خط بالا در فایل `ip-rule.sh` دقیقا به همین منظور است. فرض کنید دستگاه‌هایی روی شبکهٔ شما وجود دارد که اصلا نباید به وی‌پی‌ان متصل شوند. کافیست که قسمت آخرِ آی‌پی آن‌ها را در خط بالا بنویسید و با فاصله از هم جدا کنید. سه قسمت اول آی‌پی توسط متغیر `firstThreeOctets` که بالاتر مشخص کردیم، به این عدد می‌چسبد و آی‌پی کامل به صورت خودکار در مسیر قرار می‌گیرد.
-می‌رسیم به این خط بسیار مهم:
-```
+We have two methods for routing traffic directly through the `irtr` table and bypassing the VPN: adding the destination IP or adding the client IP. Let me explain with a clearer example. Suppose your destination is a domestic site named `example.com`. You can obtain the IP of this site using the `dig` command. Then, you create a direct route to this IP via the `irtr` table. From then on, all devices connected to your system will have direct, non-VPN access to this website. Alternatively, you can route the entirety of a connected client's traffic directly into the `irtr` table; acting exactly as if the VPN was turned off on that device. This is the entire reason we assign a static IP to each device. Assume my mobile phone, named `Eman-Phone`, is bound to the IP `172.22.0.116` in the `dnsmasq` file. From now on, to turn off its VPN, I can create a direct route for this specific IP. While the VPN remains active on our router, the traffic this device receives will bypass it.
+The line above in the `ip-rule.sh` file serves exactly this purpose. Suppose there are devices on your network that should never connect to the VPN. Simply list the last octet of their IP addresses in the line above, separated by spaces. The first three octets of the IP are appended automatically via the `firstThreeOctets` variable we defined earlier, placing the complete IP in the route.
+This brings us to this highly critical line:
+```bash
 /opt/router/Scripts/irtr.sh irlist
 ```
-بعد از اینکه آی‌پی‌های مربوط به کلاینت‌های خاص را از مسیر `irtr` رد کردیم به سراغ قسمت بعدی که رد کردن آی‌پی‌های مقصد است می‌رویم. اینجاست که به این اسکریپت بسیار مهم دیگر `irtr.sh` می‌رسیم. اسکریپت را با دستور زیر بگیرید تا توضیحات آن را به شما بدهم. توجه کنید که این اسکریپت با پارامتر `irlist` اجرا شده است.
-```
+After bypassing traffic for specific client IPs through the `irtr` route, we move to the next phase: bypassing destination IPs. This is where we encounter another crucial script: `irtr.sh`. Download the script with the following commands so I can explain it. Note that this script was executed with the `irlist` parameter above.
+```bash
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/irtr.sh --output irtr.sh
 chmod +x irtr.sh
 ```
-این اسکریپت به چند فایل در مسیر بالا، یعنی کنار فایلِ خود اسکریپت برای اجرای صحیح نیاز دارد. یکی `irdomains.txt` و دیگری `iriplist.txt` که اولی شامل آدرس وب‌سایت‌ها و دومی رنج آی‌پی‌هایی‌ست که می‌خواهید ترافیک مستقیمی داشته باشد. هر دو فایل در داخل مخزن [گیت‌هاب](https://github.com/emanamini/routerScripts/tree/main/Scripts) وجود دارد اما بهتر است که خودتان آن‌ها را از نو بسازید. اگر خواستید نمونه‌ها را دانلود کنید، دستورات زیر را بزنید:
-```
+For proper execution, this script requires a couple of files to be located in the same directory as the script itself. One is `irdomains.txt` and the other is `iriplist.txt`. The first contains website addresses, and the second contains the IP ranges you wish to route directly. Both files exist in the [GitHub repository](https://github.com/emanamini/routerScripts/tree/main/Scripts), but it is highly recommended that you generate them yourself. If you want to download the samples, run the following commands:
+```bash
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/irdomains.txt --output irdomains.txt
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/iriplist.txt --output iriplist.txt
 ```
-اما قبل از اینکه قضیه را پیچیده‌تر کنم، اجازه بدهید دو روش کلی برای استفاده از این اسکریپت را توضیح دهم. روش بای‌پس کردن ترافیک سایت‌های مشخص و روش بای‌پس کردن کل اینترنت داخلیِ کشور.
+But before complicating things further, let me explain the two general methods for using this script: bypassing specific website traffic and bypassing the entire domestic internet traffic of a country.
 
-### بای‌پس کردن سایت‌های مشخص
-برای فایل `irdomains.txt`، باید با پایش ترافیک اپ‌ها و وب‌سایت‌ها، تلاش کنید تمام دامنه‌ها و زیردامنه‌هایی که آن وب‌سایت استفاده می‌کند را پیدا کنید. کار راحتی نیست اما بهترین ابزار در اختیارتان است. فایل کانفیگ `dnsmasq` را باز کنید:
-```
+### Bypassing Specific Websites
+For the `irdomains.txt` file, you must monitor app and website traffic to uncover all the domains and subdomains utilized by that website. It is not an easy task, but you have the best tool at your disposal. Open the `dnsmasq` config file:
+```bash
 sudo nano /etc/dnsmasq.conf
 ```
-این خط در فایل کانفیگی که به شما دادم وجود دارد. آن‌کامنتش کنید:
-```
+This line exists in the config file I provided. Uncomment it:
+```text
 log-queries
 ```
-حالا سرویس را ری‌استارت کنید:
-```
+Now restart the service:
+```bash
 srv r 2
 ```
-دستگاه شما از روتر یک آی‌پی گرفته است. از تنظیمات شبکهٔ دستگاه، آی‌پی را استخراج کنید. فرض کنید آی‌پی دستگاه شما `172.22.0.116` است. یک اسکریپت بسازید:
-```
+Your device has acquired an IP from the router. Extract the IP from your device's network settings. Let's assume your device IP is `172.22.0.116`. Create a script:
+```bash
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/domain-harvest.sh --output domain-harvest.sh
 chmod +x domain-harvest.sh
 ```
-به آن قابلیت اجرایی دهید و با عدد آی‌پی کلاینتی که قرار است در وب‌سایت‌های مورد نظر بچرخید به این شکل اجرایش کنید:
-```
+Make it executable and run it using the IP of the client that will be browsing the target websites, like this:
+```bash
 ./domain-harvest.sh 172.22.0.116
 ```
-پسورد کاربر سرور را بزنید تا به حالت کاملا اجرایی در آید. الان روی دستگاهِ مورد نظر (در اینجا با آی‌پی ۱۱۶ متصل به روتر) سعی کنید وب‌سایتی، اپی، بانکی، چیزی که می‌خواهید آدرس‌های پیدا و نهانش را پیدا کنید باز کنید و کمی در وب‌سایت بچرخید، اگر لاگین نیاز دارد، این کار را انجام دهید، اگر مولتی‌مدیایی در وب‌سایت وجود دارد، پخشش کنید و خلاصه خلاقیت به خرج دهید و زیر و رویش کنید. حالا به ترمینال بازگردید. لیست تمام درخواست‌ها را خواهید دید. هر وقت کارتان تمام شد، `Ctrl+C` را برای توقف اسکریپت بزنید. حالا در همان مسیرْ فایلی به اسم `domain-query.log` ایجاد شده. آدرس‌های داخل آن را با دستور زیر ببینید و سپس کپی کنید:
-```
+Enter the server user's password to grant it execution privileges. Now, on the target device (connected to the router with IP .116), try opening a website, an app, a banking portal—whatever you want to uncover the visible and hidden addresses for—and browse around a bit. If a login is required, log in; if there is multimedia, play it. In short, be creative and dig deep. Return to the terminal. You will see a list of all DNS queries. Once you are done, press `Ctrl+C` to stop the script. A file named `domain-query.log` has now been created in that same directory. View its contents with the command below and copy the addresses:
+```bash
 cat domain-query.log
 ```
-قاعدتا کلِ لیست بایستی مرتبط با سایتی باشد که در آن چرخ می‌زدید اما بهتر است نگاهی به فایل بیندازید، دامنه‌های اضافه را پاک کنید و بقیه را در یک جای دیگر ذخیره کنید چرا که با اجرای دوباره اسکریپت تمام این داده‌ها پاک خواهند شد. همین کار را برای سایت‌های دیگر دوباره و دوباره تکرار کنید. بعد از اینکه یک لیست کامل ساختید کل محتوا را در فایل `irdomains.txt` قرار دهید. مسیر دقیق این فایل اینجاست:
-```
+Logically, the entire list should be related to the site you were browsing, but you should review the file, remove any extraneous domains, and save the rest elsewhere because running the script again will overwrite this data. Repeat this process for other sites over and over. Once you have built a comprehensive list, paste the entire content into the `irdomains.txt` file. The exact path for this file is:
+```text
 /opt/router/Scripts/irdomains.txt
 ```
-اکنون یک لیست کامل مخصوص خودتان از سایت‌ها و دامنه‌های داخلی دارید که بایستی از وی‌پی‌ان استفاده نکنند. اولین قدم استخراج کل آی‌پی‌های تمام این دامنه‌ها و زیردامنه‌هاست. دستور زیر را اجرا کنید:
-```
+You now possess your own custom, comprehensive list of domestic sites and domains that should bypass the VPN. The first step is to extract all the IPs for all these domains and subdomains. Run the following command:
+```bash
 /opt/router/Scripts/irtr.sh e
 ```
-این دستور فایل `temp_ip_list.txt` را می‌سازد که شامل آی‌پی‌های یکتا از تمام دامنه‌های `irdomains.txt` است. از آن‌جایی که این آی‌پی‌ها گه‌گاهی عوض می‌شوند، لازم است دستور بالا را چند وقت یکبار اجرا کنید تا لیست از نو ساخته شود.
-حالا برای ساخت و اجرا کردنِ مسیرِ مستقیمْ  دستور زیر را صادر کنید:
-```
+This command generates the `temp_ip_list.txt` file, which contains the unique IPs resolved from all the domains in `irdomains.txt`. Since these IPs occasionally change, you must run the command above periodically to rebuild the list.
+Now, run the following command to create and enforce the direct routes:
+```bash
 sudo /opt/router/Scripts/irtr.sh a
 ```
-بعد از اتمام کار، **فراموش نکنید** که گزینه `log-queries` در فایل کانفیگ `dnsmasq` را دو مرتبه کامنت و سرویسش را ری‌استارت کنید:
-```
+Once finished, **do not forget** to re-comment the `log-queries` option in the `dnsmasq` config file and restart its service:
+```bash
 srv r 2
 ```
-یک نکته آموزشی: معمولا برای مدیریت روتر بهتر است در مسیر جاری اسکریپت‌های باشید:
-```
+A quick educational tip: When managing the router, it is generally best to be in the current directory of the scripts:
+```bash
 cd /opt/router/Scripts
 ```
-تا اجرای دستورات به راحتی و کوتاهی زیر باشد:
-```
+So that executing commands remains short and simple:
+```bash
 sudo ./irtr.sh a
 ```
-یک توضیح کوتاه آموزشی: به `/.` دقت کنید. این کاراکترهای که به معنی دایرکتوری جاری است برای اجرای دستور حتما بایستی عنوان شود وگرنه برای اجرای دستورِ بدون `/.` سیستم به دنبال `PATH` یا مسیرهایی که باینری‌ها در آن قرار دارند می‌گردد. مثلا فرض کنید که یک باینری یا اسکریپت اجرایی در مسیر `/opt/router/Scripts/` دارید که نامش `eman` است. یک اسکریپت یا باینری هم با همین نام در پوشه یکی از مسیرهای باینری سیستم، مثلا `/usr/local/bin/` دارید. به فرض اینکه در مسیر `/opt/router/Scripts/` قرار دارید. دستور
-```
+A brief educational explanation: pay attention to `./`. These characters denote the current directory and MUST be included to execute a script; otherwise, without `./`, the system searches the `PATH` variables (directories where binaries are stored). For example, assume you have an executable script in `/opt/router/Scripts/` named `eman`. You also have a binary with the exact same name in one of the system's binary paths, say `/usr/local/bin/`. Assuming you are inside `/opt/router/Scripts/`, running the command:
+```bash
 ./eman
 ```
-اسکریپتی را اجرا می‌کند که در مسیر جاری، یعنی `/opt/router/Scripts/` قرار دارد. اما دستور 
-```
+Executes the script located in the current directory (`/opt/router/Scripts/`). However, the command:
+```bash
 eman
 ```
-اسکریپتی را اجرا می‌کنید که در `/usr/local/bin/` قرار دارد. تفاوت این دو بسیار مهم است.
-به دستور `irtr.sh a` برگردیم. لازم است که این دستور با `sudo` اجرا شود چرا که مسیرهای سیستم مجوزهای خاص خودشان را می‌طلبند. اکنون وب‌سایت‌هایی که مشخص کردید، دیگر از وی‌پی‌ان استفاده نمی‌کنند.
-### بای‌پس کردن کل اینترنت یک کشور
-یک راه‌حل جامع‌تر هم برای دور زدن تمام آی‌پی‌های یک کشور وجود دارد. به سایت [ip2location](https://www.ip2location.com/) بروید. از منوی بالا `Resources` و سپس `Tools` را انتخاب کنید. بین گزینه‌های روی `Firewall List by Country` را انتخاب کنید. در صفحهٔ جدید به بخش `Download List` بروید. در فیلد اول اسم کشور را از بین لیست انتخاب کنید. در فیلد دوم `IPv4` را انتخاب کنید. در منوی کشویی `Output Format` هم `CIDR` را انتخاب کنید. دانلودش و سپس آن‌زیپش کنید. اکنون یک فایل با اسم `firewall.txt` در اختیار دارید. بازش کنید و خطوط اول آن تا اولین رنج آی‌پی را پاک و سپس ذخیره کنید. حالا روی سرور یک فایل با نانو به این اسم بسازید:
-```
+Executes the script located in `/usr/local/bin/`. The distinction between the two is vital.
+Back to the `irtr.sh a` command: This command must be executed with `sudo` because system routing requires specific privileges. Now, the websites you specified will no longer use the VPN.
+
+### Bypassing the Entire Internet of a Country
+There is a more comprehensive solution for bypassing all IP blocks of a specific country. Go to the [ip2location](https://www.ip2location.com/) website. From the top menu, select `Resources` and then `Tools`. Among the options, select `Firewall List by Country`. On the new page, navigate to the `Download List` section. In the first field, select the country name from the list. In the second field, select `IPv4`. In the `Output Format` dropdown menu, select `CIDR`. Download and unzip it. You now have a file named `firewall.txt`. Open it, delete the initial header lines up to the first IP range, and save it. Now, use nano to create a file with this name on the server:
+```bash
 nano /opt/router/Scripts/iriplist.txt
 ```
-تمام چند هزار خط فایل بالا را در این فایل بچسبانید و با `Crtl+X` و `Y` ذخیره کنید و خارج شوید.
-اگر همه کارهایی که گفتم را با دقت انجام داده باشید، نوبت اجرای دستور زیر است:
-```
+Paste all several thousand lines of the file into this new file, save it with `Ctrl+X` and `Y`, and exit.
+If you have carefully followed all the steps I outlined, it is time to run the following command:
+```bash
 sudo ./irtr irlist
 ```
-این دستور کل ترافیک کشور را به صورت مستقیم وصل خواهد کرد. اجرای آن بسته به سیستم شما ممکن است تا یک دقیقه طول بکشد، پس صبور باشید.
-حالا بسته به اینکه روش اول یا روش دوم بای‌پس کردن کل اینترنت را بپسندید، به سراغ فایل `ip-rule.sh` و خط مهم
-```
+This command will directly route all traffic for that country. Depending on your system, execution might take up to a minute, so be patient.
+Now, depending on whether you prefer the first method or the second method for internet bypassing, we return to the `ip-rule.sh` file and the important line:
+```bash
 /opt/router/Scripts/irtr.sh irlist
 ```
-می‌رویم. اگر می‌خواهید که سرویسی که نوشتیم، کل آی‌پی‌های کشور را رد کند، به آن دست نزنید. اما اگر می‌خواهید صرفا آی‌پی سایت‌هایی که مشخص کردید را رد کند این خط را با خط زیر جایگزین کنید:
-```
+If you want the service we wrote to bypass all of the country's IPs, leave this line alone. However, if you only want it to bypass the specific IPs of the sites you curated, replace this line with the following:
+```bash
 /opt/router/Scripts/irtr.sh a
 ```
-در صورتی که از این روش استفاده کردید، فراموش نکنید که روی روتر، دستور زیر را هفته‌ای یک بار اجرا کنید تا لیست آی‌پی‌های شما به‌روز باشد:
-```
+If you utilize this method, remember to execute the following command on the router once a week to keep your IP list updated:
+```bash
 /opt/router/Scripts/irtr.sh e
 ```
-حالا می‌توانید سرویس را فعال کنید که پیشنهاد نمی‌کنم:
-```
+Now you can enable the service, although I do not recommend it:
+```bash
 sudo systemctl enable --now ip-rules.service
 ```
-یا دستی استارتش کنید:
-```
+Or start it manually:
+```bash
 sudo systemctl start ip-rules.service
 ```
-عدد این سرویس در `srv` من ۴ است. پس می‌توانم با `srv l 4` هم استارت و با `srv e 4` فعالش کنم.
-هندل کردن پکت‌ها توسط هستهٔ قدرتمند لینوکس را با قابلیت `Split Tunneling` اپ‌های فیلترشکن اشتباه نگیرید. قدرت و سرعتی که هستهٔ لینوکس در اختیارتان می‌گذارد آن‌قدر بالاست که وجود چند هزار خط راهنمای مسیر در جدول ترافیک را اصلاً حس نمی‌کنید. کافی‌ست چند صد خط پارامتر جدا کردن ترافیک به وینداسکرایب، که قطعا جزء ۵ وی‌پی‌ان برتر دنیا از لحاظ کیفیت است، بدهید و خودتان تاخیر را مقایسه کنید تا بفهمید در حال ساختن چه غول بی‌شاخ و دمی هستید.
-تمام این اسکریپت‌ها، به صورت هوشمندانه از اضافه کردن خطوط تکراری و اضافی جلوگیری می‌کنند، پس نگران اجرای چندبارهٔ آن‌ها نباشید.
-**دلیل توصیه برای فعال نکردن اسکریپت‌ها را در بخش اسکریپت استارت‌آپ توضیح می‌دهم.**
-### نظارت بر مسیر
-اگر مشکلی در رابط شبکهٔ `wan` به وجود آید، امکان تحریک `systemd-networkd` برای ریست کردن کانکشن وجود دارد. در این صورت، مسیری که با آن وی‌پی‌ان را بای‌پس می‌کنیم از بین می‌رود و ترافیک آن مسیر به در بسته می‌خورد و  وی‌پی‌ان را انتخاب می‌کند. به همین منظور لازم است یک سرویس نظارتی بسازیم تا اگر چنین چیزی رخ داد، مسیر را به سرعت بازسازی کند. ابتدا فایل سرویس را می‌سازیم:
-```
+This service's ID in my `srv` script is 4. Therefore, I can start it with `srv l 4` and enable it with `srv e 4`.
+Do not confuse packet handling by the powerful Linux kernel with the `Split Tunneling` feature of VPN applications. The power and speed provided by the Linux kernel are so massive that you won't even notice the presence of several thousand routing guide lines in the traffic table. Try feeding just a few hundred traffic-splitting parameters to Windscribe—which is undeniably among the top 5 VPNs in the world in terms of quality—and compare the latency yourself to realize what an absolute monster you are building.
+All these scripts intelligently prevent the addition of redundant or duplicate lines, so do not worry about running them multiple times.
+**I will explain the reasoning behind my recommendation not to enable these scripts in the startup script section.**
+
+### Route Monitoring
+If an issue occurs with the `wan` network interface, `systemd-networkd` might be triggered to reset the connection. Should this happen, the route we use to bypass the VPN is destroyed, causing bypassed traffic to hit a dead end and fall back to the VPN. To prevent this, we must build a monitoring service that rapidly rebuilds the route if such an event occurs. First, create the service file:
+```bash
 sudo nano /etc/systemd/system/wan-watcher.service
+```
+```ini
 [Unit]
 Description=WAN Link State Watcher
 After=systemd-networkd.service
@@ -1376,74 +1488,78 @@ User=root
 WantedBy=multi-user.target
 ```
 
-اسکریپت زیر را بگیرید:
-```
+Download the following script:
+```bash
 cd /opt/router/Scripts
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/wan-watcher.sh --output wan-watcher.sh
 ```
-به آن قابلیت اجرایی بدهید و `Daemon` را ری‌لود کنید:
-```
+Make it executable and reload the `Daemon`:
+```bash
 chmod +x /opt/router/Scripts/wan-watcher.sh
 srv reload
 sudo systemctl start wan-watcher.service
 ```
-این سرویس در اسکریپت استارت‌آپ قرار دارد برای همین نیازی به فعال کردنش نیست.
-## وی‌پی‌ان
-نوبت به اصل ماجرا رسیده. کانفیگ نامحدود وایرگارد یا اوپن‌وی‌پی‌ان تهیه کنید. مطمئن شوید که پینگ و سرعت خوبی می‌دهد. فایل‌هایی که دریافت می‌کنید معمولا با پسوند `conf.` هستند. با استفاده از دستور `mv` هر کدام را به پوشهٔ مخصوص خود در سیستم منتقل می‌کنیم و همزمان به `tun0.conf` تغییر نام می‌دهیم.
-> برای وایرگارد نام‌های `wg` معمول است اما برای کارکرد بی‌نقص سیستم و ساخت رابط با نام `tun0` حتما نام فایل کانفیگ را به `tun0` تغییر دهید. 
+This service is included in the startup script, so there is no need to `enable` it manually.
 
-اگر پوشه وجود ندارد با `sudo mkdir -p` آن را بسازید. 
-با فرض این که نام کانفیگ شما `eman.conf` است و شما در مسیر فایل قرار دارید، برای وایرگارد دستور زیر را وارد کنید:
-```
+## VPN
+We have reached the main event. Acquire an unlimited WireGuard or OpenVPN configuration. Ensure it provides good ping and speed. The files you receive usually have a `.conf` extension. Use the `mv` command to move each to its respective system directory while simultaneously renaming it to `tun0.conf`.
+> For WireGuard, `wg` prefixes are common, but for flawless system operation and the creation of an interface named `tun0`, you MUST rename the config file to `tun0`. 
+
+If the directory does not exist, create it with `sudo mkdir -p`. 
+Assuming your config is named `eman.conf` and you are in the same directory as the file, enter the following command for WireGuard:
+```bash
 sudo mv ./eman.conf /etc/wireguard/tun0.conf
 ```
-و برای اوپن‌وی‌پی‌ان (اگر پسوند فایل `ovpn` هم بود روند جابجا کردن فایل مشابه است):
-```
+And for OpenVPN (even if the file extension is `ovpn`, the relocation process is identical):
+```bash
 sudo mv ./eman.conf /etc/openvpn/client/tun0.conf
 ```
-اگر اوپن‌وی‌پی‌ان برای اتصال نیاز به نام‌کاربری و پسورد داشت، حتما فایل کانفیگ را با نانو باز کنید:
-```
+If OpenVPN requires a username and password to connect, you must open the config file with nano:
+```bash
 sudo nano /etc/openvpn/client/tun0.conf
 ```
-در فایل (مثلا من آن را در انتهای متغییرهای اولیه و قبل از `<ca>` قرار می‌دهم) این خط را اضافه کنید، یا اگر `auth-user-pass` وجود دارد، آن را به شکل زیر تغییرش دهید:
-```
+Add the following line to the file (I typically place it at the end of the primary variables, just before `<ca>`), or if `auth-user-pass` already exists, modify it to look like this:
+```text
 auth-user-pass /etc/openvpn/client/pass.txt
 ```
-> قبل از اینکه فایل کانفیگ را ذخیره کنید و ببندید، یک نکته را یادآوری کنم. اوپن‌وی‌پی‌ان برای من روی چند سیستم بعد از مدتی هنگ و کل روتر را فریز می‌کند. بعد از تحقیقات و عیب‌یابی‌های فراوان عامل را پیدا کردم. اگر مشکل مشابهی برای سیستم شما پیش آمد، در همین فایل کانفیگ، بین خطوط ابتدایی، یک خط با عبارت `disable-dco` وارد کنید. این قابلیت نسبتا جدید مثل اینکه با یک سری از پردازنده‌ها مشکل جدی دارد.
+> Before saving and closing the config file, let me share a reminder. OpenVPN, on several systems of mine, would hang after a while and freeze the entire router. After extensive research and troubleshooting, I found the culprit. If your system experiences a similar issue, insert a line with the phrase `disable-dco` among the initial lines in this config file. This relatively new feature seems to have severe conflicts with certain processors.
 
-با `Ctrl+X` و `Y` خارج شوید. حالا یک فایل به اسم `pass.txt` بسازید:
+Exit with `Ctrl+X` and `Y`. Now create a file named `pass.txt`:
+```bash
+sudo nano  /etc/openvpn/client/pass.txt
 ```
-sudo nano  /etc/openvpn/client/pass.txt
-```
-در خط اول، نام کاربری و در خط دوم پسورد را قرار دهید. برای اینکه مطمئن شوید همه‌چیز درست کار می‌کند سرویس اوپن‌وی‌پی‌ان را استارت بزنید و ببینید که وصل می‌شود:
-```
+Place your username on the first line and your password on the second line. To ensure everything works correctly, start the OpenVPN service and verify the connection:
+```bash
 sudo systemctl start openvpn-client@tun0.service
 ```
-وضعیت سرویس را نگاه کنید:
-```
+Check the service status:
+```bash
 systemctl status openvpn-client@tun0.service
 ```
-در ابتدای خروجی، وضعیت اوپن‌وی‌ان را نوشته. باید چیزی شبیه به این داشته باشید:
-```
+The OpenVPN status is displayed at the beginning of the output. You should see something resembling this:
+```text
 Status: "Initialization Sequence Completed"
 ```
-برای چک کردن وضعیت کانکشن خود، دستور زیر را در ترمینال صادر کنید:
-```
+To check your connection status, issue the following command in the terminal:
+```bash
 curl myip.wtf/json
 ```
-آی‌پی وی‌پی‌ان و موقعیت جغرافیایی بایستی جایی غیر از ایران باشد به این معنی که کانکشن شما به خوبی کار می‌کند. برای تست وایرگارد هم می‌توانید از همین دستور بالا استفاده کنید.
-یک سوال مهم: فایل کانفیگ وی‌پی‌ان را چطور به روتر منتقل کنیم؟ راه‌های زیادی وجود دارد اما راحت‌ترین راهش را در انتهای بخش [[#ساخت مدیا سرور - اشتراک فایل و فیلم در شبکه]] توضیح داده‌ام ([[#انتقال فایل به سرور]]).
-کار ما با وی‌پی‌ان تمام است. مدیریت آن را به یک اسکریپت هوشمند می‌سپاریم.
-## مدیر وی‌پی‌ان
-اسکریپت زیر را بگیرید:
-```
+The VPN IP and geographic location should reflect somewhere other than Iran, meaning your connection is working perfectly. You can use this exact command to test WireGuard as well.
+An important question: How do we transfer the VPN config file to the router? There are many ways, but I have explained the easiest method at the end of the [[#Creating a Media Server - Sharing Files and Movies on the Network]] section ([[#Transferring Files to the Server]]).
+Our work with the VPN is done. We will hand over its management to an intelligent script.
+
+## VPN Manager
+Download the following script:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/vpn-manager.sh --output vpn-manager.sh
 chmod +x vpn-manager.sh
 ```
-یک سرویس برای آن بسازید:
-```
+Create a service for it:
+```bash
 sudo nano /etc/systemd/system/vpn-manager.service
+```
+```ini
 [Unit]  
 Description=VPN Manager Supervisor (DNSCrypt + OpenVPN/WireGuard)  
 After=network-online.target  
@@ -1461,9 +1577,11 @@ User=root
 [Install]  
 WantedBy=multi-user.target
 ```
-یک فایل `conf` برای مدیر وی‌پی‌ان بسازید (این فایل را می‌توانید بنا به نیاز خودتان شخصی‌سازی کنید):
-```
+Create a `conf` file for the VPN manager (you can customize this file based on your needs):
+```bash
 sudo nano /etc/vpn-manager.conf
+```
+```ini
 # ====================================================================  
 # VPN MANAGER CONFIGURATION  
 # ====================================================================  
@@ -1497,40 +1615,41 @@ COOLDOWN_PERIOD=1800
 # Set to 'no' to enable automatic recovery restarts  
 MONITOR_ONLY=no
 ```
-در فایل بالا فرض بر این است که از اوپن‌وی‌پی‌ان استفاده می‌کنید. اگر کانفیگ وایرگارد دارید، در ابتدای فایل کانفیگ نوع وی‌پی‌ان را به وایرگارد تغییر دهید:
-```
+The file above assumes you are using OpenVPN. If you have a WireGuard config, change the VPN type to WireGuard at the beginning of the config file:
+```ini
 VPN_TYPE=wireguard
 ```
-این سرویس، وضعیت سلامت کانکشن شما را هر ۳۰۰ ثانیه یا ۵ دقیقه چک می‌کند `CHECK_INTERVAL=300` و ۳۰ ثانیه منتظر اتصال موفق وی‌پی‌ان می‌شود `VPN_START_TIMEOUT=30` و اگر بعد از ۵ بار `MAX_RECOVERY_ATTEMPTS=5` نتوانست کانکشن را بازسازی کند، از تلاش مجدد برای ۳۰ دقیقه  دست می‌کشد `COOLDOWN_PERIOD=1800`. اکنون بهتر می‌دانید چطور آن را تنظیم کنید. گزینهٔ `MONITOR_ONLY=no` هم برای فعال کردن و غیرفعال کردن حالت «صرفا نظارت» است. فرض کنید می‌خواهید عملکرد را تست کنید ولی نمی‌خواهید مدیر وی‌پی‌ان غیر از پایش سیستم کاری کند (مثلا وی‌پی‌ان را ری‌استارت کند). حالت `MONITOR_ONLY` را روی `yes` قرار می‌دهید و نگاه می‌کنید. این گزینه بیشتر برای تست‌های اولیه اسکریپت بود و برای شما بهتر است همیشه روی `no` باشد مگر اینکه رفتار عجیب و غریبی از اسکریپت سر بزند و مجبور به پایش آن بدون درگیر کردن وی‌پی‌ان شوید.
-سرویس‌هایی که قرار است این سرویس مدیریت کند را اگر فعال کرده‌اید غیرفعال کنید و اگر در حال اجرا هستید، استاپ کنید:
-```
+This service checks your connection's health status every 300 seconds (or 5 minutes) via `CHECK_INTERVAL=300`, waits 30 seconds for a successful VPN connection via `VPN_START_TIMEOUT=30`, and if it fails to restore the connection after 5 attempts (`MAX_RECOVERY_ATTEMPTS=5`), it halts retry attempts for 30 minutes via `COOLDOWN_PERIOD=1800`. Now you have a better idea of how to configure it. The `MONITOR_ONLY=no` option is for enabling or disabling the "monitor only" mode. Suppose you want to test the functionality but do not want the VPN manager doing anything other than monitoring the system (e.g., restarting the VPN). You set `MONITOR_ONLY` to `yes` and observe. This option was mostly for initial testing of the script, and you should keep it set to `no` unless the script exhibits strange behavior, forcing you to monitor it without interfering with the VPN.
+If you have enabled any of the services that this supervisor manages, disable them, and if they are currently running, stop them:
+```bash
 sudo systemctl disable dnscrypt-proxy.service
 sudo systemctl disable openvpn-client@tun0.service
 sudo systemctl disable wg-quick@tun0.service
 
 sudo systemctl stop dnscrypt-proxy.service openvpn-client@tun0.service wg-quick@tun0.service
 ```
-حالا سرویس را اجرا کنید:
-```
+Now execute the service:
+```bash
 sudo systemctl daemon-reload
 sudo systemctl start vpn-manager.service
 ```
-سرویس قاعدتا خاموش بودن `dnscrypt-proxy` را تشخیص می‌دهد و تلاش می‌کند آن را بالا بیاورد و سپس اوپن‌وی‌پی‌ان را استارت کند. نزدیک ۲۴ ساعت با جمنای در حال کار روی این اسکریپت بودم، پس تا حد زیادی خاطرم جمع است که به خوبی مشکلات را می‌فهمد و حل می‌کند.
-برای مشاهدهٔ زندهٔ عملکرد اسکریپت، بخه خصوص زمانی‌که مشکلی در کانکشن به‌وجود آمده این دستور را اجرا کنید:
-```
+The service logically detects that `dnscrypt-proxy` is down, attempts to bring it up, and then starts OpenVPN. I spent nearly 24 hours working on this script with Gemini, so I am highly confident it detects and resolves issues excellently.
+To view the live operation of the script, especially when a connection issue occurs, run this command:
+```bash
 sudo journalctl -u vpn-manager -f
 ```
-## اپ اندروید و iOS
-این بسته‌ها را از پیش نصب کرده‌ایم اما تنها برای ارجاع یک بار دیگر پیش‌نیازها را لیست می‌کنم: 
-```
+
+## Android and iOS App
+We installed these packages previously, but for reference, I will list the dependencies one more time: 
+```bash
 sudo pacman -S python-flask caddy dnsmasq iproute2
 ```
-### آماده‌سازی کَدی
-ما برای اطمینان از عملکرد صحیح اپ، به گواهی `ssl` معتبر و دامنه متصل به کلاودفلر نیاز داریم. می‌توانید این بخش را نادیده بگیرید ولی یک دامنه ارزان یا حتی رایگان با قابلیت ویرایش رکوردهای دی‌ان‌اس ارزشش را دارد. در این آموزش، فرض بر این است که دامنه `ilola.ir` برای این کار در نظر گرفته شده. شما دامنهٔ خودتان را با آن در تنظیمات زیر عوض کنید. به کلاودفلر بروید و دامین خود را متصل کنید. در بخش [[#ساخت stamp شخصی]] توضیح مختصری در این زمینه داده بودم. 
-در [صفحهٔ اصلی کلاودفلر](https://dash.cloudflare.com)، به منوی سمت چپ، بخش `Domains` و سپس `Overview` بروید. دامنهٔ خود را، که پیش‌تر اضافه کرده‌اید، انتخاب کنید. حالا باز از پنل سمت چپ `DNS` و سپس `Records` را انتخاب کنید. روی دکمه آبی `Add record` بزنید. `Type` را روی `A` قرار دهید. در فیلد `Name` کاراکتر `@` را قرار دهید. در `IPv4 address` هم آدرس آی‌پی `lan` خود، یعنی `172.22.0.1` را قرار دهید. تیک `Proxy Status` بایستی اتوماتیک خاموش شود. اگر نشد، خاموشش کنید. دو مرتبه روی دکمه آبی `Add record` بزنیدو مراحل قبل را تکرار کنید، با این تفاوت که در فیلد `Name` به جای `@` عبارت `www` را بنویسید و یک رکورد جدید بسازید. الان دو رکورد با آی‌پی `lan` داریم که یکی با آدرس ریشه و دیگری با آدرس `www` است. به سراغ تنظیمات بعدی کلاودفلر می‌رویم. به صفحه اصلی [داشبورد](https://dash.cloudflare.com) برگردید.
+### Preparing Caddy
+To ensure the app functions flawlessly, we require a valid `ssl` certificate and a domain connected to Cloudflare. You can skip this section, but acquiring a cheap or even free domain with customizable DNS records is well worth it. In this tutorial, we assume the domain `ilola.ir` is designated for this task. Replace it with your own domain in the configurations below. Go to Cloudflare and connect your domain. I provided a brief explanation on this in the [[#Creating a Custom Stamp]] section. 
+On the [Cloudflare main page](https://dash.cloudflare.com), navigate to the left menu, select the `Domains` section, and then `Overview`. Select your previously added domain. Now, from the left panel, select `DNS` and then `Records`. Click the blue `Add record` button. Set the `Type` to `A`. In the `Name` field, enter the `@` character. In the `IPv4 address` field, enter your `lan` IP address, which is `172.22.0.1`. The `Proxy Status` toggle should automatically turn off. If it doesn't, turn it off manually. Click the blue `Add record` button again and repeat the previous steps, with the exception that in the `Name` field, enter `www` instead of `@` to create a new record. We now have two records tied to the `lan` IP—one pointing to the root address and the other pointing to the `www` address. Let's proceed to the next Cloudflare setting. Return to the main [dashboard](https://dash.cloudflare.com) page.
 
-حالا برای دریافت توکن API به قسمت پایین نوار کناری با اسم `Manage account` بروید. سپس در منوی باز شده `Account API tokens` را انتخاب کنید. روی دکمه آبی `Create token` بزنید. در صفحه باز شده، زیر `Edit policy` منوی کشویی را باز کنید و آن را از`Entire account` به `Specified Domains` تغییر دهید. یک گزینه جلوی آن ظاهر می‌شود. دامنه‌ای که برای کَدی کنار گذاشتید را الان انتخاب کنید. در قسمت پایین‌تر `DNS & Zones` را باز کنید. تیک `Read` و `Edit` جلوی `DNS` و تیک `Read` جلوی `Zone` را بزنید. به پایین صفحه بروید و روی دکمه آبی `Review token` بزنید. در صفحه بعدی باید چیزی شبیه به این را ببینید:
-```
+To acquire an API token, scroll down the sidebar to `Manage account`. Then, from the expanded menu, select `Account API tokens`. Click the blue `Create token` button. On the resulting page, under `Edit policy`, open the dropdown menu and change it from `Entire account` to `Specified Domains`. An option will appear next to it. Select the domain you designated for Caddy. Scroll down slightly and open `DNS & Zones`. Check the `Read` and `Edit` boxes next to `DNS`, and check the `Read` box next to `Zone`. Scroll to the bottom of the page and click the blue `Review token` button. On the next page, you should see something resembling this:
+```text
 ilola.ir in
 e**********ni@gmail.com's Account
 
@@ -1538,29 +1657,28 @@ DNS Read
 DNS Write
 Zone Read
 ```
-حالا روی دکمه آبی `Create token` بزنید.‌ یک کلید `API` برای شما صادر می‌شود. آن را همین الان در جای امنی ذخیره کنید چرا که فقط یک بار نمایش داده می‌شود. کلید، معمولا با عبارت `cfat` شروع می‌شود.
+Now click the blue `Create token` button. An `API` key will be generated for you. Save it immediately in a secure location because it will only be displayed once. The key typically begins with the string `cfat`.
 
-حالا باینری  کَدی `caddy` را برای سیستم از طریق این دستورات می‌گیریم و‌‌ به محل مورد نظر منتقل می‌کنیم
-```
+Now we will fetch the Caddy binary (`caddy`) for the system using these commands and relocate it to the proper directory:
+```bash
 curl -sL "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fcloudflare" -o caddy
 
 sudo mv caddy /usr/local/bin/caddy
 
 sudo chmod +x /usr/local/bin/caddy
-
 ```
-سپس سرویس کَدی را ویرایش می‌کنیم:
-```
+Next, we will modify the Caddy service:
+```bash
 sudo systemctl edit caddy.service
 ```
-دو خط در فایلی که باز می‌شود وجود دارد. یکی بالا و یکی کمی پایین‌تر:
-```
+There are two lines in the file that opens. One is near the top, and the other is slightly further down:
+```text
 ### Anything between here and the comment below will become the contents of the drop-in file  
    
 ### Edits below this comment will be discarded
 ```
-تنظیمات زیر، بایستی دقیقا بین این دو خط قرار بگیرند، وگرنه نادیده گرفته خواهند شد:
-```
+The configurations below MUST be placed exactly between these two lines, otherwise, they will be ignored:
+```ini
 ### Anything between here and the comment below will become the contents of the drop-in file  
   
 [Unit]  
@@ -1583,12 +1701,12 @@ RestartSec=5s
   
 ### Edits below this comment will be discarded
 ```
-پیش‌نیاز این سرویس، [[#پورتال وی‌پی‌ان]] است که چند دقیقه دیگر سراغ ساختنش می‌رویم. حالا نوبت فایل کدی است.‌ با نانو بازش کنید:
-```
+This service requires the [[#VPN Portal]] as a dependency, which we will build in a few minutes. Next up is the Caddy file. Open it with nano:
+```bash
 sudo nano /etc/caddy/Caddyfile
 ```
-مقادیر زیر مربوط به فایل من است. به آنها به چشم راهنما نگاه کنید. بایستی با توجه به متغیرهای خودتان آن را تغییر دهید:
-```
+The values below belong to my file. Treat them as a template. You must modify them according to your own variables:
+```text
 {
     admin "unix//run/caddy/admin.socket"
 }
@@ -1609,55 +1727,59 @@ https://172.22.0.1 {
     reverse_proxy 127.0.0.1:8080
 }
 ```
-بایستی دو نام سایت و کلید `API` را با مقادیر مربوط به خودتان عوض کنید. با این تنظیمات، اینترفیس پورتال از طریق پورت ۸۰ روی آی‌پی `lan` در دسترس قرار می‌گیرد
+You must replace both site names and the `API` key with your respective values. With this configuration, the portal interface becomes accessible over port 80 on the `lan` IP.
 
-اگر مراحل ثبت دامنه در کلاودفلر را انجام ندادید لازم است کل بلاک یک را با قرار دادن علامت `#` جلوی خطوطش تا `2#` کامنت کنید. در این صورت پورتال شما در حین اجرا خطای `ssl` می‌دهد و اجازه نصب به صورت یک برنامه مجزا را شاید به شما ندهد. خوبی خرید دامنه و اتصال آن به کلاودفلر و تنظیماتی که پیش‌تر گفتیم همین گرفتن خودکار گواهی معتبر `ssl` است. 
+If you bypassed the Cloudflare domain registration steps, you must comment out the entirety of block 1 by placing `#` symbols at the start of its lines down to `# 2`. If you do this, your portal will throw an `ssl` error during runtime and may prevent you from installing it as a standalone app. The beauty of purchasing a domain, connecting it to Cloudflare, and applying the aforementioned configurations is precisely this automatic retrieval of a valid `ssl` certificate. 
 
-اگر کلاودفلر را تنظیم کرده‌اید نوبت `dnsmasq` به عنوان رابط بین آدرس دامنه و سرویس است. فایل کانفیگ آن را باز کنید و خط زیر را در بین تنظیمات قرار دهید:
-```
+If you configured Cloudflare, it is time for `dnsmasq` to act as the bridge between the domain address and the service. Open its config file and insert the following line among the settings:
+```bash
 sudo nano /etc/dnsmasq.conf
+```
+```text
 address=/ilola.ir/172.22.0.1
 ```
-### پورتال وی‌پی‌ان
-فایل زیر را از گیت دانلود کنید:
-```
+### VPN Portal
+Download the following file from Git:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/toggle-route --output toggle-route
 chmod +x /opt/router/Scripts/toggle-route
 ```
-این دو مسیر را بسازید:
-```
+Create these two directories:
+```bash
 sudo mkdir -p /opt/arch-portal/templates
 sudo mkdir -p /opt/arch-portal/static
 ```
-نوبت گرفتن خود اپ پورتال است که با پایتون نوشته شده:'
-```
+Now to fetch the actual portal app, written in Python:
+```bash
 cd /opt/arch-portal/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/app.py --output app.py
 ```
-حالا لازم است یک فایل لاگ هم بسازیم تا در آینده برای ثبت آدرس مک دستگاه‌های ناشناس  از آن استفاده کنیم:
-```
+We also need to create a log file to track the MAC addresses of unknown devices in the future:
+```bash
 sudo touch /opt/arch-portal/devices.log
 sudo chown net:net /opt/arch-portal/devices.log
 ```
-یک آیکن `512*512` با فرمت `PNG` تهیه کنید و در پوشه زیر قرار دهید:
-```
+Prepare a `512*512` icon in `PNG` format and place it in the directory below:
+```text
 /opt/arch-portal/static
 ```
-شاید بپرسید چطوری؟ راحت‌ترین کار استفاده از `sftp` است اما فعلا راه دم‌دستی‌تری را انتخاب می‌کنم. آیکن آرچ به همراه فایل `manifest.json` را با دستور زیر دانلود کنید و در مسیر قرار دهید:
-```
+You might ask, how? The easiest way is using `sftp`, but for now, I will opt for a quicker workaround. Download the Arch icon along with the `manifest.json` file using the commands below and place them in the directory:
+```bash
 cd /opt/arch-portal/static/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/opt/icon.png --output icon.png
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/opt/manifest.json --output manifest.json
 ```
-نوبت ساخت `Frontend` است. فایل `index.html` را با دستور زیر دانلود کنید:
-```
+Time to build the `Frontend`. Download the `index.html` file using the following command:
+```bash
 cd /opt/arch-portal/templates/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/opt/index.html --output index.html
 ```
-حالا نوبت ساخت سرویس `arch-portal` است. محتویات زیر را به آن اضافه کنید:
-```
+Now, it is time to create the `arch-portal` service. Add the following contents to it:
+```bash
 sudo nano /etc/systemd/system/arch-portal.service
+```
+```ini
 [Unit]  
 Description=Arch Router Web Control Portal  
 After=network.target dnsmasq.service  
@@ -1678,50 +1800,53 @@ StartLimitIntervalSec=60s
 [Install]  
 WantedBy=multi-user.target
 ```
-پورتال آماده شده و بعید می‌دانم چیزی را از قلم انداخته باشم. 
-برای تست سرویس‌ها را استارت کنید:
-```
+The portal is ready, and I highly doubt I missed anything. 
+Start the services to test:
+```bash
 sudo systemctl daemon-reload
 sudo systemctl restart dnsmasq.service
 sudo systemctl start arch-portal.service
 sleep 5; 
 sudo systemctl start caddy
 ```
-اکنون روی موبایل، آدرس سایتی که برای پورتال ساختید را باز کنید. مثلا `ilola.ir` یا `www.ilola.ir`. با صفحهٔ پورتال روبرو خواهید شد. قبل از اینکه به قابلیت‌های پورتال بپردازم، اجازه دهید نصبش کنیم. روی آیفون، در `Safari` گزینه `Add to Home Screen` را بزنید. در اندروید، صفحه را حتما با کروم باز کنید و از منوی کناری گزینه `Install and create shorcut` یا معادل فارسی آن را انتخاب کنید. حدود یک دقیقه طول می‌کشد تا اپ در منوی اپ‌های شما ظاهر شود.
-اگر دامنه برای پورتال نگرفته‌اید، با آدرس `lan` می‌توانید وارد آن شوید. ما در این آموزش دو آدرس برای `lan` در نظر گرفتیم. یکی آی‌پی اصلی که با کلاینت‌ها سر و کار دارد و یکی برای دسترسی راحت به پورتال: `10.10.10.10`
-همین آدرس را در مرورگر موبایل، کامپیوتر، تلویزیون یا هر دستگاهی که مرورگر دارد و به روتر شما وصل است بزنید تا پورتال برای وصل و قطع کردن وی‌پی‌انِ آن دستگاه نمایش داده شود.
+Now, open the site address you created for the portal on your mobile phone. For instance, `ilola.ir` or `www.ilola.ir`. You will be greeted by the portal page. Before diving into the portal's features, let's install it. On iPhone, select `Add to Home Screen` in `Safari`. On Android, be sure to open the page in Chrome and select `Install and create shortcut` (or its localized equivalent) from the side menu. It will take roughly a minute for the app to appear in your app drawer.
+If you did not acquire a domain for the portal, you can access it via the `lan` address. In this tutorial, we configured two addresses for the `lan`. One is the primary IP dealing with clients, and the other is designated for easy portal access: `10.10.10.10`
+Enter this exact address into the browser of a mobile phone, PC, TV, or any device equipped with a browser connected to your router to bring up the portal to toggle the VPN on or off for that device.
 
-### توضیحات بسیار مهم
-اول از همه، برای این اپ، کاربران به دو دستهٔ قابل اعتماد و غیرقابل اعتماد تقسیم می‌شوند. کاربران غیرقابل اعتماد، توانایی خاموش کردن وی‌پی‌ان را ندارند. دکمهٔ روشن-خاموش وی‌پی‌ان برای آن‌ها غیرفعال است. همچنین قسمت پیشرفتهٔ اپ را نمی‌بینند. اما می‌توانند از طریق دکمه `REGISTER THIS DEVICE` آدرس مک خود را به مدیر سیستم که شما باشید اعلام کنند. بعد از زدن این دکمه، سیستم اسم دستگاهشان را می‌پرسد. با زدن اسم و فشردن ارسال، یک مدخل در فایل زیر که قبلا ساخته‌ایم ایجاد می‌شود و اطلاعات دستگاه کاربر در آن نمایش داده می‌شود:
-```
+### Crucial Details
+First and foremost, for this app, users are divided into two categories: trusted and untrusted. Untrusted users lack the ability to turn off the VPN. The VPN on/off toggle is disabled for them. They also cannot view the advanced section of the app. However, they can report their MAC address to the system administrator (that's you) via the `REGISTER THIS DEVICE` button. Upon pressing this button, the system prompts them for their device name. By entering the name and hitting submit, an entry is generated in the log file we created earlier, displaying the user's device information:
+```bash
 cat /opt/arch-portal/devices.log
 ```
-به این صورت شما می‌توانید آدرس مک طرف را گرفته، در فایل کانفیگ `dnsmasq` وارد کنید، و دیواس را در صورت صلاحدید به دیوایس قابل اعتماد تبدیل کنید. درست متوجه شدید، برنامه برای اعتماد به شخص، لازم است آدرس مک دستگاهش را در فایل `dnsmasq` ببیند. البته این شرط کافی نیست. دستگاه‌های قابل اعتماد بایستی همه آی‌پی بالاتر از `100` (در بخش چهارم آی‌پی) داشته باشند. یعنی این رنج از `172.22.0.100` شروع می‌شود و تا `172.22.0.254` ادامه دارد. پس زمانی‌که فایل `dnsmasq.conf` را ویرایش می‌کنید، به یاد داشته باشید که آی‌پی‌های زیر ۱۰۰ را برای موتور `dhcp` به صورت تصادفی به مک‌های ناشناس اختصاص دهید و رنج بالاتر را به کاربرانی که می‌شناسید تا اپ در آینده به آن‌ها اعتماد کند.
+This way, you can capture their MAC address, insert it into the `dnsmasq` config file, and elevate the device to trusted status at your discretion. You understood that correctly: for the application to trust someone, it must see their device's MAC address in the `dnsmasq` file. However, this condition alone is insufficient. Trusted devices must all possess an IP higher than `100` (in the fourth octet of the IP). Meaning, this range starts from `172.22.0.100` and goes up to `172.22.0.254`. Therefore, when editing the `dnsmasq.conf` file, remember to reserve IPs below 100 for the `dhcp` engine to assign randomly to unknown MACs, and allocate the higher range to users you know so the app will trust them going forward.
 
-اما این اعتماد غیر از قابلیت خاموش و روشن کردن وی‌پی‌ان دستگاه، یک مزیت دیگر هم دارد. برای این دستگاه‌ها در پورتال یک قسمت پیشرفته هم باز می‌شود. در این قسمت می‌توانید قسمت چهارم آی‌پی هر دیوایسی که می‌شناسید را وارد کنید و اگر آی‌پی آن در رنج بالای ۱۰۰ باشد وی‌پی‌انش را خاموش یا روشن کنید. فرض کنید که می‌خواهید وی‌پی‌ان پلی‌استیشن را خاموش کنید، اما دسترسی به مرورگر پلی‌استیشن برای این کار ندارید. کافیست در قسمت پیشرفته آی‌پی پلی‌استیشن را وارد کنید و وی‌پی‌انش را خاموش کنید (البته یادتان باشد، آی‌پی پلی‌استیشن هم باید در رنج بالای صد باشد وگرنه وی‌پی‌انش خاموش نمی‌شود). 
+Beyond the ability to toggle the device's VPN, this trust grants another privilege. A dedicated advanced section unlocks in the portal for these devices. In this section, you can input the fourth octet of the IP for any device you know, and if its IP falls within the 100+ range, you can toggle its VPN on or off. Suppose you want to turn off the PlayStation's VPN, but you don't have access to the PlayStation's browser to do it locally. Simply enter the PlayStation's IP in the advanced section and turn its VPN off (remember, the PlayStation's IP must also be in the 100+ range, otherwise its VPN will not turn off). 
 
-همینطور می‌توانید مک‌آدرس دیوایس‌های دیگر را به مدیر سیستم گزارش کنید. فرض کنید که پلی‌استیشن آی‌پی خودکار ۷۱ را دریافت کرده است (که خب در تنظیمات شبکهٔ پلی‌استیشن قابل مشاهده است). حالا در قسمت پیشرفتهٔ اپ `Advanced Settings` عدد ۷۱ را می‌نویسید و روی `Check` می‌زنید. مک‌آدرس پلی‌استیشن ظاهر می‌شود (پلی‌استیشن حتما باید روشن و به شبکه وصل باشد). روی دکمه `REGISTER TARGET MAC` در قسمت پیشرفته بزنید تا مک برای مدیر سیستم در فایل لاگ ارسال شود. حالا مک را در `dnsmasq.conf` اضافه کنید تا پلی‌استیشن هم به دستگاه‌های قابل اعتماد اضافه شود. فراموش نکنید بعد از هر تغییری سرویس مربوطه را باید ری‌استارت کنید. مثلا بعد از اضافه کردن مک:
-```
+You can similarly report the MAC address of other devices to the system administrator. Suppose the PlayStation automatically received the IP 71 (which is viewable in the PlayStation's network settings). In the app's `Advanced Settings` section, you type the number 71 and hit `Check`. The PlayStation's MAC address will appear (the PlayStation must be powered on and connected to the network). Tap the `REGISTER TARGET MAC` button in the advanced section to send the MAC to the system admin via the log file. Now append the MAC to `dnsmasq.conf` to add the PlayStation to the trusted devices list as well. Do not forget to restart the respective service after making any changes. For example, after adding the MAC:
+```bash
 srv r 2
 ```
-یا
-```
+Or
+```bash
 sudo systemctl restart dnsmasq
 ```
-## مدیریت ترافیک مصرفی
-برای مدیر سیستم لازم است که ترافیک را به صورت عادلانه بین کاربران تقسیم کند. اپ یوتیوب، نباید پهنای باند را آنقدر پهن ببیند که تمامش را دو لپی بخورد، و وقتی نفر بعدی برای پخش ویدیو به شبکه وصل شد، به زور با `144p` ویدیو تماشا کند. همچنین محاسبهٔ کلی مصرف ترافیک به تفکیک رابط، می‌تواند دید خوبی از میزان مسیر مستقیم یا از طریق فیلترشکن را بدهد تا زمان خرید، انتخاب‌های بهتری داشته باشید. همینطور کیفیت شبکه را در روز با روزهای دیگر مقایسه کنید.
-### مدیریت هوشمند ترافیک کاربران با TC
-برای مدیریت هوشمند ترافیک که هر کسی بتواند بخش منصفانه‌ای از پهنای باند را صاحب شود از Cake در TC استفاده می‌کنیم. می‌توانیم سرعت هر کاربر را محدود به میزان مشخصی کنیم، اما زمانی که پهنای باند خالی‌ست و کسی کاری با شبکه ندارد، می‌توانیم پهنای باند بیشتری را به شخص اختصاص دهیم. این کار به نظر هوشمندانه‌تر می‌رسد. اول اسکریپت زیر را دریافت کنید:
 
-```
+## Traffic Management
+As a system administrator, you must distribute traffic fairly among users. The YouTube app should not perceive a bandwidth so massive that it hogs it completely, leaving the next person joining the network struggling to stream video at `144p`. Furthermore, calculating overall traffic consumption on a per-interface basis provides excellent visibility into how much traffic routes directly versus through the VPN, enabling smarter purchasing decisions in the future. It also allows you to compare daily network quality.
+### Smart Traffic Management with TC Cake
+To intelligently manage traffic so everyone receives a fair share of the bandwidth, we employ Cake within TC. We could strictly limit each user's speed, but when the bandwidth is idle and no one else is using the network, it is far smarter to allocate that extra bandwidth to an active user. First, download the following script:
+
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/tc.sh --output tc.sh
 chmod +x tc.sh
 ```
-در بین اسکریپت به قسمت `skip_numbers` دقت کنید. می‌توانید بخش آخر آی‌پی دستگاه‌هایی که می‌خواهید را با فاصله در این خط وارد کنید. اسکریپت ترافیک را به دو کلاس مختلف تقسیم می‌کند و این دستگاه‌ها پهنای باند بزرگ‌تری نسبت به بقیه نصیبشان می‌شود. پس اگر دستگاهی دارید که بایستی از میزان پهنای باندش مطمئن باشید، آن را در این لیست قرار دهید.
-حالا یک سرویس برای آن می‌سازیم:
-```
+Look for the `skip_numbers` section within the script. You can space-separate the last octet of the IPs for devices you wish to target in this line. The script divides traffic into two distinct classes, granting these specific devices a larger chunk of the bandwidth than the rest. So, if you have a device that absolutely requires guaranteed bandwidth, place it on this list.
+Now, we build a service for it:
+```bash
 sudo nano /etc/systemd/system/tc.service
+```
+```ini
 [Unit]  
 Description=Traffic Control  
   
@@ -1734,48 +1859,51 @@ RemainAfterExit=yes
 [Install]  
 WantedBy=multi-user.target
 ```
-برای ری‌لود کردن و شروع به کار اسکریپت می‌توانید از دستور زیر استفاده کنید (در `srv` عدد ۱۰ مربوط به `TC` است)
-```
+To reload and activate the script, use the following commands (in `srv`, the number 10 corresponds to `TC`):
+```bash
 srv reload
 sudo systemctl start tc.service
 ```
-اگر به هر دلیلی خواستید که این قوانین را حذف کنید، از دستور زیر برای حذف و دستورات بعدی برای بررسی وضعیت استفاده کنید:
-```
+If for any reason you wish to purge these rules, use the command below to delete them, and subsequent commands to check their status:
+```bash
 sudo tc qdisc del dev lan root
 tc qdisc show dev lan
 tc class show dev lan
 ```
-این قوانین بعد از هر ری‌استارت بایستی دوباره نوشته شوند در غیر این صورت اعمال نمی‌شود. می‌توانید سرویس را فعال کنید، یا می‌توانید مثل من این کار را به [[#اسکریپت `startup`]] واگذار کنید.
-```
+These rules must be re-applied after every restart, otherwise, they will not take effect. You can either enable the service, or like me, delegate this task to the [[#startup script]].
+```bash
 srv e 10
 ```
-### مشاهده مصرف سیستم به تفکیک رابط‌ها
-بهترین ابزاری که برای بررسی وضعیت ترافیک با دقت بالا پیدا کردم، `vnstat` بود. پیش‌تر آن را نصب کرده‌ایم. ابتدا سرویسش را فعال می‌کنیم:
-```
+### Monitoring System Usage by Network Interface
+The absolute best tool I found for meticulously analyzing traffic status was `vnstat`. We installed it earlier. First, enable its service:
+```bash
 sudo systemctl enable --now vnstat.service
 ```
-تقریبا تمام شد اما به دلیل این‌که به خاطر سپردن دستوراتش سخت است، یک اسکریپت آماده با استفاده ساده برای‌تان آماده کرده‌ام. فایل زیر را بگیرید:
-```
+It is nearly ready, but because its commands are difficult to remember, I have prepared a simple, ready-to-use script for you. Grab the following file:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/vns.sh --output vns.sh
 chmod +x vns.sh
 ```
-حالا یک سیم‌لینک به مسیر باینری‌های می‌سازیم:
-```
+Now, create a symlink in the binaries directory:
+```bash
 sudo ln -s /opt/router/Scripts/vns.sh /usr/local/bin/vns
 ```
-اکنون در ترمینال در هر جای سیستم که باشید با دستور `vns` می‌توانید آن را اجرا کنید. 
-## اسکریپت `startup`
-با وصل شدن برق، سیستم ما به سرعت روشن شده و بالا می‌آید. سرعت بالا آمدن سیستم من، از مودم و اکسس‌پوینت هم بیشتر است. وقتی که رابط‌ها آماده نباشند، `systemd` رفتارهای غیرقابل‌پیش‌بینی، حداقل برای من، انجام می‌دهد. اینجا بود که تصمیم گرفتم اسکریپت `startup` را بسازم تا بعد از بالا آمدن سیستم اجازه دهد بقیه دیوایس‌ها نفسی بکشند و سپس سرویس‌ها را فعال کند. اسکریپت خیلی ساده است و به یک سرویس متصل شده. ابتدا خود اسکریپت را بسازید:
-```
+You can now run it using the `vns` command in the terminal from anywhere on the system. 
+
+## `startup` Script
+Upon receiving power, our system rapidly boots and comes online. My system boots faster than both the modem and the access point. When the interfaces are not fully ready, `systemd` exhibits unpredictable behaviors—at least in my experience. This is where I decided to create the `startup` script, allowing the system to boot, giving other devices a moment to breathe, and sequentially enabling the services. The script is highly straightforward and linked to a service. First, create the script itself:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/startup.sh --output startup.sh
 chmod +x startup.sh
 ```
-به ترتیب، اسکریپت ابتدا ۴۰ ثانیه صبر می‌کند، سپس رابط‌های شبکه را ری‌استارت، سپس `dnsmasq` راه راه‌اندازی، سپس سرویس `ip-rules` سپس `dnscrypt-proxy` و بعد از آن `vpn-manager` بعد مدیر ترافیک و در نهایت پورتال آرچ، کَدی و `wan-watcher` را با فواصل معمولا ۵ ثانیه‌ای اجرا یا باز می‌کند. اگر هر کدام از سرویس‌ها را از قبل فعال کرده بوده‌اید، غیرفعال کنید یا به جای `start` از `restart` استفاده کنید.
-حالا سرویس مورد نظرش را می‌سازیم:
-```
+Sequentially, the script initially waits 40 seconds, restarts the network interfaces, spins up `dnsmasq`, follows with the `ip-rules` service, then `dnscrypt-proxy`, subsequently `vpn-manager`, then the traffic manager, and finally launches the Arch portal, Caddy, and `wan-watcher`—typically staggered by 5-second intervals. If you previously enabled any of these services, disable them now, or use `restart` instead of `start`.
+Now, we create its corresponding service:
+```bash
 sudo nano /etc/systemd/system/delayed-startup.service
+```
+```ini
 [Unit]  
 Description=Delayed startup services  
 After=multi-user.target  
@@ -1787,62 +1915,65 @@ ExecStart=/opt/router/Scripts/startup.sh
 [Install]  
 WantedBy=multi-user.target
 ```
-و فعالش می‌کنیم:
-```
+And enable it:
+```bash
 sudo systemctl enable delayed-startup.service
 ```
-## دیاگ
-در سرور `Headless` دسترسی ما برای بررسی سیستم محدود به ارتباط از طریق رابط‌هایی‌ست به طریقی از شبکه تغذیه می‌کنند. اگر اتفاقی برای سیستم بیفتد و شبکه‌اش با اختلال مواجه شود، هیچ راه‌برداری برای ارتباط با سیستم باقی نمی‌ماند. یک دیاگ می‌تواند کمک کند تا بفهمیم در دل سیستم چه می‌گذرد و چه استراتژی‌ای باید اتخاذ کنیم. 
 
-عملکرد دیاگی که می‌خواهیم بسازیم جالب است. یک فلش مموری ارزان قیمتِ یکی دو گیگی هم به خوبی کارمان را راه می‌اندازد. 
->البته می‌توانید از فلشی که به صورت روزمره از آن استفاده می‌کنید هم بهره ببرید اما به شرطی که بعد از تنظیمات زیر دیگر فرمتش نکنید.
+## Diagnostics (Diag)
+On a `Headless` server, our access to inspect the system is confined to connecting via interfaces fed by the network. Should something happen to the system resulting in a network disruption, we are left with zero pathways to communicate with it. A diagnostic tool can illuminate what is happening inside the system and guide our troubleshooting strategy. 
 
-زمانی که شما این فلش مموری به‌خصوص را به سیستم از طریق درگاه `USB` متصل می‌کنید، سیستم آن را شناسایی می‌کند و می‌فهمد که دیاگِ ماست. بعد از آن شرایط را برای سوار کردن خودکار دیاگ مهیا می‌کند. سپس یک اسکریپت جامع را اجرا کرده و اطلاعات تمام قسمت‌های سیستم‌عامل و برنامه‌ها، رابط‌ها و هر آنچه برای عیب‌یابی مورد نیاز است را گردآوری کرده و در مسیر مشخصی روی دیاگ کپی می‌کند. سپس نقطه اتصال آن را جدا می‌کند. این فرآیند کمتر از یک دقیقه طول می‌کشد اما اصول کار این است که از زمان اتصال دیاگ به کامپیوتر یک دقیقه صبر کنید و سپس با خیال راحت آن را خارج کنید. حالا به سیستم اصلی متصل کنید و خلاصه‌ای از احوال سیستم را در فایل `Summary` ببینید. در این فایل علت در دسترس نبودنِ سیستم مشخص می‌شود. می‌توانید که جزئیات بیشتر را در خصوص مشکل در دایرکتوری که ساخته شده جویا شوید.
-اما چطور آن را پیاده کنیم؟ می‌توانید فلش مموری را با کامپیوتر خودتان فرمت کنید (Fat32) یا از روتر استفاده کنید. ما در اینجا از روتر استفاده می‌کنیم. 
-بی‌اندازه در فرمت کردن با روتر دقت کنید. یک حرف اشتباه ممکن است هارددیسک روتر را فرمت کند و زحماتتان را بر باد دهد. اول لیست دستگاه‌های متصل را چاپ کنید:
-```
+The mechanism of the diagnostic tool we are building is quite fascinating. A cheap, one or two-gigabyte USB flash drive works perfectly for this. 
+> You can certainly use a flash drive you rely on daily, provided you never format it after applying the configurations below.
+
+The moment you plug this specific flash drive into the system via a `USB` port, the system identifies it and recognizes it as our diagnostic drive. It then prepares the environment to automount the diagnostic drive. Next, it executes a comprehensive script that aggregates data across all operating system components, applications, interfaces, and anything required for troubleshooting, copying it to a designated path on the diagnostic drive. Finally, it unmounts it. This entire process takes less than a minute, but as a rule of thumb, wait one minute after plugging in the diagnostic drive before safely removing it. Now, plug it into your main computer and review a snapshot of the system's health in the `Summary` file. This file pinpoints why the system became unreachable. You can hunt for further details regarding the issue within the generated directory.
+But how do we implement it? You can format the flash drive (`Fat32`) via your personal computer, or you can use the router. We will use the router here. 
+Exercise extreme caution when formatting via the router. A single wrong letter could format the router's hard drive and destroy all your hard work. First, list the connected devices:
+```bash
 lsblk -f  
-NAME   FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS  
-sda                                                                              
-├─sda1                                                                           
-└─sda2 btrfs              7e823fa0-8XXXXXXXXXXXXXXXXXXXXXXXXXX  455.6G     1% /  
-sdb    btrfs              f4149414-1XXXXXXXXXXXXXXXXXXXXXXXXXX
+NAME   FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINTS  
+sda                                                                                  
+├─sda1                                                                               
+└─sda2 btrfs              7e823fa0-8XXXXXXXXXXXXXXXXXXXXXXXXXX  455.6G     1% /  
+sdb    btrfs              f4149414-1XXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
-به خروجی `lsblk -f` در روتر من دقت کنید. `sda2` با علامت `/` مشخصا مربوط به فایل‌سیستم روت است. پس بایستی از آن دوری کنیم. فلش‌مموری دیوایس بعدی یعنی `sdb` است. اگر متصل شده، که در مثال ما نشده، جدا/پیاده‌اش می‌کنیم:
-```
+Pay close attention to my router's `lsblk -f` output. `sda2`, marked with `/`, clearly relates to the root filesystem. We must avoid it at all costs. The flash drive is the next device, namely `sdb`. If it is mounted—which it is not in our example—unmount/detach it:
+```bash
 sudo umount /dev/sdb
 ```
-حالا با برچسب `DIAG` و نوع `FAT32` فرمتش می‌کنیم.
-```
+Now we format it with the label `DIAG` and type `FAT32`.
+```bash
 sudo mkfs.fat -F 32 -n DIAG /dev/sdb
 ```
-حالا `UUID` جدید دیوایس را با دستور زیر به دست بیاوردی. 
-```
+Obtain the new `UUID` of the device with the following command:
+```bash
 lsblk -f
-sdb    vfat   FAT32 DIAG  A7A6-EFC1
+sdb    vfat   FAT32 DIAG  A7A6-EFC1
 ```
-شناسهٔ جدید دستگاه ‍`A7A6-EFC1` است. 
-یک قانون جدید برای `udev` می‌نویسیم:
-```
+The device's new identifier is `A7A6-EFC1`. 
+We write a new rule for `udev`:
+```bash
 sudo nano /etc/udev/rules.d/99-router-diag.rules
 ```
-محتویات زیر را در آن قرار دهید، فقط مطمئن شوید که `UUID` خودتان را به جای `UUID` من قرار می‌دهید:
-```
+Place the following contents inside, ensuring you replace my `UUID` with your own `UUID`:
+```text
 # Trigger systemd service when the specific diagnostic USB is inserted  
 ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_UUID}=="A7A6-EFC1", TAG+="systemd", ENV{SYSTEMD_WANTS}="router-diag@%k.service"
 ```
-این فایل، سرویس مورد نظر دیاگ را در لحظه‌ای که فلش مموری را متصل می‌کنید راه‌اندازی می‌کند. با `Ctrl+X` و `Y` فایل را ذخیره کنید و خارج شوید.
-اسکریپت‌های زیر را بگیرید:
-```
+This file triggers the specified diagnostic service the exact moment you plug in the flash drive. Save the file with `Ctrl+X` and `Y`, and exit.
+Download the following scripts:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/router-diagnostics.sh  --output router-diagnostics.sh 
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/router-diag-wrapper.sh --output router-diag-wrapper.sh
 chmod +x router-diagnostics.sh
 chmod +x router-diag-wrapper.sh
 ```
-حالا نوبت ساخت سیستم سرویس برای دیاگ است:
+Now to build the system service for the diagnostic tool:
+```bash
+sudo nano /etc/systemd/system/router-diag@.service                                                                
 ```
-sudo nano /etc/systemd/system/router-diag@.service                                                                               
+```ini
 [Unit]  
 Description=Router Diagnostic USB Automount and Dump  
 BindsTo=dev-%i.device  
@@ -1853,54 +1984,55 @@ Type=oneshot
 # Call the wrapper script in your Scripts directory  
 ExecStart=/opt/router/Scripts/router-diag-wrapper.sh /dev/%I
 ```
-با `Ctrl + X` و `Y` فایل را ذخیره کنید و خارج شوید. سپس:
-```
+Save the file with `Ctrl + X` and `Y`, and exit. Then run:
+```bash
 sudo systemctl daemon-reload
 sudo udevadm control --reload-rules
 ```
-برای اینکه اطمینان حاصل کنید که همه‌چیز خوب پیش می‌رود، فلش مموری را خارج کنید و دستور زیر را در ترمینال بزنید:
-```
+To ensure everything proceeds smoothly, unplug the flash drive and execute the following command in the terminal:
+```bash
 sudo journalctl -f
 ```
-این دستور، عملیات‌های سیستمی را به صورت زنده نمایش می‌دهد. حالا فلش را به سیستم وصل کنید و خروجی را تا پیام `Finished Router Diagnostic` بررسی کنید. عملیات برای ما تنها ۹ ثانیه به طول انجامید. فلش را خارج کنید و به سیستم اصلی بزنید. بایستی حاوی مجموعه‌ای از فایل‌های عیب‌یابی باشد.
-در کل ایدهٔ خوبی‌ست که چند وقت یک بار فلش را به سیستم متصل کنید و خطاها و اخطارها را بررسی کنید، قبل از اینکه سیستم به مشکل جدی برخورد کند. مثلا در طول همین آموزش من یک اخطار سیستمی دریافت کردم و قبل از اینکه دستم از `ssh` کوتاه شود، رفعش کردم. البته اسکریپت عیب‌یابی را می‌توانید به صورت مستقل هم هرازگاهی اجرا کنید:
-```
+This command displays system operations live. Now, plug the flash drive into the system and monitor the output until you see the `Finished Router Diagnostic` message. The operation only took 9 seconds for us. Unplug the flash drive and connect it to your main system. It should contain a collection of diagnostic files.
+Overall, it is a wise practice to periodically plug the flash drive into the system to review errors and warnings before the system encounters a critical failure. For example, during the creation of this very tutorial, I received a system warning and resolved it before I completely lost `ssh` access. You can, of course, run the diagnostic script independently from time to time:
+```bash
 mkdir ~/router-test-report
 /opt/router/Scripts/router-diagnostics.sh ~/router-test-report
 ```
-و گزارش را در دایرکتوری بالا تحویل بگیرید.
-## ساخت مدیا سرور - اشتراک فایل و فیلم در شبکه
-نظرتان در خصوص یک هارد پر از فیلم، سریال و موسیقی متصل به تمام دستگاه‌های ساختمان چیست؟ تقریبا تمام گوشی‌های موبایل و تلویزیون‌های هوشمند امروزی توانایی پخش از یک سرور `dlna` را دارند. ما روی آرچ در مسیر زیر یک دایرکتوری مخصوص همین مولتی‌مدیا باز می‌کنیم.‌سپس یک کاربر به اسم `share` می‌سازیم.‌ یک گروه `media` هم ایجاد می‌کنیم. کاربر `share` و `net` را عضو این گروه می‌کنیم و سپس با `chmod` به اعضای گروه فوق دسترسی تام به این مسیر می‌دهیم. سپس با `sftp` به کاربر `share` متصل می‌شویم و تا بتوانیم از موبایل و کامپیوتر فایل‌ها را به سرور برای سرو کردنشان منتقل کنیم. از عمد کاربر جدا درست کردیم که بتوانید اطلاعات اتصال آن را به دیگران هم بدهید تا آن‌ها هم در تکمیل کلکسیون کمک‌تان کنند. اما این کاربر را عضو گروه `wheel` نمی‌کنیم تا دسترسی به `sudo` و ایجاد تغییر در سیستم نداشته باشد و خیالتان راحت باشد کسی با اطلاعات آن نمی‌تواند روی سیستم خرابکاری کند.
-با ساخت کاربر و گروه و اختصاص پسورد به آن شروع می‌کنیم:
-```
+And retrieve the report in the directory mentioned above.
+
+## Creating a Media Server - Sharing Files and Movies on the Network
+How does a hard drive packed with movies, TV series, and music, accessible to every device in the building, sound to you? Nearly all modern mobile phones and smart TVs are capable of streaming from a `dlna` server. We will create a dedicated multimedia directory on Arch at the path below. We will then create a user named `share` and a group named `media`. We will add the `share` and `net` users to this group, and then use `chmod` to grant members of this group full access to this directory. Next, we will connect to the `share` user via `sftp` so we can push files from our phones and computers to the server for hosting. We intentionally created a separate user so you can safely distribute its login credentials to others, allowing them to help expand the collection. However, we do not add this user to the `wheel` group, meaning it lacks `sudo` privileges and cannot modify the system, assuring you that no one can sabotage the system with its credentials.
+We begin by creating the user and group, and assigning a password:
+```bash
 sudo groupadd media
 sudo useradd -m -s /bin/bash share
 sudo passwd share
 ```
-سپس هر دو کاربر سیستم را به گروه `media` اضافه می‌کنیم:
-```
+Next, we add both system users to the `media` group:
+```bash
 sudo usermod -aG media net
 sudo usermod -aG media share
 ```
-حالا دایرکتوری مخصوص مدیاسرور را می‌سازیم و دسترسی‌های لازم را ست می‌کنیم:
-```
+Now, we create the dedicated media server directory and set the necessary permissions:
+```bash
 sudo mkdir -p /srv/dlna
 sudo chown -R net:media /srv/dlna
 sudo chmod 2775 /srv/dlna
 ```
-تعیین `setgid` برای این منظور است که فایل‌ها و دایرکتوری‌های جدید در این مسیر مالکیت گروه را به ارث ببرند. توجه کنید که مالک اصلی کاربر اصلی `net` است اما با توجه به تنظیمات بالا، کاربر `share` هم دسترسی کامل به این مسیر خواهد داشت. `setgid` این اطمینان را به ما می‌دهد که هر دو کاربر به فایل‌های این مسیر دسترسی کامل خواهند داشت.
-یک سیم‌لینک هم به مسیر خانه کاربر `share` می‌زنیم تا وقتی کاربران با `sftp` پوشه خانه را باز کردند، پوشهٔ سرور درست روبروی آن‌ها باشد.
-```
+Applying `setgid` ensures that new files and directories created in this path inherit group ownership. Note that the primary owner is the main `net` user, but thanks to the settings above, the `share` user will also have full access to this path. `setgid` guarantees that both users maintain full access to files in this directory.
+We also create a symlink in the `share` user's home directory so that when users open the home folder via `sftp`, the server folder is right in front of them.
+```bash
 sudo ln -s /srv/dlna /home/share/DLNA
 sudo chown -h share:share /home/share/DLNA
 ```
-حالا نوبت کانفیگ `minidlna` است.‌ از فایل اصلی بک‌آپ بگیرید و یک فایل جدید بسازید:
-```
+Now for configuring `minidlna`. Back up the original file and create a new one:
+```bash
 sudo mv /etc/minidlna.conf /etc/minidlna.conf.bck
 sudo nano /etc/minidlna.conf
 ```
-محتویات زیر را در آن قرار دهید:
-```
+Paste the following contents into it:
+```ini
 port=8200
 network_interface=lan
 user=minidlna
@@ -1918,21 +2050,21 @@ enable_subtitles=yes
 serial=12345678  
 model_number=1
 ```
-برای دیدن تنظیمات بیشتر می‌توانید فایلی که بک‌آپ گرفتید را باز کنید و خودتان گزینه‌هایی که در اختیار دارید را ببینید. این تنظیمات برای من بدون نقص کار می‌کنند. سپس سرویس را ری‌استارت کنید:
-```
+To view additional settings, you can open the file you backed up and inspect the available options yourself. These settings work flawlessly for me. Then restart the service:
+```bash
 sudo systemctl restart minidlna.service
 ```
-ما پیش‌تر سرویس `minidlna‍` را به لیست استارت‌آپ اضافه کرده بودیم و نیازی به `enable` کردن آن نیست. در اسکریپت مدیریت ما، ردیف ۹ مربوط به `minidlna` است.
-اگر به هر دلیلی دیتابیس `minidlna` بدقلق‌بازی در آورد یا فایلی را به درستی ایندکس نکرد، می‌توانید با دستورات زیر آن را مجبور کنید که کل دیتابیس را از نو بسازد:
-```
+We previously added the `minidlna` service to the startup list, so there is no need to `enable` it manually. In our management script, row 9 corresponds to `minidlna`.
+If the `minidlna` database acts up for any reason or fails to index a file properly, you can force it to rebuild the entire database from scratch with the following commands:
+```bash
 srv k 9
 sudo rm -f /var/cache/minidlna/files.db
 srv l 9
 ```
-### انتقال فایل به سرور
-**اما چطور پوشهٔ مربوط به سرور را با فیلم و سریال و موسیقی پُر کنیم؟** دلیل ساختن کاربر `share` دقیقا همین بود. با استفاده از این کاربر و توسط یک برنامه‌ای که از `sftp` پشتیبانی می‌کند به روتر دسترسی پیدا می‌کنیم.
-برای اتصال، بهترین گزینه در اندروید `Solid Explorer` و `Amaze File Manager`. در ویندوز فکر می‌کنیم نسخه‌های جدید فایل اکسپلورر از `sftp` پشتیبانی کند اما `WinSCP` هم گزینه  خوبی است. برای آیفون `FE File explorer` استفاده کنید. برای لینوکس تقریبا همه چیز کار می‌کند؛ از دلفین یا `nautilus` به راحتی و با آدرس سرور در آدرس‌بار وصل شوید. اطلاعات مورد نیاز شما این‌هاست:
-```
+### Transferring Files to the Server
+**But how do we populate the server folder with movies, series, and music?** This is exactly why we created the `share` user. Using this user and an application that supports `sftp`, we access the router.
+For Android, the best options are `Solid Explorer` and `Amaze File Manager` to connect. On Windows, I believe newer versions of File Explorer support `sftp`, but `WinSCP` is also an excellent option. For iPhone, use `FE File explorer`. On Linux, pretty much anything works; effortlessly connect using Dolphin or `nautilus` by typing the server address into the address bar. The credentials you require are:
+```text
 Protocol: sftp
 Server: 172.22.0.1
 User: share
@@ -1940,27 +2072,28 @@ Password: The pass you have chosen.
 Path: /home/share/
 Port: 22
 ```
-برای دلفین، احتمالا فایل اکسپلورر ویندوز و `nautilus` هم از آدرس زیر استفاده کنید: 
-```
+For Dolphin, and likely Windows File Explorer and `nautilus`, utilize the following address: 
+```text
 sftp://share@172.22.0.1/home/share/
 ```
-الان وقتش رسیده که اطلاعات بالا را در اختیار فیلم‌بازان و موسیقی‌لاورهای ساختمان قرار دهید، تا یک روزه هارد را پُر کنند و همه در کنار هم از آن‌ها لذت ببرید.
-برای مشاهده آمار سرور هم می‌توانید آدرس زیر را در مرورگر خودتان باز کنید:
-```
+It is now time to hand the above information over to the movie buffs and music lovers in the building, letting them fill the hard drive in a day so everyone can enjoy it together.
+To view server statistics, you can also open the following address in your browser:
+```text
 http://172.22.0.1:8200/
 ```
 
-د**ر آینده می‌توانید برای ریختن فایل‌هایی غیر از مدیا هم از همین مسیر استفاده کنید.‌** مثلا فرض کنید کانفیگ جدید `OpenVPN` را روی موبایل گرفته‌اید. `Solid Explorer` را باز می‌کنید.‌ پوشه سرور درست روبروی شماست.‌ واردش شده و کانفیگ را کپی/پیست می‌کنیم. ما در سیم‌لینک سرور هستیم در نتیجه هر کاری میکنید در حقیقت در `/srv/dlna/` انجام می‌دهید که مالکیتش ازآن net است.‌ الان فایل روی هارددیسک سرور است. با کاربر `net` به راحتی `ssh` می‌زنید و فایل را هرجایی که خواستید کپی می‌کنید. مثلا:
-```
+**In the future, you can use this exact path to transfer non-media files as well.** For instance, imagine you downloaded a new `OpenVPN` config on your mobile phone. You open `Solid Explorer`. The server folder is right there. You enter it and copy/paste the config. Because we are in the server symlink, everything you do is physically occurring in `/srv/dlna/`, which is owned by `net`. The file is now on the server's hard drive. Log in via `ssh` effortlessly using the `net` user and move the file wherever you need it. For example:
+```bash
 sudo mv /srv/dlna/config.conf /etc/openvpn/client/tun0.conf
 ```
-## بک‌آپ‌گیری از فایل‌های حساس
-تنظیمات شما، قاعدتا به مرور با تنظیمات اولیه‌ای که اینجا انجام دادید بر اساس نیازتان تغییر می‌کند. یک اسکریپت که روزانه فایل‌های تنظیمات را بررسی کند و در صورت کشفِ تغییر از آن‌ها بک‌آپ بگیرد، می‌تواند کمک بزرگی باشد. اسکریپتی که الان معرفی می‌کنم دقیقا همین کار را انجام می‌دهد. این اسکریپت، هر روز ساعت ۴ توسط `cronie` اجرا می‌شود و وضعیت تمام فایل‌هایی که در آن لیست شده را بررسی می‌کند. اگر تغییری در هر کدام از فایل‌ها یا دایرکتوری‌ها پدید آمده باشد، اسکریپت متوجه شده و یک بک‌آپ کامل که معمولا کمتر از یک مگابایت می‌شود از آن‌ها تهیه کرده و سپس روی [مگا](https://mega.nz/) آپلود می‌کند. یک اکانت [مگا](https://mega.nz/) بسازید (اگر دارید، یک اکانت جدید فقط برای این منظور بسازید) تا به سراغ تنظیم `rclone` برویم. 
-```
+
+## Backing Up Sensitive Files
+Naturally, your configuration files will evolve over time from the initial setup we performed here, based on your changing needs. A script that daily inspects configuration files and backs them up if it detects a modification can be a massive lifesaver. The script I am introducing now does exactly that. This script runs daily at 4:00 AM via `cronie`, assessing the status of every file listed within it. If a modification has occurred in any of the files or directories, the script detects it, generates a comprehensive backup—usually under a megabyte—and subsequently uploads it to [MEGA](https://mega.nz/). Create a [MEGA](https://mega.nz/) account (if you already have one, create a new one exclusively for this purpose) so we can proceed with configuring `rclone`. 
+```text
 https://mega.nz/
 ```
-اکانت را که ساختید، وارد کاربر روت شوید و دستور زیر را صادر کنید:
-```
+Once the account is created, switch to the root user and execute the following command:
+```bash
 sudo su
 cd
 rclone config
@@ -1970,13 +2103,13 @@ s) Set configuration password
 q) Quit config  
 n/s/q>
 ```
-کلید `n` برای ساخت یک ریموت جدید را بزنید:
-```
+Press the `n` key to create a new remote:
+```text
 Enter name for new remote.  
 name> RouterBackup
 ```
-اسم بک‌آپ را دقیقا مثل من `RouterBackup` بگذارید. به حروف بزرگ و کوچک دقت کنید. با زدن `Enter` تمام سرویس‌هایی که `rclone` پشتیبانی می‌کند، لیست می‌شود. شمارهٔ جلوی مگا برای من `39` است ولی ممکن است در آینده تغییر کند. مگا را در همان حوالی پیدا کنید و شماره جلوی آن را تایپ و `Enter` را بزنید:
-```
+Name the backup exactly as I have: `RouterBackup`. Pay close attention to capitalization. Hitting `Enter` lists all services supported by `rclone`. MEGA's corresponding number for me is `39`, but this might change in the future. Find MEGA in that general vicinity, type its corresponding number, and press `Enter`:
+```text
 Storage> 39  
   
 Option user.  
@@ -1984,8 +2117,8 @@ User name.
 Enter a value.  
 user>
 ```
-از شما نام کاربری می‌خواهد. ایمیلی که با آن در مگا ثبت‌نام کردید را وارد کنید. در مرحله بعد از شما در خصوص پسورد سؤال می‌کند. `y` را بزنید به این منظور که پسورد مگا را خودتان وارد کنید:
-```
+It prompts you for a username. Enter the email you used to register with MEGA. In the next step, it asks for your password. Press `y` to input your MEGA password manually:
+```text
 Option pass.  
 Password.  
 Choose an alternative below.  
@@ -1993,27 +2126,27 @@ y) Yes, type in my own password
 g) Generate random password  
 y/g> y
 ```
-در اینجا پسورد مگا را بایستی دو مرتبه وارد کنید و `Enter` را بزنید:
-```
+Here, you must enter your MEGA password twice and hit `Enter`:
+```text
 Enter the password:  
 password:  
 Confirm the password:  
 password:
 ```
 
-به نظرم ورود دو مرحله‌ای یا `2fa` را در مگا فعال نکنید و در این مرحله فقط `Enter` را بزنید و رد شوید. همین که پسورد شما قوی باشد و فراموشش نکنید کافی‌ست. در غیر این صورت به فنا می‌روید.
-```
+I advise against enabling two-factor authentication (`2fa`) on MEGA; simply hit `Enter` to skip this step. As long as your password is robust and you don't forget it, you will be fine. Otherwise, you are doomed.
+```text
 Option 2fa.  
 The 2FA code of your MEGA account if the account is set up with one  
 Enter a value. Press Enter to leave empty.  
 2fa>
 ```
-در این دو مرحله هم `Enter` را بزنید و رد شوید:
-```
+Hit `Enter` through these two prompts as well to skip them:
+```text
 Edit advanced config?  
 y) Yes  
 n) No (default)  
-y/n>    
+y/n>    
   
 Configuration complete.  
 Options:  
@@ -2026,13 +2159,13 @@ e) Edit this remote
 d) Delete this remote  
 y/e/d>
 ```
-خلاصه‌ای از کانفیگ در اینجا به شما نشان داده می‌شود:
-```
+A summary of your configuration is displayed here:
+```text
 Current remotes:  
   
-Name                 Type  
-====                 ====  
-RouterBackup         mega  
+Name                 Type  
+====                 ====  
+RouterBackup         mega  
   
 e) Edit existing remote  
 n) New remote  
@@ -2043,167 +2176,176 @@ s) Set configuration password
 q) Quit config  
 e/n/d/r/c/s/q>
 ```
-فقط `q` را بزنیدو خارج شوید. برای اطمینان از اتصال، می‌توانید پوشهٔ زیر را که برای ذخیره کردن بک‌آپ‌ها استفاده می‌کنیم را بسازید و سپس آن را مشاهده کنید:
-```
+Simply press `q` to exit. To verify the connection, you can create the directory we use for storing backups and then inspect it:
+```bash
 rclone mkdir RouterBackup:RouterBackup  
 rclone lsd RouterBackup:  
 ```
-یک خروجی شبیه به این را باید ببینید:
+You should see output resembling this:
+```text
+-1 2026-07-19 15:52:19        -1 Router_Backup
 ```
--1 2026-07-19 15:52:19        -1 Router_Backup
-```
-فایل کانفیگ هم بایستی حاوی اطلاعات اکانت شما باشد. با دستور زیر از وجود آن مطمئن شوید و در نهایت با `exit` از فضای روت خارج شوید:
-```
+The configuration file should also contain your account details. Verify its existence with the following command and finally exit the root environment with `exit`:
+```bash
 cat /root/.config/rclone/rclone.conf
 exit
 ```
-پسورد شما در این فایل انکریپت شده، اما کلید رمزنگاری rclone عمومی است و هر کسی به این فایل دسترسی داشته باشد می‌تواند پسورد شما را استخراج کند. پس حتماً دسترسی این فایل را محدود نگه دارید و آن را با کسی به اشتراک نگذارید.
-اسکریپت اصلی را با دستور زیر دانلود کنید:
-```
+Your password is encrypted within this file, but rclone's encryption key is public; anyone with access to this file can extract your password. Therefore, keep access to this file strictly restricted and do not share it with anyone.
+Download the primary script with the following command:
+```bash
 cd /opt/router/Scripts/
 curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/rcloneBackup.sh --output rcloneBackup.sh
 chmod +x rcloneBackup.sh
 ```
-حالا نوبت اضافه کردن یک کرون جاب با کاربر روت است:
-```
+Now it is time to append a cron job for the root user:
+```bash
 sudo EDITOR=nano crontab -e
 ```
-خط زیر را به آن اضافه کنید:
-```
+Add the following line to it:
+```text
 0 4 * * * /opt/router/Scripts/rcloneBackup.sh >> /opt/router/BackupState/cron.log 2>&1
 ```
-و ذخیره کنید و خارج شوید.
-مطمئن شوید که سرویس کرون فعال است:
-```
+Save and exit.
+Ensure the cron service is enabled:
+```bash
 sudo systemctl enable --now cronie.service
 ```
-کار بک‌آپ‌گیری تمام است ولی برای اینکه مطمئن شوید همه چیز خوب کار می‌کند یک بار آن را اجرا کنید. ممکن است خطاهایی بابت فایل‌هایی که وجود ندارد بگیرید، که مهم نیست.
-```
+The backup configuration is complete, but to guarantee everything runs smoothly, execute it once manually. You might receive errors about files that do not exist, which is inconsequential.
+```bash
 sudo /opt/router/Scripts/rcloneBackup.sh
 ```
-از آن‌جایی که `rclone` با مجوزهای کاربر روت اجرا می‌شود، به دنبال کانفیگ در مسیر دیگری غیر از فایل کانفیگی که با هم درست کردیم می‌گردد. ما در اسکریپت این مسیر را به صورت مشخص در خط `18` عنوان کرده‌ایم. صرفا این نکته را در نظر داشته باشید که `rclone` چطور کار می‌کند، وگرنه کار خاصی لازم نیست انجام دهید.
-خروجی من چیزی شبیه به این شد:
-```
+Because `rclone` is executed with root user privileges, it searches for the config in a different path than the configuration file we just created together. We have explicitly defined this path in line `18` of the script. Merely keep in mind how `rclone` operates; otherwise, you do not need to take any special actions.
+My output looked something like this:
+```text
 2026-08-01 00:25:14 Checking configuration... Changes detected.  
 2026-08-01 00:25:14 Warning: Path /etc/nftables.d does not exist. Skipping.  
 2026-08-01 00:25:14 Created and verified archive: router-2026-08-01_002514.tar.zst  
 2026-08-01 00:25:16 Syncing to MEGA...  
 2026-08-01 00:25:24 rclone sync successful
 ```
-برای اضافه کردن فایل یا دایرکتوری به بک‌آپ کافی‌ست اسکریپت را باز کنید:
-```
+To add a file or directory to the backup, simply open the script:
+```bash
 nano /opt/router/Scripts/rcloneBackup.sh
 ```
-فایل‌ها را به این قسمت و با همین فرمت اضافه کنید:
-```
+Append files to this section using this exact format:
+```bash
 FILES=(  
-   "/etc/fstab"  
-   "/etc/nftables.conf"  
-   "/etc/dnsmasq.conf"
+   "/etc/fstab"  
+   "/etc/nftables.conf"  
+   "/etc/dnsmasq.conf"
 ```
-و دایرکتوری‌ها را به این قسمت:
-```
+And directories to this section:
+```bash
 DIRS=(  
-   "/opt/router/Scripts"  
-   "/root/.ssh"
+   "/opt/router/Scripts"  
+   "/root/.ssh"
 ```
-اسکریپت برای عدم دسترسی دیگران به فایل‌ها مجوز مسیر بک‌آپ‌ها را به `700` تغییر می‌دهد اما به خاطر داشته باشید که این وظیفهٔ شماست که از آن محافظت کنید. فایل بک‌آپ شامل اطلاعات حیاتی سیستم شما خواهد بود. همینطور در نظر داشته باشید که ۵۰ فایل بک‌آپ حفظ می‌شود و بعد از آن، فایل‌های کهنه‌تر به طور خودکار از روی دیسک و مگا حذف می‌شوند. می‌توانید این عدد را در خط `16` اسکریپت تغییر دهید.
-## بهینه‌سازی‌های اضافی
-### تنظیمات فایل‌سیستم
-در اینجا به طور مختصر به کارهایی که می‌توانید انجام دهید تا هارد شما کمتر درگیر شود می‌پردازیم. فایل `fstab` را باز کنید و آپشن‌های خط مربوط به سوار کردن ریشه را به این آپشن‌ها تغییر دهید:
+To prevent others from accessing the files, the script alters the permission of the backup directory to `700`, but remember that protecting it remains your responsibility. The backup file will house your system's critical information. Also, bear in mind that 50 backup files are retained; subsequently, older files are automatically purged from both the disk and MEGA. You can modify this count on line `16` of the script.
+
+## Additional Optimizations
+### Filesystem Configurations
+Here we will briefly cover actions you can take to reduce the workload on your hard drive. Open the `fstab` file and modify the options on the root mount line to reflect these options:
+```text
+UUID=XXXXXXXXXXXXXXXXXXXXXXX  /  btrfs  rw,noatime,commit=120,space_cache=v2,subvol=/@  0 0
 ```
-UUID=XXXXXXXXXXXXXXXXXXXXXXX  /  btrfs  rw,noatime,commit=120,space_cache=v2,subvol=/@  0 0
-```
-به ترتیب `rw` به سیستم می‌گوید که فایل‌سیستم را به صورت خواندنی/نوشتنی بارگذاری کند. `noatime` باعث می‌شود که هر بار فایل یا دایرکتوری‌ای خوانده می‌شود، سیستم اکسس‌تایم آن را آپدیت نکند. معمولا شما نیازی به این آپدیت ندارید و این کار صرفا دیسک شما را زودتر پیر می‌کند. گزینه ``relatime`` با این آپشن تداخل دارد. مطمئن شوید فقط یکی فعال است. پس غیرفعال کردنش با `noatime` بسیار معقول است. `commit=120` به سیستم می‌گوید تغییرات و متادیتاهای جدید در رم را به جای هر ۵ ثانیه، هر ۱۲۰ ثانیه یک‌بار روی دیسک ثبت (Commit) کند. این آپشن را وقتی به وضعیت پایداری در سیستم رسیدید فعال کنید؛ زیرا در صورت قطعی ناگهانی برق یا کرش، تغییرات ۱۲۰ ثانیه اخیر ممکن است حاوی اطلاعاتی حیاتی و به‌دردبخوری برای مشکل‌زدایی باشد که از دست می‌رود. اما وقتی سیستم پایدار شد، این کار به سلامت دیسک شما کمک زیادی می‌کند. وجود آپشن `space_cache=v2` سیستم‌فایل را مجبور به استفاده از نسخه جدیدتر `space_cache` می‌کند که عملکرد بهینه‌تر نسبت به نسخه اول داراست.
-### تنظیمات فرعی برنامه‌ها
-حالا فایل زیر را بسازید تا سینک اطلاعات رم روی دیسک هم بهینه کنیم:
-```
+In sequence: `rw` instructs the system to mount the filesystem as read/write. `noatime` ensures the system refrains from updating the access time every single time a file or directory is read. You rarely need this update, and it merely accelerates the aging of your disk. The `relatime` option conflicts with this; ensure only one is active. Therefore, disabling it in favor of `noatime` is highly logical. `commit=120` instructs the system to commit new changes and metadata in RAM to the disk every 120 seconds instead of every 5 seconds. Enable this option only when your system reaches a stable state; in the event of a sudden power loss or crash, the last 120 seconds of changes might contain crucial, useful data for troubleshooting that will be lost. But once the system stabilizes, this significantly extends the health of your disk. The presence of the `space_cache=v2` option forces the filesystem to utilize the newer `space_cache` iteration, boasting vastly improved performance over the first version.
+
+### Secondary Application Configurations
+Now, create the following file to optimize syncing data from RAM to disk:
+```bash
 sudo nano /etc/sysctl.d/99-disk-writes.conf
+```
+```ini
 # Hold dirty memory pages longer in RAM before syncing to disk
 vm.dirty_background_ratio = 5
 vm.dirty_ratio = 10
 vm.dirty_writeback_centisecs = 1500
 ```
-و فعالش کنید:
-```
+And apply it:
+```bash
 sudo sysctl --system
 ```
-چند تنظیم جزئی دیگر:
-ریختن `Lease`های `dnsmasq` رو رم با اضافه کردن این خط به فایل کانفیگ:
-```
+A few more minor tweaks:
+Dump `dnsmasq` leases into RAM by appending this line to its config file:
+```bash
 sudo nano /etc/dnsmasq.conf
+```
+```text
 dhcp-leasefile=/run/dnsmasq.leases
 ```
-و همینطور اضافه کردن این خط به فایل کانفیگ `OpenVPN` برای فرستادن لاگِ وضعیت به رم:
-```
+And likewise, add this line to the `OpenVPN` config file to flush the status log into RAM:
+```text
 status /run/openvpn-status.log
 verb 1
 ```
-### تنظیمات journald
-ژورنال‌ها هم بعد از مدتی فضای زیادی را اشغال می‌کنند. این اطلاعات معمولا بعد از دو روز بی‌اهمیت هستند. برای اینکه به سیستم بگویید لاگ‌ها را بیشتر از دو روز نگه ندارد و اجازه ندهد بیشتر ۱۰۰ مگابایت شود، فایل زیر را باز کنید و خطوط زیر را یا پیدا و آن‌کامنت کنید و مقادیر جدید را به آن‌ها بدهید، یا بیخیال آن شوید و در بین تنظیمات این چند خط را وارد کنید:
-```
+
+### `journald` Configurations
+Journals also consume significant space after a while. This data is typically irrelevant after two days. To instruct the system not to retain logs older than two days and to cap them at 100 MB, open the file below. Either locate the following lines and uncomment them while assigning the new values, or simply ignore searching and insert these few lines among the settings:
+```ini
 [Journal]
 Storage=persistent
 MaxRetentionSec=2day
 SystemMaxUse=100M
 ```
-و تنظیمات را اعمال کنید:
-```
+Then apply the settings:
+```bash
 sudo systemctl restart systemd-journald
 ```
-این دستور هم با جارو به جان ژورنال‌های قدیمی‌تر از ۲ روز می‌افتد:
-```
+This command also sweeps away journals older than 2 days:
+```bash
 sudo journalctl --vacuum-time=2d
 ```
-### وضعیت فایل‌سیستم BTRFS
-سال‌ها از ورود به دنیای BTRFS خودداری کردم و به ext4 چسبیده بودم اما باید اذعان کنم که اشتباه کردم. این فایل‌سیستم واقعا لایق نامش `Better FS` است. چند دستور حیاتی برای بررسی وضعیت سیستم و حل کردن مشکل آن را برای‌تان شرح می‌‌دهم. اول، بررسی فایل‌سیستم: سعی کنید هر ماه یک بررسی کلی انجام دهید تا بفهمید دیسک در چه وضعیتی قرار دارد:
-```
+
+### BTRFS Filesystem Status
+I avoided entering the BTRFS realm for years, clinging tightly to ext4, but I must confess I was wrong. This filesystem truly lives up to its name, `Better FS`. I will outline a few critical commands for checking system status and resolving issues. First, verifying the filesystem: try to run a comprehensive check every month to ascertain your disk's health status:
+```bash
 sudo btrfs device stats /  
 
-[/dev/sda2].write_io_errs    0  
-[/dev/sda2].read_io_errs     0  
-[/dev/sda2].flush_io_errs    0  
-[/dev/sda2].corruption_errs  0  
-[/dev/sda2].generation_errs  0
+[/dev/sda2].write_io_errs    0  
+[/dev/sda2].read_io_errs     0  
+[/dev/sda2].flush_io_errs    0  
+[/dev/sda2].corruption_errs  0  
+[/dev/sda2].generation_errs  0
 ```
-باید خروجی‌تان چیزی شبیه به خروجی سیستم من باشد. اگر اروری دریافت کردید از دستور زیر برای بررسی وضعیت چک‌سام داد‌ها در برابر بلاک‌ها استفاده کنید:
-```
+Your output should mirror my system's output. If you encounter errors, use the following command to verify data checksums against their blocks:
+```bash
 sudo btrfs scrub start /
 ```
-و از این دستور برای بررسی وضعیت اسکرابی که سیستم در حال انجام است:
-```
+And use this command to check the status of the scrub the system is actively performing:
+```bash
 sudo btrfs scrub status /
 ```
-البته می‌توانید از آپشن `B` استفاده کنید تا اسکراب به بک‌گراند نرود. 
-```
+Alternatively, you can use the `-B` option to run the scrub in the foreground. 
+```bash
 sudo btrfs scrub start -B /
 ```
-به هر حال اگر وضعیت اسکراب در نهایت خروجی بدون خطا را صادر کرد:
-```
+Regardless, if the final scrub status ultimately yields an error-free output:
+```text
 sudo btrfs scrub status /  
-UUID:             7e823fa0-8f26-41e0-90ba-553317b8ec79  
-Scrub started:    Sat Aug  1 01:00:56 2026  
-Status:           finished  
-Duration:         0:02:07  
-Total to scrub:   14.46GiB  
-Rate:             116.61MiB/s  
-Error summary:    no errors found
+UUID:             7e823fa0-8f26-41e0-90ba-553317b8ec79  
+Scrub started:    Sat Aug  1 01:00:56 2026  
+Status:           finished  
+Duration:         0:02:07  
+Total to scrub:   14.46GiB  
+Rate:             116.61MiB/s  
+Error summary:    no errors found
 ```
-و پیش‌تر اروری گرفته بودید، اسکراب گزارش ارور را صفر نمی‌کند. لازم است دستی آن را صفر کنید:
-```
+And you previously received an error, the scrub does not reset the error log counter. You must manually reset it to zero:
+```bash
 sudo btrfs device stats -z /
 ```
-### احوال دیسک
-با `Smartctl` می‌توانید احوال دیسک را جویا شوید:
-```
+
+### Disk Health
+You can inquire about your disk's health using `smartctl`:
+```bash
 sudo smartctl -a /dev/sda
 ```
-به جای `sda` هم نام دیسک خودتان را قرار دهید. خروجی بلندبالایی خواهد بود. در همان خطوط اول، دنبال چیزی شبیه به این بگردید. این یعنی حال کلی دیسک شما خوب است:
-```
+Substitute your actual disk name in place of `sda`. The output will be quite lengthy. In the very first lines, search for something resembling this. It indicates your disk's overall health is good:
+```text
 SMART overall-health self-assessment test result: PASSED
 ```
-برای اطمینان کامل، در جدول پایین‌تر `SMART Attributes` ستون `RAW_VALUE` را برای فاکتورهای زیر بررسی کنید؛ مقدار آن‌ها حتماً باید `0` باشد:
-```
+For complete assurance, inspect the `RAW_VALUE` column for the following factors in the `SMART Attributes` table further down; their values must absolutely be `0`:
+```text
 Reallocated_Sector_Ct
 Current_Pending_Sector
 UDMA_CRC_Error_Count
