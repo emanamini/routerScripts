@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# /opt/router/Scripts/wan-watcher.sh
+# /opt/router/scripts/wan-watcher.sh
 # Native kernel monitor for WAN link state and routing policy validation
 
 TABLE_NAME="irtr"

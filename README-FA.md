@@ -3,6 +3,7 @@
 **🌐 Languages:** 🇬🇧 [English](README.md) • 🇮🇷 [فارسی](README-FA.md)
 
 ---
+
 به هر گوشی موبایل که نگاه کنید، انبوهی از اپ‌های فیلترشکن را می‌بینید که هر ماه تعدادی از آن‌ها به عنوان جاسوس‌افزار گزارش می‌شوند. ریسکِ آلوده شدن و به خطر افتادن اطلاعات گوشی که امروزه دروازه ارتباط ما با دنیای بیرون، از بانک و بازار گرفته تا سرگرمی و بازی، است بسیار بزرگ‌تر از آن است که بتوان نادیده‌اش گرفت. اگر دستگاه‌های متصل به اینترنت در محلی که زندگی یا کار می‌کنید بیشتر از تعداد انگشتان یک دست است، تمام دردسرهای این نوشته که از اتفاق با زبانی بسیار ساده توضیح داده شده، ارزشش را دارد. 
 
 تعداد محدود مشتریِ یک کانفیگ‌فروش، راه‌اندازی ساده سرویس، کلاینت‌های رسمی و اوپن‌سورس، نیاز به سرمایه اندک برای اجرا، خطرات وی‌پی‌ان برای مشتری را روی کاغذ، نسبت به یک اپ، پایین می‌آورد. جدا کردن سیستم، و اجرای وی‌پی‌ان روی یک کامپیوتر جدا با تنظیمات امن فایروال، باز هم دستگاه‌ها و اطلاعات شما را امن‌تر از این خواهد کرد. ‌دیگر نیازی به نصب فیلترشکن روی گوشی ندارید. نه منابع گوشی بی‌خود هدر می‌رود نه امنیتتان به فنا.
@@ -203,7 +204,7 @@ curl -fsSL https://bit.ly/network-detection | sudo bash
 ```
 
 ```
-curl -fsSL https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/network-detection.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/network-detection.sh | sudo bash
 ```
 اسکپریت به طور خودکار شبکهٔ شما را تشخیص می‌دهد و تلاش می‌کند پورتی که اکنون به اینترنت وصل شده را با `wan` نام‌گذاری کند و پورت دوم را که قرار است به اکسس‌پوینت وصل شود به `lan` اختصاص دهد. اگر پورت‌ها را درست تشخیص داده، کافیست فقط `Enter` را بزنید، در غیر این‌صورت نام کامل رابط که معمولا با `ens` شروع می‌شود را دستی برای `wan` که به اینترنت وصل است و `lan` برای رابطی که به اکسس‌پوینت وصل است وارد کنید. خواندن بخش [[#پیکربندی دستی شبکه]] به شما دید کامل‌تری از آن‌چه اینجا انجام می‌دهیم می‌دهد.
 
@@ -366,7 +367,7 @@ nano /etc/sudoers.d/99-router-scripts
 ```
 محتویات زیر را به آن اضافه کنید:
 ```
-net ALL=(ALL) NOPASSWD: /opt/router/Scripts/toggle-route, /opt/router/Scripts/srv.sh, /usr/local/bin/srv, /usr/bin/reboot, /usr/bin/systemctl, /usr/bin/ip, /usr/bin/wg-quick, /usr/bin/openvpn
+net ALL=(ALL) NOPASSWD: /opt/router/scripts/toggle-route, /opt/router/scripts/srv.sh, /usr/local/bin/srv, /usr/bin/reboot, /usr/bin/systemctl, /usr/bin/ip, /usr/bin/wg-quick, /usr/bin/openvpn
 ```
 فایل را ذخیره کنید و خارج شوید. نوبت بستنِ `chroot` است.
 ```
@@ -716,7 +717,7 @@ dhcp-host=BC:F1:A5:68:14:58,172.22.0.102,SonyTV1-W
 ### تنظیمات عمومی
 با این دستورات فایل زیر را دانلود و منتقل کنید:
 ```
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/dnscrypt-proxy.toml --output dnscrypt-proxy.toml
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/dnscrypt-proxy.toml --output dnscrypt-proxy.toml
 sudo mv /etc/dnscrypt-proxy/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml.bck
 sudo mv dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 ```
@@ -1076,32 +1077,32 @@ systemctl start dnscrypt-proxy.service
 ```
 ## اسکریپت‌های مدیریتی
 ### نحوه ساخت و استفاده
-مدیریت روتر از طریق خط فرمان با دستورات طولانی، کار من یکی نبود؛ به همین خاطر شروع به نوشتن اسکریپت‌های ابتدایی برای مدیریت روتر کردم. از آنجایی که کد زدن شغل من نبود و صرفا هدفم راه‌انداختن کارم بود، اسکریپت‌ها آنقدر زشت بودند که لعنت هر برنامه‌نویسی که آن‌ها را می‌دید نثارم می‌کرد. تا اینکه هوش مصنوعی به دادم رسید. تمام کدها با هوش مصنوعی بازنویسی شده‌اند. هر اسکریپت به خوبی کامنت شده و استفاده از آن راحت است. اسکریپت‌ها در [مخزن](https://github.com/emanamini/routerScripts/) زیر و عموما در پوشه `Scripts` قرار دارند:
+مدیریت روتر از طریق خط فرمان با دستورات طولانی، کار من یکی نبود؛ به همین خاطر شروع به نوشتن اسکریپت‌های ابتدایی برای مدیریت روتر کردم. از آنجایی که کد زدن شغل من نبود و صرفا هدفم راه‌انداختن کارم بود، اسکریپت‌ها آنقدر زشت بودند که لعنت هر برنامه‌نویسی که آن‌ها را می‌دید نثارم می‌کرد. تا اینکه هوش مصنوعی به دادم رسید. تمام کدها با هوش مصنوعی بازنویسی شده‌اند. هر اسکریپت به خوبی کامنت شده و استفاده از آن راحت است. اسکریپت‌ها در [مخزن](https://github.com/emanamini/routerScripts/) زیر و عموما در پوشه `scripts` قرار دارند:
 ```
 https://github.com/emanamini/routerScripts/
 ```
 
 ما یک پوشهٔ مخصوص برای اسکریپت‌هایمان در `/opt/` می‌سازیم و مالکیتش را به کاربرمان یعنی `net` می‌دهیم و به دایرکتوری خانه لینکش می‌کنیم تا دسترسی‌مان به آن راحت شود:
 ```
-sudo mkdir /opt/router/Scripts/
-sudo chown -R net:net /opt/router/Scripts
-ln -s /opt/router/Scripts/ /home/net/Scripts
-cd /opt/router/Scripts/ 
+sudo mkdir /opt/router/scripts/
+sudo chown -R net:net /opt/router/scripts
+ln -s /opt/router/scripts/ /home/net/scripts
+cd /opt/router/scripts/ 
 ```
 وقتی با دستوری `cd` داخل سیم‌لینک می‌شویم، مسیرمان معمولا حفظ می‌شود، هرچند داخل مسیر مقصد هستیم. برای تغییر کامل مسیر بایستی از آپشن `P` به این صورت استفاده کنیم. در دستورات زیر تفاوت را ببینید:
 ```
-cd Scripts/  
+cd scripts/  
 pwd  
-/home/net/Scripts  
+/home/net/scripts  
 cd    
-cd -P Scripts/  
+cd -P scripts/  
 pwd  
-/opt/router/Scripts  
+/opt/router/scripts  
 ```
 ## اسکریپت مدیریت `systemd`
-تایپ دستورات بلند `systemctl` همیشه برای من عذابی بوده. به خصوص که بعد از تایپ دستور، یک حرف جا افتاده باشد و با موبایل بخواهید آن را اصلاح کنید. این اسکریپت به شما کمک می‌کند سرویس‌های مورد نیاز خودتان را به راحتی فعال/غیرفعال/استارت/استاپ و وضعیت‌شان را پایش کنید. مطمئن باشید که در مسیر `/opt/router/Scripts/` هستید و با دستور زیر اسکریپت را دانلود کنید:
+تایپ دستورات بلند `systemctl` همیشه برای من عذابی بوده. به خصوص که بعد از تایپ دستور، یک حرف جا افتاده باشد و با موبایل بخواهید آن را اصلاح کنید. این اسکریپت به شما کمک می‌کند سرویس‌های مورد نیاز خودتان را به راحتی فعال/غیرفعال/استارت/استاپ و وضعیت‌شان را پایش کنید. مطمئن باشید که در مسیر `/opt/router/scripts/` هستید و با دستور زیر اسکریپت را دانلود کنید:
 ```
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/srv.sh --output srv.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/srv.sh --output srv.sh
 ```
 لینوکس به صورت پیش‌فرض به فایل‌ها قابلیت اجرایی نمی‌دهد. با دستور زیر به اسکریپت مورد نظرتان قابلیت اجرا شدن بدهید:
 ```
@@ -1111,17 +1112,17 @@ chmod +x srv.sh
 اکنون با یکی از سه دستور زیر می‌توانید آن را اجرا کنید(علامت `~` معادل مسیر خانگی کاربر می‌شود که برای ما `/home/net/` است):
 ```
 ./srv.sh
-~/Scripts/srv.sh
-/opt/router/Scripts/srv.sh
+~/scripts/srv.sh
+/opt/router/scripts/srv.sh
 ```
-در دستور اول بایستی ترمینال در مسیر `/opt/router/Scripts/` باشد. برای مشاهدهٔ مسیرِ جاری ترمینال می‌توانید از `pwd` استفاده کنید:
+در دستور اول بایستی ترمینال در مسیر `/opt/router/scripts/` باشد. برای مشاهدهٔ مسیرِ جاری ترمینال می‌توانید از `pwd` استفاده کنید:
 ```
 pwd  
-/opt/router/Scripts
+/opt/router/scripts
 ```
 بعد از اینکه اسکریپت را ساختید و قابلیت اجرایی‌اش را فعال کردید، برای راحتی یک سیم‌لینک به مسیر باینری‌های کاربران می‌سازیم. فقط به یاد داشته باشید که در حین ساخت از مسیر کامل یا مطلق استفاده کنید.
 ```
-sudo ln -s /opt/router/Scripts/srv.sh /usr/local/bin/srv
+sudo ln -s /opt/router/scripts/srv.sh /usr/local/bin/srv
 ```
 ما در دستور بالا `srv.sh` را به `srv` (برای راحتی احضار) در مسیر باینری‌های کاربران لینک کردیم. الان دیگر مهم نیست که ترمینال کجاست و در چه مسیری قرار دارید، زدن دستور زیر، اسکریپت مورد نظر ما را احضار می‌کند.
 ```
@@ -1134,7 +1135,7 @@ Usage: /usr/local/bin/srv
    d | disable    
    s | status
 ```
-به همین راحتی. اسکریپت اصلی در مسیر `/opt/router/Scripts/` قرار دارد و برای ویرایش آن کاری به سیم‌لینک نداریم. سیم‌لینک به هر حال اسکریپت اصلی را احضار می‌کند.
+به همین راحتی. اسکریپت اصلی در مسیر `/opt/router/scripts/` قرار دارد و برای ویرایش آن کاری به سیم‌لینک نداریم. سیم‌لینک به هر حال اسکریپت اصلی را احضار می‌کند.
 با چند مثال نحوه عملکرد این اسکریپت را مرور می‌کنیم. همانطور که در خروجی دستور `srv` می‌بینید، این اسکریپت به عنوان پارامتر اول می‌تواند مقادیر مختلفی را بگیرد. فرض کنید می‌خواهید یک سرویس را متوقف کنید. همانطور که مشخص است، می‌توانید از `k` یا `kill` یا `stop` به عنوان پارامتر اول استفاده کنید. من برای راحتی همیشه از گزینهٔ تک‌حرفی استفاده می‌کنم:
 ```
 srv k
@@ -1152,7 +1153,8 @@ Select the services to perform actions on:
 11. cronie.service  
 12. delayed-startup.service  
 13. arch-portal.service  
-14. caddy  
+14. caddy.service
+15. wan-watcher.service
 Enter the numbers of services to perform action on (space or comma-separated):
 ```
 سرویس‌هایی که در اسکریپت مشخص شده، و به راحتی بر اساس نیاز شما قابل ویرایش هستند، لیست می‌شود. می‌توانید با نوشتن عدد جلوی آن، با توجه به پارامتری که به اسکریپت دادید `(k)` متوقفش کنید. همینطور می‌توانید چند سرویس را یک جا مدیریت کنید. کافی‌ست عدد مربوط به هر سرویس را با فاصله از هم یا جداشده با کاما، تایپ کنید:
@@ -1197,7 +1199,7 @@ Description=IP Rules
   
 [Service]  
 Type=oneshot  
-ExecStart=/opt/router/Scripts/ip-rule.sh  
+ExecStart=/opt/router/scripts/ip-rule.sh  
 User=root  
 RemainAfterExit=yes  
   
@@ -1206,8 +1208,8 @@ WantedBy=multi-user.target
 ```
 همانطور که می‌بینید این سرویس قرار است اسکریپتی با نام `ip-rule.sh` را اجرا کند. اسکریپت را با دستور زیر دریافت کنید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/ip-rule.sh --output ip-rule.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/ip-rule.sh --output ip-rule.sh
 chmod +x ip-rule.sh
 ```
 اگر نام اینترفیس‌ها را همانطور که در آموزش نصب گفتم، درست انتخاب کرده باشید، تمام این اسکریپت‌ها به صورت خودکار برای سیستم شما هم کار خواهد کرد. توضیح کوتاهی در خصوص خطوط اصلی این اسکریپت بدهم:
@@ -1252,17 +1254,17 @@ for i in 241 242 243 244 245; do
 خط بالا در فایل `ip-rule.sh` دقیقا به همین منظور است. فرض کنید دستگاه‌هایی روی شبکهٔ شما وجود دارد که اصلا نباید به وی‌پی‌ان متصل شوند. کافیست که قسمت آخرِ آی‌پی آن‌ها را در خط بالا بنویسید و با فاصله از هم جدا کنید. سه قسمت اول آی‌پی توسط متغیر `firstThreeOctets` که بالاتر مشخص کردیم، به این عدد می‌چسبد و آی‌پی کامل به صورت خودکار در مسیر قرار می‌گیرد.
 می‌رسیم به این خط بسیار مهم:
 ```
-/opt/router/Scripts/irtr.sh irlist
+/opt/router/scripts/irtr.sh irlist
 ```
 بعد از اینکه آی‌پی‌های مربوط به کلاینت‌های خاص را از مسیر `irtr` رد کردیم به سراغ قسمت بعدی که رد کردن آی‌پی‌های مقصد است می‌رویم. اینجاست که به این اسکریپت بسیار مهم دیگر `irtr.sh` می‌رسیم. اسکریپت را با دستور زیر بگیرید تا توضیحات آن را به شما بدهم. توجه کنید که این اسکریپت با پارامتر `irlist` اجرا شده است.
 ```
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/irtr.sh --output irtr.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/irtr.sh --output irtr.sh
 chmod +x irtr.sh
 ```
-این اسکریپت به چند فایل در مسیر بالا، یعنی کنار فایلِ خود اسکریپت برای اجرای صحیح نیاز دارد. یکی `irdomains.txt` و دیگری `iriplist.txt` که اولی شامل آدرس وب‌سایت‌ها و دومی رنج آی‌پی‌هایی‌ست که می‌خواهید ترافیک مستقیمی داشته باشد. هر دو فایل در داخل مخزن [گیت‌هاب](https://github.com/emanamini/routerScripts/tree/main/Scripts) وجود دارد اما بهتر است که خودتان آن‌ها را از نو بسازید. اگر خواستید نمونه‌ها را دانلود کنید، دستورات زیر را بزنید:
+این اسکریپت به چند فایل در مسیر بالا، یعنی کنار فایلِ خود اسکریپت برای اجرای صحیح نیاز دارد. یکی `irdomains.txt` و دیگری `iriplist.txt` که اولی شامل آدرس وب‌سایت‌ها و دومی رنج آی‌پی‌هایی‌ست که می‌خواهید ترافیک مستقیمی داشته باشد. هر دو فایل در داخل مخزن [گیت‌هاب](https://github.com/emanamini/routerScripts/tree/main/scripts) وجود دارد اما بهتر است که خودتان آن‌ها را از نو بسازید. اگر خواستید نمونه‌ها را دانلود کنید، دستورات زیر را بزنید:
 ```
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/irdomains.txt --output irdomains.txt
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/iriplist.txt --output iriplist.txt
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/irdomains.txt --output irdomains.txt
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/iriplist.txt --output iriplist.txt
 ```
 اما قبل از اینکه قضیه را پیچیده‌تر کنم، اجازه بدهید دو روش کلی برای استفاده از این اسکریپت را توضیح دهم. روش بای‌پس کردن ترافیک سایت‌های مشخص و روش بای‌پس کردن کل اینترنت داخلیِ کشور.
 
@@ -1281,7 +1283,7 @@ srv r 2
 ```
 دستگاه شما از روتر یک آی‌پی گرفته است. از تنظیمات شبکهٔ دستگاه، آی‌پی را استخراج کنید. فرض کنید آی‌پی دستگاه شما `172.22.0.116` است. یک اسکریپت بسازید:
 ```
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/domain-harvest.sh --output domain-harvest.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/domain-harvest.sh --output domain-harvest.sh
 chmod +x domain-harvest.sh
 ```
 به آن قابلیت اجرایی دهید و با عدد آی‌پی کلاینتی که قرار است در وب‌سایت‌های مورد نظر بچرخید به این شکل اجرایش کنید:
@@ -1294,16 +1296,16 @@ cat domain-query.log
 ```
 قاعدتا کلِ لیست بایستی مرتبط با سایتی باشد که در آن چرخ می‌زدید اما بهتر است نگاهی به فایل بیندازید، دامنه‌های اضافه را پاک کنید و بقیه را در یک جای دیگر ذخیره کنید چرا که با اجرای دوباره اسکریپت تمام این داده‌ها پاک خواهند شد. همین کار را برای سایت‌های دیگر دوباره و دوباره تکرار کنید. بعد از اینکه یک لیست کامل ساختید کل محتوا را در فایل `irdomains.txt` قرار دهید. مسیر دقیق این فایل اینجاست:
 ```
-/opt/router/Scripts/irdomains.txt
+/opt/router/scripts/irdomains.txt
 ```
 اکنون یک لیست کامل مخصوص خودتان از سایت‌ها و دامنه‌های داخلی دارید که بایستی از وی‌پی‌ان استفاده نکنند. اولین قدم استخراج کل آی‌پی‌های تمام این دامنه‌ها و زیردامنه‌هاست. دستور زیر را اجرا کنید:
 ```
-/opt/router/Scripts/irtr.sh e
+/opt/router/scripts/irtr.sh e
 ```
 این دستور فایل `temp_ip_list.txt` را می‌سازد که شامل آی‌پی‌های یکتا از تمام دامنه‌های `irdomains.txt` است. از آن‌جایی که این آی‌پی‌ها گه‌گاهی عوض می‌شوند، لازم است دستور بالا را چند وقت یکبار اجرا کنید تا لیست از نو ساخته شود.
 حالا برای ساخت و اجرا کردنِ مسیرِ مستقیمْ  دستور زیر را صادر کنید:
 ```
-sudo /opt/router/Scripts/irtr.sh a
+sudo /opt/router/scripts/irtr.sh a
 ```
 بعد از اتمام کار، **فراموش نکنید** که گزینه `log-queries` در فایل کانفیگ `dnsmasq` را دو مرتبه کامنت و سرویسش را ری‌استارت کنید:
 ```
@@ -1311,17 +1313,17 @@ srv r 2
 ```
 یک نکته آموزشی: معمولا برای مدیریت روتر بهتر است در مسیر جاری اسکریپت‌های باشید:
 ```
-cd /opt/router/Scripts
+cd /opt/router/scripts
 ```
 تا اجرای دستورات به راحتی و کوتاهی زیر باشد:
 ```
 sudo ./irtr.sh a
 ```
-یک توضیح کوتاه آموزشی: به `/.` دقت کنید. این کاراکترهای که به معنی دایرکتوری جاری است برای اجرای دستور حتما بایستی عنوان شود وگرنه برای اجرای دستورِ بدون `/.` سیستم به دنبال `PATH` یا مسیرهایی که باینری‌ها در آن قرار دارند می‌گردد. مثلا فرض کنید که یک باینری یا اسکریپت اجرایی در مسیر `/opt/router/Scripts/` دارید که نامش `eman` است. یک اسکریپت یا باینری هم با همین نام در پوشه یکی از مسیرهای باینری سیستم، مثلا `/usr/local/bin/` دارید. به فرض اینکه در مسیر `/opt/router/Scripts/` قرار دارید. دستور
+یک توضیح کوتاه آموزشی: به `/.` دقت کنید. این کاراکترهای که به معنی دایرکتوری جاری است برای اجرای دستور حتما بایستی عنوان شود وگرنه برای اجرای دستورِ بدون `/.` سیستم به دنبال `PATH` یا مسیرهایی که باینری‌ها در آن قرار دارند می‌گردد. مثلا فرض کنید که یک باینری یا اسکریپت اجرایی در مسیر `/opt/router/scripts/` دارید که نامش `eman` است. یک اسکریپت یا باینری هم با همین نام در پوشه یکی از مسیرهای باینری سیستم، مثلا `/usr/local/bin/` دارید. به فرض اینکه در مسیر `/opt/router/scripts/` قرار دارید. دستور
 ```
 ./eman
 ```
-اسکریپتی را اجرا می‌کند که در مسیر جاری، یعنی `/opt/router/Scripts/` قرار دارد. اما دستور 
+اسکریپتی را اجرا می‌کند که در مسیر جاری، یعنی `/opt/router/scripts/` قرار دارد. اما دستور 
 ```
 eman
 ```
@@ -1330,7 +1332,7 @@ eman
 ### بای‌پس کردن کل اینترنت یک کشور
 یک راه‌حل جامع‌تر هم برای دور زدن تمام آی‌پی‌های یک کشور وجود دارد. به سایت [ip2location](https://www.ip2location.com/) بروید. از منوی بالا `Resources` و سپس `Tools` را انتخاب کنید. بین گزینه‌های روی `Firewall List by Country` را انتخاب کنید. در صفحهٔ جدید به بخش `Download List` بروید. در فیلد اول اسم کشور را از بین لیست انتخاب کنید. در فیلد دوم `IPv4` را انتخاب کنید. در منوی کشویی `Output Format` هم `CIDR` را انتخاب کنید. دانلودش و سپس آن‌زیپش کنید. اکنون یک فایل با اسم `firewall.txt` در اختیار دارید. بازش کنید و خطوط اول آن تا اولین رنج آی‌پی را پاک و سپس ذخیره کنید. حالا روی سرور یک فایل با نانو به این اسم بسازید:
 ```
-nano /opt/router/Scripts/iriplist.txt
+nano /opt/router/scripts/iriplist.txt
 ```
 تمام چند هزار خط فایل بالا را در این فایل بچسبانید و با `Crtl+X` و `Y` ذخیره کنید و خارج شوید.
 اگر همه کارهایی که گفتم را با دقت انجام داده باشید، نوبت اجرای دستور زیر است:
@@ -1340,15 +1342,15 @@ sudo ./irtr irlist
 این دستور کل ترافیک کشور را به صورت مستقیم وصل خواهد کرد. اجرای آن بسته به سیستم شما ممکن است تا یک دقیقه طول بکشد، پس صبور باشید.
 حالا بسته به اینکه روش اول یا روش دوم بای‌پس کردن کل اینترنت را بپسندید، به سراغ فایل `ip-rule.sh` و خط مهم
 ```
-/opt/router/Scripts/irtr.sh irlist
+/opt/router/scripts/irtr.sh irlist
 ```
 می‌رویم. اگر می‌خواهید که سرویسی که نوشتیم، کل آی‌پی‌های کشور را رد کند، به آن دست نزنید. اما اگر می‌خواهید صرفا آی‌پی سایت‌هایی که مشخص کردید را رد کند این خط را با خط زیر جایگزین کنید:
 ```
-/opt/router/Scripts/irtr.sh a
+/opt/router/scripts/irtr.sh a
 ```
 در صورتی که از این روش استفاده کردید، فراموش نکنید که روی روتر، دستور زیر را هفته‌ای یک بار اجرا کنید تا لیست آی‌پی‌های شما به‌روز باشد:
 ```
-/opt/router/Scripts/irtr.sh e
+/opt/router/scripts/irtr.sh e
 ```
 حالا می‌توانید سرویس را فعال کنید که پیشنهاد نمی‌کنم:
 ```
@@ -1372,7 +1374,7 @@ After=systemd-networkd.service
 
 [Service]
 Type=simple
-ExecStart=/opt/router/Scripts/wan-watcher.sh
+ExecStart=/opt/router/scripts/wan-watcher.sh
 Restart=always
 RestartSec=5
 User=root
@@ -1383,12 +1385,12 @@ WantedBy=multi-user.target
 
 اسکریپت زیر را بگیرید:
 ```
-cd /opt/router/Scripts
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/wan-watcher.sh --output wan-watcher.sh
+cd /opt/router/scripts
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/wan-watcher.sh --output wan-watcher.sh
 ```
 به آن قابلیت اجرایی بدهید و `Daemon` را ری‌لود کنید:
 ```
-chmod +x /opt/router/Scripts/wan-watcher.sh
+chmod +x /opt/router/scripts/wan-watcher.sh
 srv reload
 sudo systemctl start wan-watcher.service
 ```
@@ -1442,8 +1444,8 @@ curl myip.wtf/json
 ## مدیر وی‌پی‌ان
 اسکریپت زیر را بگیرید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/vpn-manager.sh --output vpn-manager.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-manager.sh --output vpn-manager.sh
 chmod +x vpn-manager.sh
 ```
 یک سرویس برای آن بسازید:
@@ -1456,7 +1458,7 @@ Wants=network-online.target
   
 [Service]  
 Type=simple  
-ExecStart=/opt/router/Scripts/vpn-manager.sh  
+ExecStart=/opt/router/scripts/vpn-manager.sh  
 # Gracefully tear down active networking components when manager is stopped  
 ExecStop=/bin/bash -c 'source /etc/vpn-manager.conf; systemctl stop $OPENVPN_SERVICE $WIREGUARD_SERVICE $DNSCRYPT_SERVICE'  
 Restart=always  
@@ -1626,9 +1628,9 @@ address=/ilola.ir/172.22.0.1
 ### پورتال وی‌پی‌ان
 فایل زیر را از گیت دانلود کنید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/toggle-route --output toggle-route
-chmod +x /opt/router/Scripts/toggle-route
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/toggle-route --output toggle-route
+chmod +x /opt/router/scripts/toggle-route
 ```
 این دو مسیر را بسازید:
 ```
@@ -1638,7 +1640,7 @@ sudo mkdir -p /opt/arch-portal/static
 نوبت گرفتن خود اپ پورتال است که با پایتون نوشته شده:'
 ```
 cd /opt/arch-portal/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/app.py --output app.py
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/app.py --output app.py
 ```
 حالا لازم است یک فایل لاگ هم بسازیم تا در آینده برای ثبت آدرس مک دستگاه‌های ناشناس  از آن استفاده کنیم:
 ```
@@ -1719,8 +1721,8 @@ sudo systemctl restart dnsmasq
 برای مدیریت هوشمند ترافیک که هر کسی بتواند بخش منصفانه‌ای از پهنای باند را صاحب شود از Cake در TC استفاده می‌کنیم. می‌توانیم سرعت هر کاربر را محدود به میزان مشخصی کنیم، اما زمانی که پهنای باند خالی‌ست و کسی کاری با شبکه ندارد، می‌توانیم پهنای باند بیشتری را به شخص اختصاص دهیم. این کار به نظر هوشمندانه‌تر می‌رسد. اول اسکریپت زیر را دریافت کنید:
 
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/tc.sh --output tc.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/tc.sh --output tc.sh
 chmod +x tc.sh
 ```
 در بین اسکریپت به قسمت `skip_numbers` دقت کنید. می‌توانید بخش آخر آی‌پی دستگاه‌هایی که می‌خواهید را با فاصله در این خط وارد کنید. اسکریپت ترافیک را به دو کلاس مختلف تقسیم می‌کند و این دستگاه‌ها پهنای باند بزرگ‌تری نسبت به بقیه نصیبشان می‌شود. پس اگر دستگاهی دارید که بایستی از میزان پهنای باندش مطمئن باشید، آن را در این لیست قرار دهید.
@@ -1732,7 +1734,7 @@ Description=Traffic Control
   
 [Service]  
 Type=oneshot  
-ExecStart=/opt/router/Scripts/tc.sh  
+ExecStart=/opt/router/scripts/tc.sh  
 User=root  
 RemainAfterExit=yes  
   
@@ -1761,20 +1763,20 @@ sudo systemctl enable --now vnstat.service
 ```
 تقریبا تمام شد اما به دلیل این‌که به خاطر سپردن دستوراتش سخت است، یک اسکریپت آماده با استفاده ساده برای‌تان آماده کرده‌ام. فایل زیر را بگیرید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/vns.sh --output vns.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vns.sh --output vns.sh
 chmod +x vns.sh
 ```
 حالا یک سیم‌لینک به مسیر باینری‌های می‌سازیم:
 ```
-sudo ln -s /opt/router/Scripts/vns.sh /usr/local/bin/vns
+sudo ln -s /opt/router/scripts/vns.sh /usr/local/bin/vns
 ```
 اکنون در ترمینال در هر جای سیستم که باشید با دستور `vns` می‌توانید آن را اجرا کنید. 
 ## اسکریپت `startup`
 با وصل شدن برق، سیستم ما به سرعت روشن شده و بالا می‌آید. سرعت بالا آمدن سیستم من، از مودم و اکسس‌پوینت هم بیشتر است. وقتی که رابط‌ها آماده نباشند، `systemd` رفتارهای غیرقابل‌پیش‌بینی، حداقل برای من، انجام می‌دهد. اینجا بود که تصمیم گرفتم اسکریپت `startup` را بسازم تا بعد از بالا آمدن سیستم اجازه دهد بقیه دیوایس‌ها نفسی بکشند و سپس سرویس‌ها را فعال کند. اسکریپت خیلی ساده است و به یک سرویس متصل شده. ابتدا خود اسکریپت را بسازید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/startup.sh --output startup.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/startup.sh --output startup.sh
 chmod +x startup.sh
 ```
 به ترتیب، اسکریپت ابتدا ۴۰ ثانیه صبر می‌کند، سپس رابط‌های شبکه را ری‌استارت، سپس `dnsmasq` راه راه‌اندازی، سپس سرویس `ip-rules` سپس `dnscrypt-proxy` و بعد از آن `vpn-manager` بعد مدیر ترافیک و در نهایت پورتال آرچ، کَدی و `wan-watcher` را با فواصل معمولا ۵ ثانیه‌ای اجرا یا باز می‌کند. اگر هر کدام از سرویس‌ها را از قبل فعال کرده بوده‌اید، غیرفعال کنید یا به جای `start` از `restart` استفاده کنید.
@@ -1787,7 +1789,7 @@ After=multi-user.target
   
 [Service]  
 Type=oneshot  
-ExecStart=/opt/router/Scripts/startup.sh  
+ExecStart=/opt/router/scripts/startup.sh  
   
 [Install]  
 WantedBy=multi-user.target
@@ -1839,9 +1841,9 @@ ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_UUID}=="A7A6-EFC1", TAG+="systemd",
 این فایل، سرویس مورد نظر دیاگ را در لحظه‌ای که فلش مموری را متصل می‌کنید راه‌اندازی می‌کند. با `Ctrl+X` و `Y` فایل را ذخیره کنید و خارج شوید.
 اسکریپت‌های زیر را بگیرید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/router-diagnostics.sh  --output router-diagnostics.sh 
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/router-diag-wrapper.sh --output router-diag-wrapper.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/router-diagnostics.sh  --output router-diagnostics.sh 
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/router-diag-wrapper.sh --output router-diag-wrapper.sh
 chmod +x router-diagnostics.sh
 chmod +x router-diag-wrapper.sh
 ```
@@ -1855,8 +1857,8 @@ After=dev-%i.device
   
 [Service]  
 Type=oneshot  
-# Call the wrapper script in your Scripts directory  
-ExecStart=/opt/router/Scripts/router-diag-wrapper.sh /dev/%I
+# Call the wrapper script in your scripts directory  
+ExecStart=/opt/router/scripts/router-diag-wrapper.sh /dev/%I
 ```
 با `Ctrl + X` و `Y` فایل را ذخیره کنید و خارج شوید. سپس:
 ```
@@ -1871,7 +1873,7 @@ sudo journalctl -f
 در کل ایدهٔ خوبی‌ست که چند وقت یک بار فلش را به سیستم متصل کنید و خطاها و اخطارها را بررسی کنید، قبل از اینکه سیستم به مشکل جدی برخورد کند. مثلا در طول همین آموزش من یک اخطار سیستمی دریافت کردم و قبل از اینکه دستم از `ssh` کوتاه شود، رفعش کردم. البته اسکریپت عیب‌یابی را می‌توانید به صورت مستقل هم هرازگاهی اجرا کنید:
 ```
 mkdir ~/router-test-report
-/opt/router/Scripts/router-diagnostics.sh ~/router-test-report
+/opt/router/scripts/router-diagnostics.sh ~/router-test-report
 ```
 و گزارش را در دایرکتوری بالا تحویل بگیرید.
 ## ساخت مدیا سرور - اشتراک فایل و فیلم در شبکه
@@ -2065,9 +2067,9 @@ exit
 پسورد شما در این فایل انکریپت شده، اما کلید رمزنگاری rclone عمومی است و هر کسی به این فایل دسترسی داشته باشد می‌تواند پسورد شما را استخراج کند. پس حتماً دسترسی این فایل را محدود نگه دارید و آن را با کسی به اشتراک نگذارید.
 اسکریپت اصلی را با دستور زیر دانلود کنید:
 ```
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/rcloneBackup.sh --output rcloneBackup.sh
-chmod +x rcloneBackup.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/rclone-backup.sh --output rclone-backup.sh
+chmod +x rclone-backup.sh
 ```
 حالا نوبت اضافه کردن یک کرون جاب با کاربر روت است:
 ```
@@ -2075,7 +2077,7 @@ sudo EDITOR=nano crontab -e
 ```
 خط زیر را به آن اضافه کنید:
 ```
-0 4 * * * /opt/router/Scripts/rcloneBackup.sh >> /opt/router/BackupState/cron.log 2>&1
+0 4 * * * /opt/router/scripts/rclone-backup.sh >> /opt/router/backup-state/cron.log 2>&1
 ```
 و ذخیره کنید و خارج شوید.
 مطمئن شوید که سرویس کرون فعال است:
@@ -2084,7 +2086,7 @@ sudo systemctl enable --now cronie.service
 ```
 کار بک‌آپ‌گیری تمام است ولی برای اینکه مطمئن شوید همه چیز خوب کار می‌کند یک بار آن را اجرا کنید. ممکن است خطاهایی بابت فایل‌هایی که وجود ندارد بگیرید، که مهم نیست.
 ```
-sudo /opt/router/Scripts/rcloneBackup.sh
+sudo /opt/router/scripts/rclone-backup.sh
 ```
 از آن‌جایی که `rclone` با مجوزهای کاربر روت اجرا می‌شود، به دنبال کانفیگ در مسیر دیگری غیر از فایل کانفیگی که با هم درست کردیم می‌گردد. ما در اسکریپت این مسیر را به صورت مشخص در خط `18` عنوان کرده‌ایم. صرفا این نکته را در نظر داشته باشید که `rclone` چطور کار می‌کند، وگرنه کار خاصی لازم نیست انجام دهید.
 خروجی من چیزی شبیه به این شد:
@@ -2097,7 +2099,7 @@ sudo /opt/router/Scripts/rcloneBackup.sh
 ```
 برای اضافه کردن فایل یا دایرکتوری به بک‌آپ کافی‌ست اسکریپت را باز کنید:
 ```
-nano /opt/router/Scripts/rcloneBackup.sh
+nano /opt/router/scripts/rclone-backup.sh
 ```
 فایل‌ها را به این قسمت و با همین فرمت اضافه کنید:
 ```
@@ -2109,7 +2111,7 @@ FILES=(
 و دایرکتوری‌ها را به این قسمت:
 ```
 DIRS=(  
-   "/opt/router/Scripts"  
+   "/opt/router/scripts"  
    "/root/.ssh"
 ```
 اسکریپت برای عدم دسترسی دیگران به فایل‌ها مجوز مسیر بک‌آپ‌ها را به `700` تغییر می‌دهد اما به خاطر داشته باشید که این وظیفهٔ شماست که از آن محافظت کنید. فایل بک‌آپ شامل اطلاعات حیاتی سیستم شما خواهد بود. همینطور در نظر داشته باشید که ۵۰ فایل بک‌آپ حفظ می‌شود و بعد از آن، فایل‌های کهنه‌تر به طور خودکار از روی دیسک و مگا حذف می‌شوند. می‌توانید این عدد را در خط `16` اسکریپت تغییر دهید.

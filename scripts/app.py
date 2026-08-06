@@ -224,7 +224,7 @@ def toggle():
     
     if current_state != desired_state:
         try:
-            cmd = ['sudo', '/opt/router/Scripts/toggle-route', '--octet', octet]
+            cmd = ['sudo', '/opt/router/scripts/toggle-route', '--octet', octet]
             result = subprocess.run(cmd, capture_output=True, text=True)
             
             if result.returncode != 0:

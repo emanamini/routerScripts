@@ -3,7 +3,7 @@
 
 DEVICE=$1
 MOUNT_POINT="/mnt/diag_usb_temp"
-YOUR_SCRIPT="/opt/router/Scripts/router-diagnostics.sh"
+YOUR_SCRIPT="/opt/router/scripts/router-diagnostics.sh"
 
 # 1. Create mount point and mount
 mkdir -p "$MOUNT_POINT"

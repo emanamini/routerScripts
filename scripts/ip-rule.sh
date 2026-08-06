@@ -29,7 +29,7 @@ for i in 241 242 243 244 245; do
 done
 
 # Execute the specified script with argument 'irlist', you can change it to "a" for specific domains listed in the irdomains.txt after running once with "e" to extract the ip addresses
-/opt/router/Scripts/irtr.sh irlist
+/opt/router/scripts/irtr.sh irlist
 
 # Flush the route cache
 ip route flush cache

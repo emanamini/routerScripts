@@ -7,8 +7,8 @@
 # ==============================================================================
 # Configuration
 # ==============================================================================
-BACKUP_DIR="/opt/router/BackupArchives"
-STATE_DIR="/opt/router/BackupState"
+BACKUP_DIR="/opt/router/backup-archives"
+STATE_DIR="/opt/router/backup-state"
 LOG_FILE="$STATE_DIR/backup.log"
 KEEP_BACKUPS=50
 CONFIG_PATH="/root/.config/rclone/rclone.conf"
@@ -38,7 +38,7 @@ FILES=(
 )
 # Array of critical directories (static ones)
 DIRS=(
-    "/opt/router/Scripts"
+    "/opt/router/scripts"
     "/root/.ssh"
     "/etc/ssh"
     "/etc/systemd/network"

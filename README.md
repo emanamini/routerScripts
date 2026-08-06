@@ -1,8 +1,6 @@
 # 📖 Documentation
 
 **🌐 Languages:** 🇬🇧 [English](README.md) • 🇮🇷 [فارسی](README-FA.md)
-
----
 If you look at any mobile phone today, you'll find a swarm of VPN apps, several of which are reported as spyware every month. The risk of infection and compromising your phone's data—which serves as our bridge to the outside world for everything from banking and shopping to entertainment and gaming—is far too great to ignore. If you have more devices connected to the internet than fingers on one hand where you live or work, the effort behind this guide (explained in very straightforward language) is well worth it.
 
 A config seller's small customer base, straightforward service setup, official and open-source clients, and minimal required capital significantly lower a customer's VPN risks on paper compared to an untrusted app. However, isolating the system and running the VPN on a dedicated computer with secure firewall settings protects your devices and data even further. You will no longer need to install VPN apps on your phone. Phone resources won't be wasted, and your security won't be compromised.
@@ -297,7 +295,7 @@ curl -fsSL https://bit.ly/network-detection | sudo bash
 ```
 
 ```
-curl -fsSL https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/network-detection.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/network-detection.sh | sudo bash
 ```
 The script will automatically detect your network and attempt to assign the name `wan` to the port currently connected to the internet, while assigning `lan` to the second port designated for the access point. If it detects the ports correctly, simply press `Enter`. Otherwise, manually input the full interface name (which usually starts with `ens`) for the `wan` interface connected to the internet, and the `lan` interface connected to the access point. Reading the [[#Manual Network Configuration]] section will give you a more comprehensive view of what we are doing here.
 
@@ -464,7 +462,7 @@ nano /etc/sudoers.d/99-router-scripts
 ```
 Add the following content to it:
 ```
-net ALL=(ALL) NOPASSWD: /opt/router/Scripts/toggle-route, /opt/router/Scripts/srv.sh, /usr/local/bin/srv, /usr/bin/reboot, /usr/bin/systemctl, /usr/bin/ip, /usr/bin/wg-quick, /usr/bin/openvpn
+net ALL=(ALL) NOPASSWD: /opt/router/scripts/toggle-route, /opt/router/scripts/srv.sh, /usr/local/bin/srv, /usr/bin/reboot, /usr/bin/systemctl, /usr/bin/ip, /usr/bin/wg-quick, /usr/bin/openvpn
 ```
 Save the file and exit. It is time to close the `chroot` environment:
 ```
@@ -816,7 +814,7 @@ You can use general configurations, or you can build your own personal, free `DN
 ### General Configuration
 Download and move the following file using these commands:
 ```
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/dnscrypt-proxy.toml --output dnscrypt-proxy.toml
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/dnscrypt-proxy.toml --output dnscrypt-proxy.toml
 sudo mv /etc/dnscrypt-proxy/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml.bck
 sudo mv dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 ```
@@ -1175,33 +1173,33 @@ systemctl start dnscrypt-proxy.service
 ```
 ## Management Scripts
 ### How to Create and Use Them
-Managing the router via the command line with lengthy commands was not for me; therefore, I began writing basic management scripts. Since programming isn't my profession and my goal was simply to get things working, the initial scripts were so ugly they would have earned me curses from any developer. That is, until AI came to the rescue. All the code has been rewritten with the help of AI. Every script is well-commented and easy to use. The scripts are hosted in the repository below, primarily within the `Scripts` directory:
+Managing the router via the command line with lengthy commands was not for me; therefore, I began writing basic management scripts. Since programming isn't my profession and my goal was simply to get things working, the initial scripts were so ugly they would have earned me curses from any developer. That is, until AI came to the rescue. All the code has been rewritten with the help of AI. Every script is well-commented and easy to use. The scripts are hosted in the repository below, primarily within the `scripts` directory:
 ```text
 https://github.com/emanamini/routerScripts/
 ```
 
 We will create a dedicated directory for our scripts in `/opt/`, assign ownership to our user (`net`), and symlink it to the home directory for easy access:
 ```bash
-sudo mkdir /opt/router/Scripts/
-sudo chown -R net:net /opt/router/Scripts
-ln -s /opt/router/Scripts/ /home/net/Scripts
-cd /opt/router/Scripts/ 
+sudo mkdir /opt/router/scripts/
+sudo chown -R net:net /opt/router/scripts
+ln -s /opt/router/scripts/ /home/net/scripts
+cd /opt/router/scripts/ 
 ```
 When we `cd` into a symlink, our path is usually preserved, even though we are physically in the target directory. To completely change the path, you must use the `-P` option as shown below. Observe the difference in the following commands:
 ```bash
-cd Scripts/  
+cd scripts/  
 pwd  
-/home/net/Scripts  
+/home/net/scripts  
 cd   
-cd -P Scripts/  
+cd -P scripts/  
 pwd  
-/opt/router/Scripts  
+/opt/router/scripts  
 ```
 
 ## `systemd` Management Script
-Typing long `systemctl` commands has always been a pain for me, especially when you miss a single character and try to correct it on a mobile phone terminal. This script helps you easily start, stop, enable, disable, and monitor the status of your required services. Ensure you are in the `/opt/router/Scripts/` directory and download the script using the following command:
+Typing long `systemctl` commands has always been a pain for me, especially when you miss a single character and try to correct it on a mobile phone terminal. This script helps you easily start, stop, enable, disable, and monitor the status of your required services. Ensure you are in the `/opt/router/scripts/` directory and download the script using the following command:
 ```bash
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/srv.sh --output srv.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/srv.sh --output srv.sh
 ```
 By default, Linux does not grant execution permissions to files. Make the target script executable with the following command:
 ```bash
@@ -1211,17 +1209,17 @@ If you encounter a `Permission denied` error while running a command that does n
 Now you can execute it using one of the three commands below (the `~` symbol represents the user's home directory, which for us is `/home/net/`):
 ```bash
 ./srv.sh
-~/Scripts/srv.sh
-/opt/router/Scripts/srv.sh
+~/scripts/srv.sh
+/opt/router/scripts/srv.sh
 ```
-For the first command, your terminal must be in the `/opt/router/Scripts/` directory. To view your current terminal path, use the `pwd` command:
+For the first command, your terminal must be in the `/opt/router/scripts/` directory. To view your current terminal path, use the `pwd` command:
 ```bash
 pwd  
-/opt/router/Scripts
+/opt/router/scripts
 ```
 After creating the script and making it executable, we will create a symlink in the user binaries path for convenience. Just remember to use the absolute or full path during creation:
 ```bash
-sudo ln -s /opt/router/Scripts/srv.sh /usr/local/bin/srv
+sudo ln -s /opt/router/scripts/srv.sh /usr/local/bin/srv
 ```
 In the command above, we linked `srv.sh` to `srv` (for ease of invocation) in the user binaries directory. Now, it no longer matters where your terminal is currently located; running the command below will invoke our script.
 ```text
@@ -1234,7 +1232,7 @@ Usage: /usr/local/bin/srv
    d | disable    
    s | status
 ```
-It is that simple. The original script remains in `/opt/router/Scripts/`, and we do not edit the symlink. The symlink simply calls the original script.
+It is that simple. The original script remains in `/opt/router/scripts/`, and we do not edit the symlink. The symlink simply calls the original script.
 Let's review how this script works with a few examples. As seen in the output of the `srv` command, this script accepts various values as its first parameter. Suppose you want to stop a service. You can clearly use `k`, `kill`, or `stop` as the first parameter. For convenience, I always use the single-letter option:
 ```text
 srv k
@@ -1300,7 +1298,7 @@ Description=IP Rules
   
 [Service]  
 Type=oneshot  
-ExecStart=/opt/router/Scripts/ip-rule.sh  
+ExecStart=/opt/router/scripts/ip-rule.sh  
 User=root  
 RemainAfterExit=yes  
   
@@ -1309,8 +1307,8 @@ WantedBy=multi-user.target
 ```
 As you can see, this service executes a script named `ip-rule.sh`. Download the script with the following commands:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/ip-rule.sh --output ip-rule.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/ip-rule.sh --output ip-rule.sh
 chmod +x ip-rule.sh
 ```
 If you correctly named the network interfaces as instructed in the installation guide, all of these scripts will work automatically for your system as well. Let me briefly explain the core lines of this script:
@@ -1355,17 +1353,17 @@ We have two methods for routing traffic directly through the `irtr` table and by
 The line above in the `ip-rule.sh` file serves exactly this purpose. Suppose there are devices on your network that should never connect to the VPN. Simply list the last octet of their IP addresses in the line above, separated by spaces. The first three octets of the IP are appended automatically via the `firstThreeOctets` variable we defined earlier, placing the complete IP in the route.
 This brings us to this highly critical line:
 ```bash
-/opt/router/Scripts/irtr.sh irlist
+/opt/router/scripts/irtr.sh irlist
 ```
 After bypassing traffic for specific client IPs through the `irtr` route, we move to the next phase: bypassing destination IPs. This is where we encounter another crucial script: `irtr.sh`. Download the script with the following commands so I can explain it. Note that this script was executed with the `irlist` parameter above.
 ```bash
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/irtr.sh --output irtr.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/irtr.sh --output irtr.sh
 chmod +x irtr.sh
 ```
-For proper execution, this script requires a couple of files to be located in the same directory as the script itself. One is `irdomains.txt` and the other is `iriplist.txt`. The first contains website addresses, and the second contains the IP ranges you wish to route directly. Both files exist in the [GitHub repository](https://github.com/emanamini/routerScripts/tree/main/Scripts), but it is highly recommended that you generate them yourself. If you want to download the samples, run the following commands:
+For proper execution, this script requires a couple of files to be located in the same directory as the script itself. One is `irdomains.txt` and the other is `iriplist.txt`. The first contains website addresses, and the second contains the IP ranges you wish to route directly. Both files exist in the [GitHub repository](https://github.com/emanamini/routerScripts/tree/main/scripts), but it is highly recommended that you generate them yourself. If you want to download the samples, run the following commands:
 ```bash
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/irdomains.txt --output irdomains.txt
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/iriplist.txt --output iriplist.txt
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/irdomains.txt --output irdomains.txt
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/iriplist.txt --output iriplist.txt
 ```
 But before complicating things further, let me explain the two general methods for using this script: bypassing specific website traffic and bypassing the entire domestic internet traffic of a country.
 
@@ -1384,7 +1382,7 @@ srv r 2
 ```
 Your device has acquired an IP from the router. Extract the IP from your device's network settings. Let's assume your device IP is `172.22.0.116`. Create a script:
 ```bash
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/domain-harvest.sh --output domain-harvest.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/domain-harvest.sh --output domain-harvest.sh
 chmod +x domain-harvest.sh
 ```
 Make it executable and run it using the IP of the client that will be browsing the target websites, like this:
@@ -1397,16 +1395,16 @@ cat domain-query.log
 ```
 Logically, the entire list should be related to the site you were browsing, but you should review the file, remove any extraneous domains, and save the rest elsewhere because running the script again will overwrite this data. Repeat this process for other sites over and over. Once you have built a comprehensive list, paste the entire content into the `irdomains.txt` file. The exact path for this file is:
 ```text
-/opt/router/Scripts/irdomains.txt
+/opt/router/scripts/irdomains.txt
 ```
 You now possess your own custom, comprehensive list of domestic sites and domains that should bypass the VPN. The first step is to extract all the IPs for all these domains and subdomains. Run the following command:
 ```bash
-/opt/router/Scripts/irtr.sh e
+/opt/router/scripts/irtr.sh e
 ```
 This command generates the `temp_ip_list.txt` file, which contains the unique IPs resolved from all the domains in `irdomains.txt`. Since these IPs occasionally change, you must run the command above periodically to rebuild the list.
 Now, run the following command to create and enforce the direct routes:
 ```bash
-sudo /opt/router/Scripts/irtr.sh a
+sudo /opt/router/scripts/irtr.sh a
 ```
 Once finished, **do not forget** to re-comment the `log-queries` option in the `dnsmasq` config file and restart its service:
 ```bash
@@ -1414,17 +1412,17 @@ srv r 2
 ```
 A quick educational tip: When managing the router, it is generally best to be in the current directory of the scripts:
 ```bash
-cd /opt/router/Scripts
+cd /opt/router/scripts
 ```
 So that executing commands remains short and simple:
 ```bash
 sudo ./irtr.sh a
 ```
-A brief educational explanation: pay attention to `./`. These characters denote the current directory and MUST be included to execute a script; otherwise, without `./`, the system searches the `PATH` variables (directories where binaries are stored). For example, assume you have an executable script in `/opt/router/Scripts/` named `eman`. You also have a binary with the exact same name in one of the system's binary paths, say `/usr/local/bin/`. Assuming you are inside `/opt/router/Scripts/`, running the command:
+A brief educational explanation: pay attention to `./`. These characters denote the current directory and MUST be included to execute a script; otherwise, without `./`, the system searches the `PATH` variables (directories where binaries are stored). For example, assume you have an executable script in `/opt/router/scripts/` named `eman`. You also have a binary with the exact same name in one of the system's binary paths, say `/usr/local/bin/`. Assuming you are inside `/opt/router/scripts/`, running the command:
 ```bash
 ./eman
 ```
-Executes the script located in the current directory (`/opt/router/Scripts/`). However, the command:
+Executes the script located in the current directory (`/opt/router/scripts/`). However, the command:
 ```bash
 eman
 ```
@@ -1434,7 +1432,7 @@ Back to the `irtr.sh a` command: This command must be executed with `sudo` becau
 ### Bypassing the Entire Internet of a Country
 There is a more comprehensive solution for bypassing all IP blocks of a specific country. Go to the [ip2location](https://www.ip2location.com/) website. From the top menu, select `Resources` and then `Tools`. Among the options, select `Firewall List by Country`. On the new page, navigate to the `Download List` section. In the first field, select the country name from the list. In the second field, select `IPv4`. In the `Output Format` dropdown menu, select `CIDR`. Download and unzip it. You now have a file named `firewall.txt`. Open it, delete the initial header lines up to the first IP range, and save it. Now, use nano to create a file with this name on the server:
 ```bash
-nano /opt/router/Scripts/iriplist.txt
+nano /opt/router/scripts/iriplist.txt
 ```
 Paste all several thousand lines of the file into this new file, save it with `Ctrl+X` and `Y`, and exit.
 If you have carefully followed all the steps I outlined, it is time to run the following command:
@@ -1444,15 +1442,15 @@ sudo ./irtr irlist
 This command will directly route all traffic for that country. Depending on your system, execution might take up to a minute, so be patient.
 Now, depending on whether you prefer the first method or the second method for internet bypassing, we return to the `ip-rule.sh` file and the important line:
 ```bash
-/opt/router/Scripts/irtr.sh irlist
+/opt/router/scripts/irtr.sh irlist
 ```
 If you want the service we wrote to bypass all of the country's IPs, leave this line alone. However, if you only want it to bypass the specific IPs of the sites you curated, replace this line with the following:
 ```bash
-/opt/router/Scripts/irtr.sh a
+/opt/router/scripts/irtr.sh a
 ```
 If you utilize this method, remember to execute the following command on the router once a week to keep your IP list updated:
 ```bash
-/opt/router/Scripts/irtr.sh e
+/opt/router/scripts/irtr.sh e
 ```
 Now you can enable the service, although I do not recommend it:
 ```bash
@@ -1479,7 +1477,7 @@ After=systemd-networkd.service
 
 [Service]
 Type=simple
-ExecStart=/opt/router/Scripts/wan-watcher.sh
+ExecStart=/opt/router/scripts/wan-watcher.sh
 Restart=always
 RestartSec=5
 User=root
@@ -1490,12 +1488,12 @@ WantedBy=multi-user.target
 
 Download the following script:
 ```bash
-cd /opt/router/Scripts
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/wan-watcher.sh --output wan-watcher.sh
+cd /opt/router/scripts
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/wan-watcher.sh --output wan-watcher.sh
 ```
 Make it executable and reload the `Daemon`:
 ```bash
-chmod +x /opt/router/Scripts/wan-watcher.sh
+chmod +x /opt/router/scripts/wan-watcher.sh
 srv reload
 sudo systemctl start wan-watcher.service
 ```
@@ -1551,8 +1549,8 @@ Our work with the VPN is done. We will hand over its management to an intelligen
 ## VPN Manager
 Download the following script:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/vpn-manager.sh --output vpn-manager.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-manager.sh --output vpn-manager.sh
 chmod +x vpn-manager.sh
 ```
 Create a service for it:
@@ -1567,7 +1565,7 @@ Wants=network-online.target
   
 [Service]  
 Type=simple  
-ExecStart=/opt/router/Scripts/vpn-manager.sh  
+ExecStart=/opt/router/scripts/vpn-manager.sh  
 # Gracefully tear down active networking components when manager is stopped  
 ExecStop=/bin/bash -c 'source /etc/vpn-manager.conf; systemctl stop $OPENVPN_SERVICE $WIREGUARD_SERVICE $DNSCRYPT_SERVICE'  
 Restart=always  
@@ -1741,9 +1739,9 @@ address=/ilola.ir/172.22.0.1
 ### VPN Portal
 Download the following file from Git:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/toggle-route --output toggle-route
-chmod +x /opt/router/Scripts/toggle-route
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/toggle-route --output toggle-route
+chmod +x /opt/router/scripts/toggle-route
 ```
 Create these two directories:
 ```bash
@@ -1753,7 +1751,7 @@ sudo mkdir -p /opt/arch-portal/static
 Now to fetch the actual portal app, written in Python:
 ```bash
 cd /opt/arch-portal/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/app.py --output app.py
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/app.py --output app.py
 ```
 We also need to create a log file to track the MAC addresses of unknown devices in the future:
 ```bash
@@ -1837,8 +1835,8 @@ As a system administrator, you must distribute traffic fairly among users. The Y
 To intelligently manage traffic so everyone receives a fair share of the bandwidth, we employ Cake within TC. We could strictly limit each user's speed, but when the bandwidth is idle and no one else is using the network, it is far smarter to allocate that extra bandwidth to an active user. First, download the following script:
 
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/tc.sh --output tc.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/tc.sh --output tc.sh
 chmod +x tc.sh
 ```
 Look for the `skip_numbers` section within the script. You can space-separate the last octet of the IPs for devices you wish to target in this line. The script divides traffic into two distinct classes, granting these specific devices a larger chunk of the bandwidth than the rest. So, if you have a device that absolutely requires guaranteed bandwidth, place it on this list.
@@ -1852,7 +1850,7 @@ Description=Traffic Control
   
 [Service]  
 Type=oneshot  
-ExecStart=/opt/router/Scripts/tc.sh  
+ExecStart=/opt/router/scripts/tc.sh  
 User=root  
 RemainAfterExit=yes  
   
@@ -1881,21 +1879,21 @@ sudo systemctl enable --now vnstat.service
 ```
 It is nearly ready, but because its commands are difficult to remember, I have prepared a simple, ready-to-use script for you. Grab the following file:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/vns.sh --output vns.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vns.sh --output vns.sh
 chmod +x vns.sh
 ```
 Now, create a symlink in the binaries directory:
 ```bash
-sudo ln -s /opt/router/Scripts/vns.sh /usr/local/bin/vns
+sudo ln -s /opt/router/scripts/vns.sh /usr/local/bin/vns
 ```
 You can now run it using the `vns` command in the terminal from anywhere on the system. 
 
 ## `startup` Script
 Upon receiving power, our system rapidly boots and comes online. My system boots faster than both the modem and the access point. When the interfaces are not fully ready, `systemd` exhibits unpredictable behaviors—at least in my experience. This is where I decided to create the `startup` script, allowing the system to boot, giving other devices a moment to breathe, and sequentially enabling the services. The script is highly straightforward and linked to a service. First, create the script itself:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/startup.sh --output startup.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/startup.sh --output startup.sh
 chmod +x startup.sh
 ```
 Sequentially, the script initially waits 40 seconds, restarts the network interfaces, spins up `dnsmasq`, follows with the `ip-rules` service, then `dnscrypt-proxy`, subsequently `vpn-manager`, then the traffic manager, and finally launches the Arch portal, Caddy, and `wan-watcher`—typically staggered by 5-second intervals. If you previously enabled any of these services, disable them now, or use `restart` instead of `start`.
@@ -1910,7 +1908,7 @@ After=multi-user.target
   
 [Service]  
 Type=oneshot  
-ExecStart=/opt/router/Scripts/startup.sh  
+ExecStart=/opt/router/scripts/startup.sh  
   
 [Install]  
 WantedBy=multi-user.target
@@ -1963,9 +1961,9 @@ ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_UUID}=="A7A6-EFC1", TAG+="systemd",
 This file triggers the specified diagnostic service the exact moment you plug in the flash drive. Save the file with `Ctrl+X` and `Y`, and exit.
 Download the following scripts:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/router-diagnostics.sh  --output router-diagnostics.sh 
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/router-diag-wrapper.sh --output router-diag-wrapper.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/router-diagnostics.sh  --output router-diagnostics.sh 
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/router-diag-wrapper.sh --output router-diag-wrapper.sh
 chmod +x router-diagnostics.sh
 chmod +x router-diag-wrapper.sh
 ```
@@ -1981,8 +1979,8 @@ After=dev-%i.device
   
 [Service]  
 Type=oneshot  
-# Call the wrapper script in your Scripts directory  
-ExecStart=/opt/router/Scripts/router-diag-wrapper.sh /dev/%I
+# Call the wrapper script in your scripts directory  
+ExecStart=/opt/router/scripts/router-diag-wrapper.sh /dev/%I
 ```
 Save the file with `Ctrl + X` and `Y`, and exit. Then run:
 ```bash
@@ -1997,7 +1995,7 @@ This command displays system operations live. Now, plug the flash drive into the
 Overall, it is a wise practice to periodically plug the flash drive into the system to review errors and warnings before the system encounters a critical failure. For example, during the creation of this very tutorial, I received a system warning and resolved it before I completely lost `ssh` access. You can, of course, run the diagnostic script independently from time to time:
 ```bash
 mkdir ~/router-test-report
-/opt/router/Scripts/router-diagnostics.sh ~/router-test-report
+/opt/router/scripts/router-diagnostics.sh ~/router-test-report
 ```
 And retrieve the report in the directory mentioned above.
 
@@ -2193,9 +2191,9 @@ exit
 Your password is encrypted within this file, but rclone's encryption key is public; anyone with access to this file can extract your password. Therefore, keep access to this file strictly restricted and do not share it with anyone.
 Download the primary script with the following command:
 ```bash
-cd /opt/router/Scripts/
-curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/Scripts/rcloneBackup.sh --output rcloneBackup.sh
-chmod +x rcloneBackup.sh
+cd /opt/router/scripts/
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/rclone-backup.sh --output rclone-backup.sh
+chmod +x rclone-backup.sh
 ```
 Now it is time to append a cron job for the root user:
 ```bash
@@ -2203,7 +2201,7 @@ sudo EDITOR=nano crontab -e
 ```
 Add the following line to it:
 ```text
-0 4 * * * /opt/router/Scripts/rcloneBackup.sh >> /opt/router/BackupState/cron.log 2>&1
+0 4 * * * /opt/router/scripts/rclone-backup.sh >> /opt/router/backup-state/cron.log 2>&1
 ```
 Save and exit.
 Ensure the cron service is enabled:
@@ -2212,7 +2210,7 @@ sudo systemctl enable --now cronie.service
 ```
 The backup configuration is complete, but to guarantee everything runs smoothly, execute it once manually. You might receive errors about files that do not exist, which is inconsequential.
 ```bash
-sudo /opt/router/Scripts/rcloneBackup.sh
+sudo /opt/router/scripts/rclone-backup.sh
 ```
 Because `rclone` is executed with root user privileges, it searches for the config in a different path than the configuration file we just created together. We have explicitly defined this path in line `18` of the script. Merely keep in mind how `rclone` operates; otherwise, you do not need to take any special actions.
 My output looked something like this:
@@ -2225,7 +2223,7 @@ My output looked something like this:
 ```
 To add a file or directory to the backup, simply open the script:
 ```bash
-nano /opt/router/Scripts/rcloneBackup.sh
+nano /opt/router/scripts/rclone-backup.sh
 ```
 Append files to this section using this exact format:
 ```bash
@@ -2237,7 +2235,7 @@ FILES=(
 And directories to this section:
 ```bash
 DIRS=(  
-   "/opt/router/Scripts"  
+   "/opt/router/scripts"  
    "/root/.ssh"
 ```
 To prevent others from accessing the files, the script alters the permission of the backup directory to `700`, but remember that protecting it remains your responsibility. The backup file will house your system's critical information. Also, bear in mind that 50 backup files are retained; subsequently, older files are automatically purged from both the disk and MEGA. You can modify this count on line `16` of the script.
