@@ -200,7 +200,7 @@ passwd
 
 یکی از دو دستور زیر را در ترمینال وارد کنید. هر دو دستور در اصل به یک اسکریپت ختم می‌شود اما لینکِ یکی از آن‌ها با `bit.ly` کوتاه شده است تا دستور برای تایپ دستی کوتاه‌تر شود:
 ```
-curl -fsSL https://bit.ly/network-detection | sudo bash
+curl -fsSL https://bit.ly/network-detect | sudo bash
 ```
 
 ```

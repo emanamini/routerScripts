@@ -291,7 +291,7 @@ If you prefer an automated approach, this script will be to your liking. However
 
 Run one of the two commands below in the terminal. Both commands point to the same script, but one link is shortened via `bit.ly` to make manual typing easier:
 ```
-curl -fsSL https://bit.ly/network-detection | sudo bash
+curl -fsSL https://bit.ly/network-detect | sudo bash
 ```
 
 ```
