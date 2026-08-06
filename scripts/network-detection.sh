@@ -28,7 +28,10 @@ is_physical_interface() {
 }
 
 get_mac() {
-    <"/sys/class/net/$1/address"
+    local iface="$1"
+    local mac
+    read -r mac < "/sys/class/net/${iface}/address"
+    echo "$mac"
 }
 
 # ==============================================================================
