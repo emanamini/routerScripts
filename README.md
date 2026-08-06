@@ -1,6 +1,9 @@
 # 📖 Documentation
 
 **🌐 Languages:** 🇬🇧 [English](README.md) • 🇮🇷 [فارسی](README-FA.md)
+
+---
+
 If you look at any mobile phone today, you'll find a swarm of VPN apps, several of which are reported as spyware every month. The risk of infection and compromising your phone's data—which serves as our bridge to the outside world for everything from banking and shopping to entertainment and gaming—is far too great to ignore. If you have more devices connected to the internet than fingers on one hand where you live or work, the effort behind this guide (explained in very straightforward language) is well worth it.
 
 A config seller's small customer base, straightforward service setup, official and open-source clients, and minimal required capital significantly lower a customer's VPN risks on paper compared to an untrusted app. However, isolating the system and running the VPN on a dedicated computer with secure firewall settings protects your devices and data even further. You will no longer need to install VPN apps on your phone. Phone resources won't be wasted, and your security won't be compromised.

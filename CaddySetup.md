@@ -1,6 +1,7 @@
-# 📖 Documentation
-
 **🌐 Languages:** 🇬🇧 [English](CaddySetup.md) • 🇮🇷 [فارسی](CaddySetup-FA.md)
+
+---
+
 ### Preparing Caddy
 To ensure the app functions flawlessly, we require a valid `ssl` certificate and a domain connected to Cloudflare. You can skip this section, but acquiring a cheap or even free domain with customizable DNS records is well worth it. In this tutorial, we assume the domain `ilola.ir` is designated for this task. Replace it with your own domain in the configurations below. Go to Cloudflare and connect your domain. I provided a brief explanation on this in the [[#Creating a Custom Stamp]] section. 
 On the [Cloudflare main page](https://dash.cloudflare.com), navigate to the left menu, select the `Domains` section, and then `Overview`. Select your previously added domain. Now, from the left panel, select `DNS` and then `Records`. Click the blue `Add record` button. Set the `Type` to `A`. In the `Name` field, enter the `@` character. In the `IPv4 address` field, enter your `lan` IP address, which is `172.22.0.1`. The `Proxy Status` toggle should automatically turn off. If it doesn't, turn it off manually. Click the blue `Add record` button again and repeat the previous steps, with the exception that in the `Name` field, enter `www` instead of `@` to create a new record. We now have two records tied to the `lan` IP—one pointing to the root address and the other pointing to the `www` address. Let's proceed to the next Cloudflare setting. Return to the main [dashboard](https://dash.cloudflare.com) page.
