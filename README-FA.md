@@ -1155,6 +1155,7 @@ Select the services to perform actions on:
 13. arch-portal.service  
 14. caddy.service
 15. wan-watcher.service
+16. vpn-watcher.service
 Enter the numbers of services to perform action on (space or comma-separated):
 ```
 سرویس‌هایی که در اسکریپت مشخص شده، و به راحتی بر اساس نیاز شما قابل ویرایش هستند، لیست می‌شود. می‌توانید با نوشتن عدد جلوی آن، با توجه به پارامتری که به اسکریپت دادید `(k)` متوقفش کنید. همینطور می‌توانید چند سرویس را یک جا مدیریت کنید. کافی‌ست عدد مربوط به هر سرویس را با فاصله از هم یا جداشده با کاما، تایپ کنید:
@@ -1176,6 +1177,7 @@ Select the services to perform actions on:
 13. arch-portal.service  
 14. caddy.service
 15. wan-watcher.service
+16. vpn-watcher.service
 Enter the numbers of services to perform action on (space or comma-separated): 6 5  
 Service 'openvpn-client@tun0.service' stopped.  
 Service 'wg-quick@tun0.service' stopped.
@@ -2115,6 +2117,130 @@ DIRS=(
    "/root/.ssh"
 ```
 اسکریپت برای عدم دسترسی دیگران به فایل‌ها مجوز مسیر بک‌آپ‌ها را به `700` تغییر می‌دهد اما به خاطر داشته باشید که این وظیفهٔ شماست که از آن محافظت کنید. فایل بک‌آپ شامل اطلاعات حیاتی سیستم شما خواهد بود. همینطور در نظر داشته باشید که ۵۰ فایل بک‌آپ حفظ می‌شود و بعد از آن، فایل‌های کهنه‌تر به طور خودکار از روی دیسک و مگا حذف می‌شوند. می‌توانید این عدد را در خط `16` اسکریپت تغییر دهید.
+## لود بالانسینگ
+قصه کوتاه، بعد از ۲۴ ساعت بی خوابی و کلنجار با روش‌های مختلف علامت‌گذاری کانکشن یا کلاینت، به این نتیجه رسیدم که با وجود سیستمِ فعلی بای‌پس وی‌پی‌ان، استفاده از وی‌پی‌ان دوم با روش‌های معمول شدنی نیست چرا که علامت‌گذاری به قوانین `ip` هیچ احترامی نمی‌گذارد. با این حال یک ساختمان چهار طبقه و یک کانکشن وی‌پی‌ان با این سرعت افتضاح، همه‌اش سر درد بود. که ناگهان فکری به ذهنم رسید. همانطور که پیش‌تر یک جدول برای ترافیک ایران ساختیم و ترافیک را قسمت کردیم، یک جدول جدید برای `vpn` دوم می‌سازیم و بار ترافیک وی‌پی‌ان را نصف می‌کنیم. رد تئوری می‌توانید چندین و چند جدول دیگر به همین روش درست کنید و بار وی‌پی‌ان را بین‌شان تقسیم کنید. ما در اینجا به یک وی‌پی‌ان اضافه بسنده می‌کنیم.
+اول بایستی جدول `rt_tables` را تغییر می‌دهیم:
+```
+sudo nano /etc/iproute2/rt_tables
+# /etc/iproute2/rt_tables
+# Reserved values
+255     local
+254     main
+253     default
+0       unspec
+
+# Arch Linux Router v2 Tables (Strict Lowercase Naming)
+100     irtr
+101     vpn
+```
+حالا یک جدول اضافی ساختیم. اما چرا وی‌پی‌ان دوم را اجرا کنیم بدون اینکه با وی‌پی‌ان اول برخورد کند؟ خوب دقت کنید. اول از همه آی‌پی یا آدرسی که وی‌پی‌ان دوم به آن وصل می‌شود را پیدا کنید. در اوپن‌وی‌پی‌ان این متغیر را در کانفیگ جلوی `remote` قرار دارد و ممکن است بیشتر از یکی باشد. در وایرگارد خط `Endpoint` حاوی این مقدار است. اگر آی‌پی‌ست که هیچ، اگر دامنه است با آدرس زیر آی‌پی‌‌هایاش را استخراج کنید:
+```
+dig +short WEBSITE.COM
+```
+حالا لازم است به سیستم بگویید این مقدار را از وی‌پی‌ان رد نکند. اگر از سرویس بای‌پس وی‌پی‌ان که بالاتر گفتم استفاده می‌کنید، بایستی این مقدار را در بالای لیست آی‌پی‌ها قرار دهید. این لیست برای آی‌پی‌های ایران با نام زیر در دایرکتوری `scripts` است:
+```
+/opt/router/scripts/iriplist.txt
+```
+حالا سرویس `-iprules` را ری‌استارت کنید تا مطمئن شوید آی‌پی وی‌پی‌ان دوم از مسیر `irtr` عبور می‌کند:
+```
+sudo systemctl restart ip-rules.service
+```
+نحوهٔ تنظیم کانفیگ دوم (نه کانفیگ اصلی) وی‌پی‌ان به این صورت است: برای کانفیگ وایرگارد بهتر است خط `DNS` را کامنت کنید. سپس خط `Table = off` را اضافه کنید. چیزی شبیه به این (به مسیر فایل و نامش هم دقت کنید):
+```
+sudo nano /etc/wireguard/tun1.conf
+# DNS = 1.1.1.1,8.8.8.8  
+Table = off
+```
+برای OpenVPN بایستی این مقادیر را اضافه کنید:
+```
+sudo nano /etc/openvpn/client/tun1.conf
+dev tun1  
+route-nopull  
+disable-dco  
+pull-filter ignore "redirect-gateway"    
+pull-filter ignore "route"    
+pull-filter ignore "dhcp-option"    
+pull-filter ignore "dhcp-option DNS"
+```
+**به دو چیز بی‌نهایت دقت کنید. نام رابط وی‌پی‌انی که ساخته می‌شود حتما و حتما باید `tun1` باشد تا اسکریپت‌های ما کار کند. دوم اینکه چه در وایرگارد چه در اوپن‌وی‌پی‌ان ما مسیر اصلی را نمی‌کِشیم و صرفا در پس‌زمینه یک وی‌پی‌ان به ظاهر هیچ‌کاره را اجرا می‌کنیم.**
+حالا نوبت دریافت فایل‌ها و اسکریپت‌های زیر است:
+```
+cd /opt/router/scripts
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-ip-update.sh --output vpn-ip-update.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-policy-route.sh --output vpn-policy-route.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-policy-watcher.sh --output vpn-policy-watcher.sh 
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpniplist.txt --output vpniplist.txt
+```
+کار این فایل‌ها چیست؟ `vpn-ip-update.sh` لیستی از بزرگ‌ترین تامین‌کنندگان محتوا بر بستر اینترنت مثل کلاودفلر، متا، تلگرام و ایکس در خودش دارد. این لیست قابل ویرایش است. زمانی که آن را اجرا کنید، لیست آی‌پی‌های تمام این تامین‌کنندگان را در فایل آخر، یعنی `vpniplist.txt` به روز می‌کند. اگر از آن استفاده می‌کنید بهتر است یک `cron job` بنویسید تا مثلا هر ۳ روز یکبار این لیست را به‌روز کند. فایل دوم، `vpn-policy-route.sh` این لیست بلندبالا را از طریق جدول `vpn` که بالاتر به `rt_tables` اضافه کردیم، بدون دخالت وی‌پی‌ان اول رد می‌کند. به این صورت ترافیک تلگرام و اینستا و تمام وب‌سایت‌های بی‌شماری که از آی‌پی‌های کلاودفلر استفاده می‌کنند از طریق این جدول و بدون دخالت وی‌پی‌ان اصلی رد می‌شود. فایل `vpn-policy-watcher.sh` وظیهفٔ نظارت بر امور را دارد. برای این کار اول بایستی یک سرویس بسازیم:
+```
+sudo nano /etc/systemd/system/vpn-watcher.service
+[Unit]  
+Description=VPN tunnel watcher  
+After=network-online.target  
+Wants=network-online.target  
+  
+[Service]  
+Type=simple  
+ExecStart=/opt/router/scripts/vpn-policy-watcher.sh  
+ExecStop=/bin/bash -c 'source /etc/vpn-watcher.conf; systemctl stop $OPENVPN_SERVICE $WIREGUARD_SERVICE'  
+Restart=always  
+RestartSec=5  
+User=root  
+  
+[Install]  
+WantedBy=multi-user.target
+```
+و یک فایل کانفیگ برای `vpn-watcher` درست می‌کنیم:
+```
+sudo nano /etc/vpn-watcher.conf
+VPN_TYPE=wireguard  
+TABLE_NAME=vpn  
+VPN_INTERFACE=tun1  
+  
+OPENVPN_SERVICE=openvpn-client@tun1.service  
+WIREGUARD_SERVICE=wg-quick@tun1.service  
+  
+ROUTE_RESTORE_SCRIPT=/opt/router/scripts/vpn-policy-route.sh  
+ROUTE_CHECK_IP=104.16.132.229  
+  
+CHECK_INTERVAL=150  
+  
+VPN_START_TIMEOUT=160  
+WIREGUARD_MAX_HANDSHAKE_AGE=300  
+  
+MAX_RECOVERY_ATTEMPTS=5  
+COOLDOWN_PERIOD=1800  
+  
+MONITOR_ONLY=no
+```
+تنظیمات آن مثل `vpn-manager` است. اگر می‌خواهید از کانفیگ `tun1` وایرگارد استفاده کنید، گزینه فعلی مناسب است. اگر می‌خواهد از کانفیگ `tun1` اوپن‌وی‌پی‌ان استفاده کنید، بایستی گزینه `VPN_TYPE` را به `openvpn` با حروف کوچک تغییر دهید.
+حالا سرویس را استارت می‌کنیم.
+```
+sudo systemctl daemon-reload
+sudo systemctl start vpn-watcher.service
+```
+این سرویس، اسکریپت `vpn-policy-watcher.sh` را راه‌اندازی می‌کند و توسط آن جدول وی‌پی‌ان دوم با نام `vpn` را مدیریت می‌کند. اگر همه چیز خوب پیش رفته باشد، بعد از چند دقیقه وی‌پی‌ان دوم شما در پس‌زمینه استارت می‌خورد و برای اینکه ببینید ترافیک چگونه از آن رد می‌شود کافیست دو ترمینال باز کنید هر کدام از دستورات زیر را در یکی بزنید:
+```
+sudo tcpdump -ni tun1 host 1.1.1.1
+ping -c 10 1.1.1.1
+```
+اگر در خروجی دستور اول بعد از پینگ کردن `1.1.1.1` خروجی می‌بینید، یعنی همه‌چیز خوب پیش رفته. البته پیش‌فرض ما این است که شما کلاودفلر را در لیست `vpn-ip-update.sh` دارید.
+
+هسته لینوکس به خوبی این چند هزار جدول را مدیریت می‌کند، اما فکری به ذهنم رسید که شاید فشار را از هسته بکاهد و سرعت اتصال را بالاتر ببرد. همانطور که گفتم شما بایستی فایل `vpniplist.txt` را مرتب با اسکریپت `vpn-ip-update.sh` به روز کنید، پس چرا من این فایل را برای دانلود قرار دادم؟ حقیقتش فکری به ذهنم رسید. کل رنج `IPv4` در دنیا به این رنج خلاصه می‌شود:
+```
+0.0.0.0/8
+1.0.0.0/8
+2.0.0.0/8
+...
+254.0.0.0/8
+255.0.0.0/8
+```
+به فکرم رسید که با جدا کردن رنج آی‌پی‌های پرایوت و رزرو شده، همچنین دی‌ان‌اس‌های معروف، به جای چند هزار خط لیست رنج‌آی‌پی‌های پروایدرهای مختلف، یک لیست صد، صد و پنجاه‌تایی درست کنم، و ترافیک کل دنیا را دو شقه کنم. سپس با بررسی `vns` و ترافیک مصرفی، با بالا پایین کردن این رنج، به نقطهٔ تعادل برسم. لیست رنج بالا، نتیجهٔ این تلاش بود. از رنج `2.0.0.0` شروع می‌شود و تا حدود نیمی از رنج موجود جلو می‌رود. الان هستهٔ لینوکس لازم نیست چند هزار خط را پردازش کند، بلکه صرفا صد و خُرده‌ای خط، و برای هرکدام فقط ۸ بیت اطلاعات را بررسی می‌کند.
+
+تغییراتی که در فایل‌های `irtr.sh` و `ip-rule.sh` دادم، اولویت جدول `irtr` را در بالاترین حد اضافه می‌کند، تا اگر آی‌پی داخلی با رنج بالا تداخلی داشت، اولویت با جدول `irtr` باشد و ترافیک داخلی عبور کند.
+
+تک‌تک مراحل بالا مهم است. تک‌تک نام‌ها و مسیرها. یک اشتباه در یک نام، یک حرف کوچک را بزرگ نوشتن، کل پروسه را نابود می‌کند. اما اگر همه را با دقت انجام دهید، مطمئن باشید که وضعیت نت خانهٔ شما بهبود قابل توجهی پیدا می‌کند.
+
 ## بهینه‌سازی‌های اضافی
 ### تنظیمات فایل‌سیستم
 در اینجا به طور مختصر به کارهایی که می‌توانید انجام دهید تا هارد شما کمتر درگیر شود می‌پردازیم. فایل `fstab` را باز کنید و آپشن‌های خط مربوط به سوار کردن ریشه را به این آپشن‌ها تغییر دهید:

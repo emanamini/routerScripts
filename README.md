@@ -3,7 +3,6 @@
 **🌐 Languages:** 🇬🇧 [English](README.md) • 🇮🇷 [فارسی](README-FA.md)
 
 ---
-
 If you look at any mobile phone today, you'll find a swarm of VPN apps, several of which are reported as spyware every month. The risk of infection and compromising your phone's data—which serves as our bridge to the outside world for everything from banking and shopping to entertainment and gaming—is far too great to ignore. If you have more devices connected to the internet than fingers on one hand where you live or work, the effort behind this guide (explained in very straightforward language) is well worth it.
 
 A config seller's small customer base, straightforward service setup, official and open-source clients, and minimal required capital significantly lower a customer's VPN risks on paper compared to an untrusted app. However, isolating the system and running the VPN on a dedicated computer with secure firewall settings protects your devices and data even further. You will no longer need to install VPN apps on your phone. Phone resources won't be wasted, and your security won't be compromised.
@@ -1982,7 +1981,7 @@ After=dev-%i.device
   
 [Service]  
 Type=oneshot  
-# Call the wrapper script in your scripts directory  
+# Call the wrapper script in your Scripts directory  
 ExecStart=/opt/router/scripts/router-diag-wrapper.sh /dev/%I
 ```
 Save the file with `Ctrl + X` and `Y`, and exit. Then run:
@@ -2242,6 +2241,157 @@ DIRS=(
    "/root/.ssh"
 ```
 To prevent others from accessing the files, the script alters the permission of the backup directory to `700`, but remember that protecting it remains your responsibility. The backup file will house your system's critical information. Also, bear in mind that 50 backup files are retained; subsequently, older files are automatically purged from both the disk and MEGA. You can modify this count on line `16` of the script.
+# Load Balancing
+
+Long story short, after 24 hours of debugging and experimenting with various connection and client marking methods, I concluded that using a second VPN alongside the current VPN bypass system is not feasible using conventional methods, as marking does not respect `ip` rules. However, managing a four-story building on a single VPN connection with terrible speeds was a constant headache. Then, an idea struck me: just as we previously created a routing table for domestic traffic to split the load, we can create a new routing table for a second VPN to halve the overall VPN traffic. In theory, you can create multiple tables using this method to distribute the VPN load even further. For this guide, we will stick to adding just one additional VPN.
+
+First, we must modify the `rt_tables` configuration:
+
+```text
+sudo nano /etc/iproute2/rt_tables
+# /etc/iproute2/rt_tables
+# Reserved values
+255     local
+254     main
+253     default
+0       unspec
+
+# Arch Linux Router v2 Tables (Strict Lowercase Naming)
+100     irtr
+101     vpn
+```
+
+We have now created an additional routing table. But how do we run the second VPN without it conflicting with the first? Pay close attention. First, find the IP address or domain that the second VPN connects to. In OpenVPN, this value is located next to the `remote` directive in the configuration file, and there may be multiple entries. In WireGuard, the `Endpoint` line contains this value. If it is an IP address, proceed to the next step. If it is a domain, extract its IP addresses using the following command:
+
+```bash
+dig +short WEBSITE.COM
+```
+
+Next, you must instruct the system not to route this specific IP through the VPN. If you are using the VPN bypass service mentioned earlier, place this value at the top of the IP list. For Iranian IPs, this list is located in the `scripts` directory under the following path:
+
+```text
+/opt/router/scripts/iriplist.txt
+```
+
+Now, restart the `ip-rules` service to ensure that the second VPN's IP is routed through the `irtr` path:
+
+```bash
+sudo systemctl restart ip-rules.service
+```
+
+Configure the second VPN (not the primary one) as follows: For the WireGuard configuration, it is recommended to comment out the `DNS` line. Then, add the `Table = off` directive. It should look something like this (pay close attention to the file path and name):
+
+```text
+sudo nano /etc/wireguard/tun1.conf
+# DNS = 1.1.1.1,8.8.8.8  
+Table = off
+```
+
+For OpenVPN, you must append the following parameters to the configuration:
+
+```text
+sudo nano /etc/openvpn/client/tun1.conf
+dev tun1  
+route-nopull  
+disable-dco  
+pull-filter ignore "redirect-gateway"  
+pull-filter ignore "route"  
+pull-filter ignore "dhcp-option"  
+pull-filter ignore "dhcp-option DNS"
+```
+
+Pay strict attention to two crucial details. First, the created VPN network interface name must explicitly be `tun1` for our scripts to function. Second, whether you are using WireGuard or OpenVPN, we are intentionally avoiding pulling the default route, merely running an ostensibly idle VPN in the background.
+
+Next, it is time to download the following files and scripts:
+
+```bash
+cd /opt/router/scripts
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-ip-update.sh --output vpn-ip-update.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-policy-route.sh --output vpn-policy-route.sh
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpn-policy-watcher.sh --output vpn-policy-watcher.sh 
+curl -L https://raw.githubusercontent.com/emanamini/routerScripts/refs/heads/main/scripts/vpniplist.txt --output vpniplist.txt
+```
+
+What do these files do? `vpn-ip-update.sh` contains a predefined, editable list of major internet content providers like Cloudflare, Meta, Telegram, and X. When executed, it updates the IPs for all these providers and saves them into the final file, `vpniplist.txt`. It is highly recommended to set up a cron job to update this list automatically (e.g., every 3 days). The second script, `vpn-policy-route.sh`, routes this extensive IP list through the `vpn` table we added to `rt_tables` earlier, bypassing the primary VPN entirely. Consequently, traffic for Telegram, Instagram, and countless websites hosted behind Cloudflare will route through this dedicated table without passing through the main VPN. The `vpn-policy-watcher.sh` script is tasked with monitoring the connection. To automate this, we first need to create a systemd service:
+
+```text
+sudo nano /etc/systemd/system/vpn-watcher.service
+[Unit]  
+Description=VPN tunnel watcher  
+After=network-online.target  
+Wants=network-online.target  
+  
+[Service]  
+Type=simple  
+ExecStart=/opt/router/scripts/vpn-policy-watcher.sh  
+ExecStop=/bin/bash -c 'source /etc/vpn-watcher.conf; systemctl stop $OPENVPN_SERVICE $WIREGUARD_SERVICE'  
+Restart=always  
+RestartSec=5  
+User=root  
+  
+[Install]  
+WantedBy=multi-user.target
+```
+
+And we create a configuration file for `vpn-watcher`:
+
+```text
+sudo nano /etc/vpn-watcher.conf
+VPN_TYPE=wireguard  
+TABLE_NAME=vpn  
+VPN_INTERFACE=tun1  
+  
+OPENVPN_SERVICE=openvpn-client@tun1.service  
+WIREGUARD_SERVICE=wg-quick@tun1.service  
+  
+ROUTE_RESTORE_SCRIPT=/opt/router/scripts/vpn-policy-route.sh  
+ROUTE_CHECK_IP=104.16.132.229  
+  
+CHECK_INTERVAL=150  
+  
+VPN_START_TIMEOUT=160  
+WIREGUARD_MAX_HANDSHAKE_AGE=300  
+  
+MAX_RECOVERY_ATTEMPTS=5  
+COOLDOWN_PERIOD=1800  
+  
+MONITOR_ONLY=no
+```
+
+These settings are similar to `vpn-manager`. If you want to use the WireGuard `tun1` configuration, the current options are correct. If you wish to use the OpenVPN `tun1` configuration, you must change the `VPN_TYPE` option to `openvpn` (in lowercase letters).
+
+Now we reload the daemon and start the service:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start vpn-watcher.service
+```
+
+This service executes the `vpn-policy-watcher.sh` script, which dynamically manages the second VPN table named `vpn`. If everything is configured correctly, your second VPN will initialize in the background after a few minutes. To verify how the traffic routes through it, simply open two terminals and run one of the following commands in each:
+
+```bash
+sudo tcpdump -ni tun1 host 1.1.1.1
+ping -c 10 1.1.1.1
+```
+
+If you see output in the first terminal after pinging `1.1.1.1`, it means everything is working perfectly. (This assumes that you have included Cloudflare in the `vpn-ip-update.sh` list).
+
+The Linux kernel handles these several thousand routing tables efficiently, but an idea occurred to me that might further reduce the kernel load and improve connection speeds. As mentioned earlier, you need to update `vpniplist.txt` regularly using `vpn-ip-update.sh`—so why did I provide a pre-made file for download? Truth be told, I had a thought. The entire global IPv4 address space essentially boils down to this range:
+
+```text
+0.0.0.0/8
+1.0.0.0/8
+2.0.0.0/8
+...
+254.0.0.0/8
+255.0.0.0/8
+```
+
+It occurred to me that by excluding private and reserved IP ranges, as well as popular DNS servers, I could replace a several-thousand-line list of various providers' IPs with a concise list of just 100 to 150 items, effectively splitting global internet traffic in half. Then, by analyzing VPN usage and bandwidth consumption, and adjusting this range up and down, I could reach an equilibrium point. The extensive IP range list above is the result of this effort. It starts from the `2.0.0.0` range and covers about half of the available address space. Now, instead of parsing thousands of lines, the Linux kernel only processes around a hundred lines, checking just 8 bits of information for each one.
+
+The modifications I made to the `irtr.sh` and `ip-rule.sh` files assign the highest priority to the `irtr` table. This ensures that if a local IP conflicts with the broad ranges mentioned above, the `irtr` table takes precedence and internal traffic routes normally.
+
+Every single step above is critical. Pay close attention to all names and file paths. A single typo—even a mismatched uppercase or lowercase letter—will break the entire process. However, if executed carefully, you can rest assured that your home network performance will improve significantly.
 
 ## Additional Optimizations
 ### Filesystem Configurations
