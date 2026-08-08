@@ -57,6 +57,7 @@ add_routing_rules() {
         echo "Temporary file $TEMP_FILE not found. Exiting."
         exit 1
     fi
+    IRTR_PRIORITY=3650
     # Check if the route already exists before adding it
     if ! ip route show table "$TABLE_NAME" | grep -q "default via $wanGateway dev $INTERFACE"; then
         ip route add default via "$wanGateway" dev "$INTERFACE" table "$TABLE_NAME" && echo "Route for default added."
@@ -71,7 +72,8 @@ add_routing_rules() {
             echo "Rule for $ip already exists. Skipping."
         else
             # Add rule for each IP address
-            ip rule add from all to "$ip" lookup "$TABLE_NAME" && echo "Rule for $ip added."
+            ip rule add from all to "$ip" lookup "$TABLE_NAME" prio "$IRTR_PRIORITY"  && echo "Rule for $ip added."
+            ((IRTR_PRIORITY--))
         fi
     done < "$TEMP_FILE"
 
@@ -84,6 +86,8 @@ add_irlist() {
     # Path to the file containing CIDR IP ranges
     IP_LIST_FILE="/opt/router/scripts/iriplist.txt"
 
+    IRTR_PRIORITY=3650
+    
     # Check if the IP list file exists
     if [ ! -f "$IP_LIST_FILE" ]; then
         echo "Error: IP list file '$IP_LIST_FILE' not found."
@@ -104,7 +108,8 @@ add_irlist() {
 
         # Add the IP rule for the current IP range
         if ! ip rule show | grep -q "$IP_RANGE"; then
-            ip rule add from all to "$IP_RANGE" lookup "$TABLE_NAME" && echo "Rule for $IP_RANGE added."
+        ip rule add from all to "$IP_RANGE" lookup "$TABLE_NAME" prio "$IRTR_PRIORITY" && echo "Rule for $IP_RANGE added with priority $IRTR_PRIORITY"
+        ((IRTR_PRIORITY--))
         else
             echo "Rule for $IP_RANGE already exists."
         fi

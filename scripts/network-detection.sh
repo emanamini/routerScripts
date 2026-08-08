@@ -48,7 +48,7 @@ if grep -rq 'NAME="wan"' "$UDEV_DIR" 2>/dev/null &&
 
     if [[ ! "$EDIT_CHOICE" =~ ^[Yy]$ ]]; then
         echo "Skipping network detection. Proceeding to next step..."
-        exit 0
+        return 0 2>/dev/null || exit 0
     fi
 
     echo "Reconfiguring network interfaces..."
@@ -204,9 +204,9 @@ else
     mkdir -p "$UDEV_DIR"
 
 
-    cat > "$UDEV_RULE_FILE" <<EOF
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="${WAN_MAC}", NAME="wan", OPTIONS+="link_priority=10"
-SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="${LAN_MAC}", NAME="lan", OPTIONS+="link_priority=10"
+cat > "$UDEV_RULE_FILE" <<EOF
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="${WAN_MAC}", NAME="wan"
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="${LAN_MAC}", NAME="lan"
 EOF
 
 fi

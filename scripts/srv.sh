@@ -66,6 +66,7 @@ services=(
     "arch-portal.service"
     "caddy.service"
     "wan-watcher.service"
+    "vpn-watcher.service"
 )
 if [ "$1" = "reload" ]; then
     if sudo systemctl daemon-reload; then
