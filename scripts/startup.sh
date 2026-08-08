@@ -14,8 +14,8 @@ sleep 5
 sudo systemctl start dnscrypt-proxy.service
 sleep 5
 
-sudo systemctl start vpn-manager.service
-sleep 5
+# sudo systemctl start vpn-manager.service
+# sleep 5
 
 sudo systemctl start minidlna.service
 sleep 5
@@ -30,3 +30,7 @@ sudo systemctl start caddy.service
 sleep 5
 
 sudo systemctl start wan-watcher.service
+sleep 5
+
+# sudo systemctl start vpn-watcher.service
+
